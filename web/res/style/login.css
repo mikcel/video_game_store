@@ -1,0 +1,11 @@
+input.form-control{
+    width: 295px !important;
+}
+
+.input-group-addon{
+    width: 45px;
+}
+
+.input-group-addon > i{
+    font-size: 2rem;
+}

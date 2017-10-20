@@ -6,8 +6,9 @@
 <head>
     <title>Game Dungeon</title>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
-    <link href="${pageContext.request.contextPath}/res/common_static/bootstrap/bootstrap.min.css"
-          rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/res/common_static/bootstrap/bootstrap-readable-theme.min.css" rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/res/common_static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/common_static/jquery/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/common_static/bootstrap/bootstrap.min.js"></script>
 
