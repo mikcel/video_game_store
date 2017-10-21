@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import exceptions.UserExistsException;
 import model.User;
@@ -22,11 +23,15 @@ public class RegisterServlet extends HttpServlet {
      */
     public RegisterServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/jsp/Register.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        if(session!= null && session.getAttribute("u_id") != null){
+            response.sendRedirect(request.getContextPath() + "/");
+        }else{
+            request.getRequestDispatcher("/jsp/Register.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -53,7 +58,6 @@ public class RegisterServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write(user_exists.getMessage());
             } catch (Exception e) {
-                e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
                 response.getWriter().write("Error while processing request. Contact Admin!");
             }

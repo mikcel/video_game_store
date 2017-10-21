@@ -33,7 +33,9 @@
             <button id="reset_form" class="btn btn-default" type="reset">Clear</button>
         </form>
 
-        <div id="msg-modal" class="modal">
+        <%--TODO: Add message if logged in--%>
+
+        <div id="msg-modal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

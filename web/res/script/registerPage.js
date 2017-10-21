@@ -42,7 +42,7 @@ function validate_send_form(){
         success: function(){
             set_up_msg_modal("User Registered Successfully", "You have been successfully registered in the system!");
             $("#msg-modal").on("hide.bs.modal", function(){
-                window.location = "../login/";
+                document.location.href = "/";
             });
         },
         error: function (xhr, err) {
