@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
         if(session!= null && session.getAttribute("u_id") != null){
             response.sendRedirect(request.getContextPath() + "/");
         }else{
-            request.getRequestDispatcher("/jsp/Login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/Login.jsp").forward(request, response);
         }
     }
 
@@ -46,9 +46,7 @@ public class LoginServlet extends HttpServlet {
 
         response.setContentType("text/plain");
         if (u_email.length() == 0 || u_pass.length() == 0) {
-
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("Necessary data to login was not entered!");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Necessary data to login was not entered!");
         } else {
 
             try {
@@ -63,15 +61,13 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("u_id", user_logged_id.getId());
 
                     response.setStatus(HttpServletResponse.SC_ACCEPTED);
-                    response.getWriter().write("Logged In Successfully!");
+                    response.getWriter().write("Necessary data to login was not entered!");
 
                 } else {
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    response.getWriter().write("Invalid Login. Try Again!");
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Login. Try Again!");
                 }
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_CONFLICT);
-                response.getWriter().write("An error occurred while verifying user!");
+                response.sendError(HttpServletResponse.SC_CONFLICT, "An error occurred while verifying user!");
             }
 
         }
