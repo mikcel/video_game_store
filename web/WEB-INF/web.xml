@@ -6,6 +6,10 @@
 
     <display-name>Assignment1</display-name>
 
+    <error-page>
+        <location>/WEB-INF/jsp/Error.jsp</location>
+    </error-page>
+
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>
@@ -26,6 +30,15 @@
         <servlet-class>controller.LogoutServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>SearchGameServlet</servlet-name>
+        <servlet-class>controller.SearchGameServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>SearchResultsServlet</servlet-name>
+        <servlet-class>controller.SearchResultsServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -46,5 +59,16 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout/</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SearchGameServlet</servlet-name>
+        <url-pattern>/searchPage/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SearchResultsServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

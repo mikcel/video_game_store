@@ -14,8 +14,9 @@
 			<div class="panel-body">
 				<c:if test="${sessionScope.u_id == null}">
 					<a href="login/" class="page-link">Login</a><br>
-					<a href="register/" class="page-link">Register</a>
+					<a href="register/" class="page-link">Register</a><br>
 				</c:if>
+				<a href="searchPage/" class="page-link">Search Games</a>
 			</div>
 		</div>
 	</jsp:body>
