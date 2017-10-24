@@ -1,6 +1,5 @@
 package model;
 
-import com.sun.deploy.util.StringUtils;
 import dbconn.DBConnection;
 
 import java.sql.Connection;
@@ -17,7 +16,7 @@ public class Game {
     private String name;
     private String description;
     private String console;
-    private int numPlayers;
+    private Integer numPlayers;
     private String coop;
     private String genre;
     private java.sql.Date releaseDate;
@@ -27,16 +26,16 @@ public class Game {
     private String backBoxArt;
     private String logo;
     private String developerLogo;
-    private double price;
-    private double discount;
+    private Double price;
+    private Double discount;
 
     public Game(int id) {
         this.id = id;
     }
 
-    public Game(int id, String name, String description, String console, int numPlayers, String coop, String genre,
+    public Game(int id, String name, String description, String console, Integer numPlayers, String coop, String genre,
                 java.sql.Date releaseDate, String developer, String publisher, String frontBoxArt, String backBoxArt,
-                String logo, String developerLogo, double price, double discount) {
+                String logo, String developerLogo, Double price, Double discount) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -55,10 +54,9 @@ public class Game {
         this.discount = discount;
     }
 
-    public Game(String name, String description, String console, int numPlayers, String coop, String genre,
-                java.sql.Date releaseDate, String developer, String publisher, double price) {
+    public Game(String name, String console, Integer numPlayers, String coop, String genre,
+                java.sql.Date releaseDate, String developer, String publisher, Double price) {
         this.name = name;
-        this.description = description;
         this.console = console;
         this.numPlayers = numPlayers;
         this.coop = coop;
@@ -93,7 +91,7 @@ public class Game {
         return console;
     }
 
-    public int getNumPlayers() {
+    public Integer getNumPlayers() {
         return numPlayers;
     }
 
@@ -133,17 +131,17 @@ public class Game {
         return developerLogo;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public double getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
     public static Game find(int id) throws SQLException {
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             final String findByIdQuery = "SELECT * FROM game WHERE game_id=?";
 
@@ -154,9 +152,9 @@ public class Game {
             ResultSet resultSet = findByIdStatement.executeQuery();
             boolean game_exists = resultSet.next();
 
-            if (game_exists){
+            if (game_exists) {
                 return Game.load(resultSet);
-            }else{
+            } else {
                 return null;
             }
 
@@ -169,7 +167,7 @@ public class Game {
 
     public static Game[] findAll() throws SQLException {
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             final String findByIdQuery = "SELECT * FROM game";
 
@@ -246,7 +244,7 @@ public class Game {
 
     public static Game[] findAllGameWithDisc() throws SQLException {
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             final String filterQuery = "SELECT * FROM game WHERE " + "discount IS NOT NULL AND discount > 0; ";
 
@@ -255,7 +253,7 @@ public class Game {
             ResultSet resultSet = statement.executeQuery();
             return constructGameList(resultSet);
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw e;
         }
@@ -267,12 +265,6 @@ public class Game {
         String searchQuery = "SELECT * FROM game ";
         List<String> clauses = new ArrayList<String>();
         List<Object> parameters = new ArrayList<Object>();
-
-        clauses.add("num_players = ?");
-        parameters.add(gameFilter.numPlayers);
-
-        clauses.add("price = ?");
-        parameters.add(gameFilter.price);
 
         if (gameFilter.name != null && gameFilter.name.length() > 0) {
             clauses.add("game_name = ?");
@@ -302,19 +294,29 @@ public class Game {
             clauses.add("publisher = ?");
             parameters.add(gameFilter.publisher);
         }
-
-        if (!clauses.isEmpty()) {
-            searchQuery += " WHERE " + StringUtils.join(clauses, " AND ");
+        if (gameFilter.numPlayers != null) {
+            clauses.add("num_players = ?");
+            parameters.add(gameFilter.numPlayers);
+        }
+        if (gameFilter.price != null) {
+            clauses.add("price = ?");
+            parameters.add(gameFilter.price);
         }
 
-        try (Connection conn = DBConnection.createConnection()){
+        if (!clauses.isEmpty()) {
+            searchQuery += "WHERE " + String.join(" AND ", clauses);
+        }
+
+        searchQuery += " ORDER BY game_name;";
+
+        try (Connection conn = DBConnection.createConnection()) {
 
             assert conn != null;
             PreparedStatement searchStatement = conn.prepareStatement(searchQuery);
             for (int i = 0; i < parameters.size(); i++) {
                 searchStatement.setObject(i + 1, parameters.get(i));
             }
-
+            System.out.println(searchStatement.toString());
             ResultSet resultSet = searchStatement.executeQuery();
             return constructGameList(resultSet);
 
@@ -325,15 +327,15 @@ public class Game {
 
     }
 
-    private static ArrayList<Object> getFieldDistinctValues(String query) throws SQLException{
+    private static ArrayList<Object> getFieldDistinctValues(String query) throws SQLException {
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             assert conn != null;
             PreparedStatement findStatement = conn.prepareStatement(query);
             ResultSet resultSet = findStatement.executeQuery();
             ArrayList<Object> stringArrayList = new ArrayList<>(45);
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 stringArrayList.add(resultSet.getObject(1));
             }
             stringArrayList.trimToSize();
@@ -346,7 +348,7 @@ public class Game {
 
     }
 
-    private static Game load(ResultSet rs) throws SQLException{
+    private static Game load(ResultSet rs) throws SQLException {
 
         return new Game(
                 rs.getInt("game_id"),
@@ -363,8 +365,8 @@ public class Game {
                 rs.getString("back_box_art"),
                 rs.getString("logo"),
                 rs.getString("developer_logo"),
-                rs.getFloat("price"),
-                rs.getFloat("discount")
+                rs.getDouble("price"),
+                rs.getDouble("discount")
         );
 
     }
@@ -372,7 +374,7 @@ public class Game {
     private static Game[] constructGameList(ResultSet resultSet) throws SQLException {
 
         ArrayList<Game> gameList = new ArrayList<Game>(10);
-        while(resultSet.next()){
+        while (resultSet.next()) {
             gameList.add(load(resultSet));
         }
         gameList.trimToSize();

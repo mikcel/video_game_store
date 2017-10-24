@@ -13,13 +13,16 @@
             <div class="panel-body">
                 <form id="frm-search" action="${pageContext.request.contextPath}/search" method="GET" class="form-horizontal">
                     <fieldset>
-                        <legend id="frm-legend">Enter values in field you want to search</legend>
+                        <legend id="frm-legend-id">Search by ID</legend>
                         <div class="form-group">
                             <label for="ipt-game-id" class="control-label col-lg-2">Game ID:</label>
                             <div class="col-lg-10">
                                 <input type="text" name="game_id" id="ipt-game-id" placeholder="ID" class="form-control"/>
                             </div>
                         </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Search by:</legend>
                         <div class="form-group">
                             <label for="ipt-game-name" class="control-label col-lg-2">Game Name:</label>
                             <div class="col-lg-10">
@@ -40,8 +43,12 @@
                         </div>
                         <div class="form-group">
                             <label for="ipt-game-nplayers" class="control-label col-lg-2">No. of Players:</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-5">
                                 <input type="number" name="num_players" id="ipt-game-nplayers" value="1" class="form-control" min="0"/>
+                            </div>
+                            <div class="col-lg-5">
+                                <input type="checkbox" id="ipt-nplayers-null" value="true" name="num_players_null"/>
+                                <label for="ipt-nplayers-null">Not matter</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -61,13 +68,18 @@
                             <div class="col-lg-10">
                                 <div class="radio">
                                     <label>
-                                        <input name="game_coop" id="rd-game-coop-true" value="yes" checked="" type="radio">
+                                        <input name="game_coop" id="rd-game-coop-true" value="yes" type="radio">
                                         Yes
                                     </label>
                                     &emsp;
                                     <label>
                                         <input name="game_coop" id="rd-game-coop-false" value="no" type="radio">
                                         No
+                                    </label>
+                                    &emsp;
+                                    <label>
+                                        <input name="game_coop" id="rd-game-coop-both" value="both" type="radio" checked="">
+                                        Both
                                     </label>
                                 </div>
                             </div>
@@ -104,8 +116,13 @@
                         </div>
                         <div class="form-group">
                             <label for="ipt-game-price" class="control-label col-lg-2">Price:</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-5">
                                 <input type="number" value="0" step="0.01" name="price" id="ipt-game-price" placeholder="Name" class="form-control"/>
+                            </div>
+                            &emsp;
+                            <div class="col-lg-5">
+                                <input type="checkbox" id="ipt-price-null" value="true" name="price_null"/>
+                                <label for="ipt-price-null">Not matter</label>
                             </div>
                         </div>
                         <div class="form-group">

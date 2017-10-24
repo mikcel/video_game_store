@@ -5,5 +5,6 @@
 <t:base_template>
 	<jsp:body>
 		<h3>Error while processing request</h3>
+		${exception}
 	</jsp:body>
 </t:base_template>

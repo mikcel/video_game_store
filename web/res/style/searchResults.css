@@ -1,0 +1,50 @@
+.game-front-img{
+    width: 11em;
+    height: 15em;
+    border: 1px solid #4582ec;
+}
+
+.font-weight-bold{
+    font-weight:bold;
+}
+
+.game-details-box{
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+.game-short-desc {
+    overflow: hidden;
+    position: relative;
+    line-height: 1.2em;
+    max-height: 5em;
+    text-align: justify;
+    margin-right: -1em;
+    padding-right: 1em;
+    margin-top: 1em;
+    width: 25em;
+}
+
+.game-short-desc:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.game-short-desc:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: white;
+}
+
+#btn-search{
+    width: 15em;
+    display: block;
+    margin-top: 2em;
+    float: right;
+}
