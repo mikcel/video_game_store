@@ -40,6 +40,11 @@
         <servlet-class>controller.SearchResultsServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>GameDetailsServlet</servlet-name>
+        <servlet-class>controller.GameDetailsServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern></url-pattern>
@@ -70,5 +75,9 @@
         <url-pattern>/search</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>GameDetailsServlet</servlet-name>
+        <url-pattern>/game</url-pattern>
+    </servlet-mapping>
 
 </web-app>

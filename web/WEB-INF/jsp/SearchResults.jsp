@@ -54,6 +54,10 @@
                                             <span class="font-weight-bold"># Players:</span>
                                             <span class="game-nplayers">${game.numPlayers}</span>
                                         </div>
+                                        <div class="game-coop-wrapper">
+                                            <span class="font-weight-bold">Co op:</span>
+                                            <span class="game-coop">${game.coop}</span>
+                                        </div>
                                         <div class="game-short-desc">${game.description}</div>
                                     </div>
                                 </div>
