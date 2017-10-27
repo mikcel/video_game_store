@@ -4,7 +4,6 @@
 <t:base_template>
 	<jsp:body>
 		<h3>Error while processing request</h3>
-		<p>${pageContext.errorData.requestURI}est</p>
-		${exception}
+		<p>${pageContext.errorData.throwable}</p>
 	</jsp:body>
 </t:base_template>

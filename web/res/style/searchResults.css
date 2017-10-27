@@ -42,6 +42,11 @@
     background: white;
 }
 
+.discounted-game{
+    text-decoration: line-through;
+    color: #ff5656;
+}
+
 #btn-search{
     width: 15em;
     display: block;

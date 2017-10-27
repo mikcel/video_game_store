@@ -16,7 +16,8 @@
 					<a href="login/" class="page-link">Login</a><br>
 					<a href="register/" class="page-link">Register</a><br>
 				</c:if>
-				<a href="searchPage/" class="page-link">Search Games</a>
+				<a href="searchPage/" class="page-link">Search Games</a><br>
+				<a href="specials/" class="page-link">Special Games</a>
 			</div>
 		</div>
 	</jsp:body>

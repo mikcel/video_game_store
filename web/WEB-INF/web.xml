@@ -45,6 +45,11 @@
         <servlet-class>controller.GameDetailsServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>SpecialGamesServlet</servlet-name>
+        <servlet-class>controller.SpecialsGameServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern></url-pattern>
@@ -78,6 +83,11 @@
     <servlet-mapping>
         <servlet-name>GameDetailsServlet</servlet-name>
         <url-pattern>/game</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SpecialGamesServlet</servlet-name>
+        <url-pattern>/specials/</url-pattern>
     </servlet-mapping>
 
 </web-app>

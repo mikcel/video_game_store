@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <t:base_template>
     <jsp:attribute name="extra_head">
@@ -16,7 +16,8 @@
                     <img src="${pageContext.request.contextPath}/res/img/games/${game.frontBoxArt}"
                          class="img-circle game-logo"/>
                 </c:if>
-                <h2 class="game-title">${game.name}</h2>
+
+                <h2 class="game-title">#${game.id}&emsp;${game.name}</h2>
             </div>
             <br>
             <div class="game-details-wrapper">
@@ -38,18 +39,22 @@
                 </div>
                 <div class="game-details col-sm-8">
                     <div class="game-desc">
-                        <!-- TODO: Add rating -->
                         <div class="col-sm-6">
                             <div class="game-price-wrapper row">
                                 <span class="spn-label col-sm-6">Price:</span>
                                 <span class="col-sm-6">
-                                    $&nbsp;<span class="game-price <c:if test="${game.discount != 0}">discounted-game</c:if>">
+                                    $&nbsp;<span
+                                        class="game-price <c:if test="${game.discount != 0}">discounted-game</c:if>">
                                          <fmt:formatNumber type="number" minFractionDigits="2" minIntegerDigits="1"
-                                                            value="${game.price}"/>
+                                                           value="${game.price}"/>
                                     </span>
                                     <c:if test="${game.discount != 0}">
                                         <span class="spn-discount">
-                                                ${game.discount}
+                                            &nbsp;
+                                            <fmt:formatNumber type="number" minFractionDigits="2"
+                                                              minIntegerDigits="1"
+                                                              maxFractionDigits="2"
+                                                              value="${game.price - game.discount}"/>
                                         </span>
                                     </c:if>
                                 </span>
@@ -87,6 +92,7 @@
                                     <c:choose>
                                         <c:when test="${game.developerLogo != ''}">
                                             <img src="${pageContext.request.contextPath}/res/img/${game.developerLogo}"
+                                                 onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/res/img/games/not_available.jpg';"
                                                  class="img-thumbnail game-developer-logo"/>
                                         </c:when>
                                         <c:otherwise>
@@ -109,17 +115,17 @@
                                         <span class="spn-label">${comment.user.firstName}&nbsp;${comment.user.lastName}</span>
                                         &nbsp;
                                         <span class="spn-rating-cmt">
-                                            <c:forEach var = "i" begin = "1" end = "${comment.ratings}">
+                                            <c:forEach var="i" begin="1" end="${comment.ratings}">
                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                             </c:forEach>
-                                            <c:forEach var = "i" begin = "${comment.ratings + 1}"  end = "5">
+                                            <c:forEach var="i" begin="${comment.ratings + 1}" end="5">
                                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                                             </c:forEach>
                                         </span>
                                     </div>
                                     <div class="div-comment-date">
-                                        <fmt:formatDate value="${comment.commentDate}" type="both" dateStyle = "medium"
-                                                        timeStyle = "medium"/>
+                                        <fmt:formatDate value="${comment.commentDate}" type="both" dateStyle="medium"
+                                                        timeStyle="medium"/>
                                     </div>
                                     <div class="div-comment-details">
                                             ${comment.commentDetails}

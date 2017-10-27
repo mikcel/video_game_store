@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <t:base_template>
     <jsp:attribute name="extra_head">
@@ -27,7 +27,8 @@
                                 <div class="game-div-img col-sm-4">
                                     <c:choose>
                                         <c:when test="${game.frontBoxArt != ''}">
-                                            <a href="${pageContext.request.contextPath}/game?game_id=${game.id}" target="_blank">
+                                            <a href="${pageContext.request.contextPath}/game?game_id=${game.id}"
+                                               target="_blank">
                                                 <img src="${pageContext.request.contextPath}/res/img/games/${game.frontBoxArt}"
                                                      class="img-thumbnail game-front-img"/>
                                             </a>
@@ -41,14 +42,25 @@
 
                                 <div class="col-sm-8">
                                     <div class="game-desc">
-                                        <a href="${pageContext.request.contextPath}/game?game_id=${game.id}" target="_blank">
+                                        <a href="${pageContext.request.contextPath}/game?game_id=${game.id}"
+                                           target="_blank">
                                             <h5 class="game-title">${game.name}</h5>
                                         </a>
-                                        <!-- TODO: Add rating -->
                                         <div class="game-price">
-                                            $ <fmt:formatNumber type="number" minFractionDigits="2" minIntegerDigits="1"
-                                                                value="${game.price}"/>
-                                            <!-- TODO: if discount cu price -->
+                                            $
+                                            <span class="game-price <c:if test="${game.discount != 0}">discounted-game</c:if>">
+                                                <fmt:formatNumber type="number" minFractionDigits="2"
+                                                                  minIntegerDigits="1"
+                                                                  maxFractionDigits="2" value="${game.price}"/>
+                                            </span>
+                                            <c:if test="${game.discount != 0}">
+                                                <span class="spn-discount">
+                                                    &nbsp;
+                                                    <fmt:formatNumber type="number" minFractionDigits="2"
+                                                                      minIntegerDigits="1"
+                                                                      maxFractionDigits="2" value="${game.price - game.discount}"/>
+                                                </span>
+                                            </c:if>
                                         </div>
                                         <div class="game-console-wrapper">
                                             <span class="font-weight-bold">Console:</span>
@@ -74,9 +86,12 @@
                 </c:otherwise>
             </c:choose>
 
-            <a class="form-control btn btn-primary" id="btn-search" href="${pageContext.request.contextPath}/searchPage/">
-                <i class="fa fa-search"></i>&emsp;Search Again
-            </a>
+            <c:if test="${specials} == false">
+                <a class="form-control btn btn-primary" id="btn-search"
+                   href="${pageContext.request.contextPath}/searchPage/">
+                    <i class="fa fa-search"></i>&emsp;Search Again
+                </a>
+            </c:if>
 
         </div>
     </jsp:body>
