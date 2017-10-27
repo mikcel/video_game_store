@@ -11,6 +11,7 @@
           rel="stylesheet" type="text/css"/>
     <link href="${pageContext.request.contextPath}/res/common_static/font-awesome/css/font-awesome.min.css"
           rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/res/style/baseStyle.css" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/res/common_static/jquery/jquery-3.2.1.min.js"></script>
@@ -27,28 +28,38 @@
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="../../">Games Dungeon</a>
+            <a class="navbar-brand" href="../../">
+                <span>
+                    <i class="fa fa-gamepad" aria-hidden="true"></i>&nbsp;
+                    Games Dungeon
+                </span>
+            </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <!--  <li class="dropdown"><a class="dropdown-toggle"
-                    data-toggle="dropdown-menu" role="button" aria-haspopup="true"
-                    aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul></li>-->
-                <li><a href="../../">Home</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        Links
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="../../">Home</a></li>
+                        <c:if test="${sessionScope.u_id == null}">
+                            <li><a href="register/">Register</a></li>
+                        </c:if>
+                        <li><a href="searchPage/">Search Page</a></li>
+                        <li><a href="specials/">Specials Page</a></li>
+                    </ul>
+                </li>
 
                 <c:choose>
                     <c:when test="${sessionScope.u_id != null}">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false">
                                 <i class="fa fa-user-circle-o"></i> ${sessionScope.u_first_name} <span class="caret">
                             </span></a>
                             <ul class="dropdown-menu" role="menu">
@@ -57,14 +68,15 @@
                         </li>
                     </c:when>
                     <c:when test="${sessionScope.u_id == null}">
-                        <li> <a href="${pageContext.request.contextPath}/login/">Sign in</a></li>
+                        <li><a href="${pageContext.request.contextPath}/login/">Sign in</a></li>
                     </c:when>
                 </c:choose>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
     </div>
-    <!-- /.container-fluid --> </nav>
+    <!-- /.container-fluid -->
+</nav>
 
 <jsp:doBody/>
 
