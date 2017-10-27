@@ -1,4 +1,63 @@
-.game-desc > div{
-    margin-top:2em;
-    margin-bottom: 2em;
+.game-desc > div > div.row{
+    margin-bottom: 1em;
+}
+
+.game-header{
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.game-header .game-title, .game-header .game-logo{
+    display: inline-block;
+}
+
+.game-header .game-logo{
+    width: 75px;
+    height: 75px;
+    vertical-align: middle;
+    margin-right: 2em;
+}
+
+span.spn-label{
+    font-weight: bold;
+}
+
+.game-developer-wrapper{
+    display: table;
+    width: 100%;
+}
+
+.game-developer-wrapper > .spn-label{
+    display: table-cell;
+    width: 50%;
+}
+
+.game-developer-wrapper > .div-lbl-logo{
+    display: table-cell;
+    width: 50%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.game-developer-logo{
+    margin-left: 1em;
+    width: 6em;
+}
+
+.discounted-game{
+    text-decoration: line-through;
+    color: #f30000;
+}
+
+.game-description{
+    margin-top: 1em;
+    text-align: justify;
+}
+
+.spn-rating-cmt{
+    color: #fcd500;
+}
+
+.div-comment-date{
+    font-size: .9em;
 }

@@ -34,7 +34,7 @@ public class SearchResultsServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/jsp/SearchResults.jsp").forward(request, response);
             }catch (NumberFormatException e){
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID can only be an integer!");
-            }catch (SQLException e) {
+            }catch (Exception e) {
                 response.sendError(HttpServletResponse.SC_CONFLICT, "Error while processing request. Contact Admin!");
             }
         }else{
@@ -107,7 +107,7 @@ public class SearchResultsServlet extends HttpServlet {
                         Game[] gamesFound = Game.findbyGameFilter(templateGame);
                         request.setAttribute("gamesFound", gamesFound);
                         request.getRequestDispatcher("/WEB-INF/jsp/SearchResults.jsp").forward(request, response);
-                    } catch (SQLException e) {
+                    } catch (Exception e) {
                         response.sendError(HttpServletResponse.SC_CONFLICT, "Error while processing request. Contact Admin!");
                     }
                 }

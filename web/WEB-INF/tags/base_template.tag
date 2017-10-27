@@ -43,7 +43,7 @@
                         <li role="separator" class="divider"></li>
                         <li><a href="#">Separated link</a></li>
                     </ul></li>-->
-                <li><a href="${pageContext.request.contextPath}">Home</a></li>
+                <li><a href="../../">Home</a></li>
 
                 <c:choose>
                     <c:when test="${sessionScope.u_id != null}">

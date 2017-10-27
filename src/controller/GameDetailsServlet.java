@@ -37,7 +37,7 @@ public class GameDetailsServlet extends HttpServlet {
                 try {
                     Game game_searched = Game.find(game_id);
                     request.setAttribute("game", game_searched);
-                } catch (SQLException e) {
+                } catch (Exception e) {
                     request.setAttribute("error", "No corresponding game found!");
                 }
                 request.getRequestDispatcher("/WEB-INF/jsp/GameDetails.jsp").forward(request, response);

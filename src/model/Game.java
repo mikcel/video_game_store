@@ -28,6 +28,7 @@ public class Game {
     private String developerLogo;
     private Double price;
     private Double discount;
+    private Comment[] comments;
 
     public Game(int id) {
         this.id = id;
@@ -35,7 +36,7 @@ public class Game {
 
     public Game(int id, String name, String description, String console, Integer numPlayers, String coop, String genre,
                 java.sql.Date releaseDate, String developer, String publisher, String frontBoxArt, String backBoxArt,
-                String logo, String developerLogo, Double price, Double discount) {
+                String logo, String developerLogo, Double price, Double discount, Comment[] comments) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -52,6 +53,7 @@ public class Game {
         this.developerLogo = developerLogo;
         this.price = price;
         this.discount = discount;
+        this.comments = comments.clone();
     }
 
     public Game(String name, String console, Integer numPlayers, String coop, String genre,
@@ -65,6 +67,7 @@ public class Game {
         this.developer = developer;
         this.publisher = publisher;
         this.price = price;
+        this.comments = null;
     }
 
     public void setId(int id) {
@@ -139,7 +142,11 @@ public class Game {
         return discount;
     }
 
-    public static Game find(int id) throws SQLException {
+    public Comment[] getComments() {
+        return comments;
+    }
+
+    public static Game find(int id) throws Exception {
 
         try (Connection conn = DBConnection.createConnection()) {
 
@@ -153,19 +160,19 @@ public class Game {
             boolean game_exists = resultSet.next();
 
             if (game_exists) {
-                return Game.load(resultSet);
+                return Game.load(resultSet, Comment.findByGameId(id));
             } else {
                 return null;
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
 
     }
 
-    public static Game[] findAll() throws SQLException {
+    public static Game[] findAll() throws Exception {
 
         try (Connection conn = DBConnection.createConnection()) {
 
@@ -174,7 +181,7 @@ public class Game {
             assert conn != null;
             return constructGameList(conn.prepareStatement(findByIdQuery).executeQuery());
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
@@ -242,7 +249,7 @@ public class Game {
 
     }
 
-    public static Game[] findAllGameWithDisc() throws SQLException {
+    public static Game[] findAllGameWithDisc() throws Exception {
 
         try (Connection conn = DBConnection.createConnection()) {
 
@@ -253,13 +260,13 @@ public class Game {
             ResultSet resultSet = statement.executeQuery();
             return constructGameList(resultSet);
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
     }
 
-    public static Game[] findbyGameFilter(Game gameFilter) throws SQLException {
+    public static Game[] findbyGameFilter(Game gameFilter) throws Exception {
 
         // Construct query
         String searchQuery = "SELECT * FROM game ";
@@ -316,11 +323,11 @@ public class Game {
             for (int i = 0; i < parameters.size(); i++) {
                 searchStatement.setObject(i + 1, parameters.get(i));
             }
-            System.out.println(searchStatement.toString());
+
             ResultSet resultSet = searchStatement.executeQuery();
             return constructGameList(resultSet);
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
@@ -348,7 +355,7 @@ public class Game {
 
     }
 
-    private static Game load(ResultSet rs) throws SQLException {
+    private static Game load(ResultSet rs, Comment[] comments) throws SQLException {
 
         return new Game(
                 rs.getInt("game_id"),
@@ -366,16 +373,17 @@ public class Game {
                 rs.getString("logo"),
                 rs.getString("developer_logo"),
                 rs.getDouble("price"),
-                rs.getDouble("discount")
+                rs.getDouble("discount"),
+                comments
         );
 
     }
 
-    private static Game[] constructGameList(ResultSet resultSet) throws SQLException {
+    private static Game[] constructGameList(ResultSet resultSet) throws Exception {
 
         ArrayList<Game> gameList = new ArrayList<Game>(10);
         while (resultSet.next()) {
-            gameList.add(load(resultSet));
+            gameList.add(load(resultSet, Comment.findByGameId(resultSet.getInt("game_id"))));
         }
         gameList.trimToSize();
         return gameList.toArray(new Game[gameList.size()]);

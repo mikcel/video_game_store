@@ -27,8 +27,10 @@
                                 <div class="game-div-img col-sm-4">
                                     <c:choose>
                                         <c:when test="${game.frontBoxArt != ''}">
-                                            <img src="${pageContext.request.contextPath}/res/img/games/${game.frontBoxArt}"
-                                                 class="img-thumbnail game-front-img"/>
+                                            <a href="${pageContext.request.contextPath}/game?game_id=${game.id}" target="_blank">
+                                                <img src="${pageContext.request.contextPath}/res/img/games/${game.frontBoxArt}"
+                                                     class="img-thumbnail game-front-img"/>
+                                            </a>
                                         </c:when>
                                         <c:otherwise>
                                             <img src="${pageContext.request.contextPath}/res/img/games/not_available.jpg"
@@ -39,7 +41,9 @@
 
                                 <div class="col-sm-8">
                                     <div class="game-desc">
-                                        <h5 class="game-title">${game.name}</h5>
+                                        <a href="${pageContext.request.contextPath}/game?game_id=${game.id}" target="_blank">
+                                            <h5 class="game-title">${game.name}</h5>
+                                        </a>
                                         <!-- TODO: Add rating -->
                                         <div class="game-price">
                                             $ <fmt:formatNumber type="number" minFractionDigits="2" minIntegerDigits="1"
