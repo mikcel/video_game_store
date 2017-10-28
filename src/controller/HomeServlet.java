@@ -14,6 +14,7 @@ public class HomeServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Forward to index jsp
         request.getRequestDispatcher("WEB-INF/jsp/Index.jsp").forward(request, response);
     }
 }

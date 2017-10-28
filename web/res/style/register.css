@@ -1,0 +1,25 @@
+.btn{
+    transition: all .4s cubic-bezier(0,0,0,0);
+    margin-right: .8em;
+}
+
+.form-wrapper{
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 38%;
+    padding: 2em;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #bcbcbc;
+}
+
+.form-wrapper h2{
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.div-btns{
+    text-align: center;
+}

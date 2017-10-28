@@ -2,7 +2,10 @@ package model;
 
 import dbconn.DBConnection;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class Comment {
@@ -51,7 +54,7 @@ public class Comment {
 
         final String findQuery = "SELECT * FROM comments WHERE comment_id = ?";
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             assert conn != null;
             PreparedStatement findByIdStatement = conn.prepareStatement(findQuery);
@@ -77,7 +80,7 @@ public class Comment {
 
         final String findQuery = "SELECT * FROM comments WHERE game_id = ?";
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             assert conn != null;
             PreparedStatement findStatement = conn.prepareStatement(findQuery);
@@ -97,17 +100,17 @@ public class Comment {
 
         User comment_user = User.find(rs.getInt("user_id"));
         Game comment_game = null;
-        if (getGame){
+        if (getGame) {
             comment_game = Game.find(rs.getInt("game_id"));
         }
 
         return new Comment(
-            rs.getInt("comment_id"),
-            comment_user,
-            comment_game,
-            rs.getDate("comment_date"),
-            rs.getString("comment_details"),
-            rs.getInt("ratings")
+                rs.getInt("comment_id"),
+                comment_user,
+                comment_game,
+                rs.getDate("comment_date"),
+                rs.getString("comment_details"),
+                rs.getInt("ratings")
         );
 
     }

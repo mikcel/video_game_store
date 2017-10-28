@@ -1,15 +1,15 @@
 package controller;
 
-import java.io.IOException;
+import exceptions.UserExistsException;
+import model.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import exceptions.UserExistsException;
-import model.User;
+import java.io.IOException;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -26,6 +26,7 @@ public class RegisterServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // If logged in go back to main page
         HttpSession session = request.getSession();
         if(session!= null && session.getAttribute("u_id") != null){
             response.sendRedirect(request.getContextPath() + "/");
@@ -45,6 +46,7 @@ public class RegisterServlet extends HttpServlet {
 
         if(email!=null && !email.equals("")) {
 
+            // Get all required parameters
             String first_name = request.getParameter("first_name");
             String last_name = request.getParameter("last_name");
             String password = request.getParameter("password");
@@ -52,6 +54,7 @@ public class RegisterServlet extends HttpServlet {
             User new_user = new User(password, first_name, last_name, email);
 
             try {
+                // Register user
                 new_user.registerUser();
                 response.getWriter().write("User registered!");
             } catch (UserExistsException user_exists) {

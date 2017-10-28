@@ -151,11 +151,11 @@ public class User {
 
         User exists_user = User.find(email);
 
-        if (exists_user != null){
+        if (exists_user != null) {
             throw new UserExistsException();
         }
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             assert conn != null;
             PreparedStatement insertStatementString = conn.prepareStatement(insertStatementQuery);
@@ -177,7 +177,7 @@ public class User {
 
     public static User find(String email) throws Exception {
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             final String findStatementQuery = "SELECT id, first_name, last_name, email, password "
                     + "FROM user WHERE email LIKE ?;";
@@ -199,7 +199,7 @@ public class User {
 
     public static User find(int id) throws Exception {
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             final String findStatementQuery = "SELECT id, first_name, last_name, email, password "
                     + "FROM user WHERE id = ?;";
@@ -219,11 +219,11 @@ public class User {
 
     }
 
-    public static User check_login(String email, String password) throws Exception{
+    public static User check_login(String email, String password) throws Exception {
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
-            final String findUserQuery = "SELECT id, first_name, last_name, email FROM user WHERE email=? and password=?";
+            final String findUserQuery = "SELECT id, first_name, last_name, email FROM user WHERE email=? AND password=?";
 
             assert conn != null;
             PreparedStatement findQuery = conn.prepareCall(findUserQuery);
@@ -231,12 +231,12 @@ public class User {
             findQuery.setString(2, password);
 
             User user_logged_in = check_load_user(findQuery.executeQuery());
-            if (user_logged_in != null){
+            if (user_logged_in != null) {
                 update_last_login_user(user_logged_in);
             }
             return user_logged_in;
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
             e.printStackTrace();
             throw e;
@@ -247,7 +247,7 @@ public class User {
 
     private static void update_last_login_user(User user) throws SQLException {
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             final String findUserQuery = "UPDATE user SET last_login=? WHERE id=?;";
 
@@ -267,13 +267,13 @@ public class User {
 
         int id = 0;
         String firstName = null, lastName = null, email = null, password = null;
-        try{
+        try {
             id = rs.getInt("id");
             firstName = rs.getString("first_name");
             lastName = rs.getString("last_name");
             email = rs.getString("email");
             password = rs.getString("password");
-        }catch (SQLException ignored){
+        } catch (SQLException ignored) {
         }
 
         return new User(id, password, firstName, lastName, email);
@@ -282,16 +282,16 @@ public class User {
 
     private static User check_load_user(ResultSet resultSet) throws SQLException {
         boolean recordExists = resultSet.next();
-        if(recordExists) {
+        if (recordExists) {
             return User.load(resultSet);
-        }else {
+        } else {
             return null;
         }
     }
 
     private static int findNextUserId() {
 
-        try (Connection conn = DBConnection.createConnection()){
+        try (Connection conn = DBConnection.createConnection()) {
 
             final String lastIdQuery = "SELECT id FROM user ORDER BY id DESC LIMIT 1";
 
@@ -299,9 +299,9 @@ public class User {
             PreparedStatement lastIdStatement = conn.prepareCall(lastIdQuery);
             ResultSet resultSet = lastIdStatement.executeQuery();
             boolean recordExists = resultSet.next();
-            if(recordExists) {
+            if (recordExists) {
                 return resultSet.getInt("id") + 1;
-            }else {
+            } else {
                 return 1;
             }
 

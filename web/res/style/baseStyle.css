@@ -5,3 +5,7 @@ a{
     -o-transition: all 0.4s cubic-bezier(0,0,0,0);
     transition: all 0.4s cubic-bezier(0,0,0,0);
 }
+
+.navbar{
+    z-index: 999;
+}

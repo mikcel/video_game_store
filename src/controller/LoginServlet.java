@@ -28,10 +28,11 @@ public class LoginServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Check if not already logged in
         HttpSession session = request.getSession();
-        if(session!= null && session.getAttribute("u_id") != null){
+        if (session != null && session.getAttribute("u_id") != null) {
             response.sendRedirect(request.getContextPath() + "/");
-        }else{
+        } else {
             request.getRequestDispatcher("/WEB-INF/jsp/Login.jsp").forward(request, response);
         }
     }
@@ -41,6 +42,7 @@ public class LoginServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        // Get Parameters
         String u_email = request.getParameter("user_email");
         String u_pass = request.getParameter("user_password");
 
@@ -51,9 +53,11 @@ public class LoginServlet extends HttpServlet {
 
             try {
 
+                // Check the user login info
                 User user_logged_id = User.check_login(u_email, u_pass);
                 if (user_logged_id != null) {
 
+                    // Set session attributes
                     HttpSession session = request.getSession();
                     session.setAttribute("u_first_name", user_logged_id.getFirstName());
                     session.setAttribute("u_last_name", user_logged_id.getLastName());

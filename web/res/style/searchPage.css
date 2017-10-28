@@ -1,3 +1,41 @@
 select.form-control option{
     text-transform: capitalize;
 }
+
+.main-container{
+    position: absolute;
+    width: 45%;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-bottom: 2em;
+}
+
+.main-container h2{
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+input.form-control, select.form-control{
+    max-width: 50%;
+    display: inline-block;
+}
+
+.btn{
+    transition: all .4s cubic-bezier(0,0,0,0);
+    margin-right: .8em;
+}
+
+.div-checkbox{
+    display: inline-block;
+    margin-left: 1em;
+}
+
+.btn-wrapper{
+    margin-top: 1em;
+    text-align: center;
+}
+
+.btn-wrapper button{
+    width: 35%;
+}
