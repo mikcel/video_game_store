@@ -15,7 +15,9 @@
 
             <c:choose>
                 <c:when test="${fn:length(gamesFound) == 0}">
-                    No Results Found
+                    <div class="div-no-results container">
+                        <h4>No Results Found</h4>
+                    </div>
                 </c:when>
                 <c:otherwise>
 
@@ -86,11 +88,13 @@
                 </c:otherwise>
             </c:choose>
 
-            <c:if test="${specials} == false">
-                <a class="form-control btn btn-primary" id="btn-search"
-                   href="${pageContext.request.contextPath}/searchPage/">
-                    <i class="fa fa-search"></i>&emsp;Search Again
-                </a>
+            <c:if test="${specials == false}">
+                <div class="div-search-again container col-lg-12">
+                    <a class="form-control btn btn-primary" id="btn-search"
+                       href="${pageContext.request.contextPath}/searchPage/">
+                        <i class="fa fa-search"></i>&emsp;Search Again
+                    </a>
+                </div>
             </c:if>
 
         </div>

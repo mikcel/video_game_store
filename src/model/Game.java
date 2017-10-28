@@ -274,8 +274,8 @@ public class Game {
         List<Object> parameters = new ArrayList<Object>();
 
         if (gameFilter.name != null && gameFilter.name.length() > 0) {
-            clauses.add("game_name = ?");
-            parameters.add(gameFilter.name);
+            clauses.add("game_name LIKE ?");
+            parameters.add("%" + gameFilter.name + "%");
         }
         if (gameFilter.console != null && gameFilter.console.length() > 0) {
             clauses.add("console = ?");
@@ -323,7 +323,7 @@ public class Game {
             for (int i = 0; i < parameters.size(); i++) {
                 searchStatement.setObject(i + 1, parameters.get(i));
             }
-
+            System.out.println(searchStatement.toString());
             ResultSet resultSet = searchStatement.executeQuery();
             return constructGameList(resultSet);
 

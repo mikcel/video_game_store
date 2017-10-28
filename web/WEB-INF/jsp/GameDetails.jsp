@@ -34,7 +34,7 @@
                     </c:choose>
                     <c:if test="${game.backBoxArt != ''}">
                         <img src="${pageContext.request.contextPath}/res/img/games/${game.backBoxArt}"
-                             class="img-thumbnail game-front-img"/>
+                             class="img-thumbnail game-back-img"/>
                     </c:if>
                 </div>
                 <div class="game-details col-sm-8">

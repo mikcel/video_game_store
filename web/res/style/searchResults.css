@@ -49,7 +49,9 @@
 
 #btn-search{
     width: 15em;
-    display: block;
     margin-top: 2em;
-    float: right;
+}
+
+.div-search-again, .div-no-results{
+    text-align: center;
 }

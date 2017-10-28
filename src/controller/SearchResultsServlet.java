@@ -115,7 +115,7 @@ public class SearchResultsServlet extends HttpServlet {
                     try {
                         Game[] gamesFound = Game.findbyGameFilter(templateGame);
                         request.setAttribute("gamesFound", gamesFound);
-                        request.setAttribute("specials", true);
+                        request.setAttribute("specials", false);
                         request.getRequestDispatcher("/WEB-INF/jsp/SearchResults.jsp").forward(request, response);
                     } catch (Exception e) {
                         response.sendError(HttpServletResponse.SC_CONFLICT, "Error while processing request. Contact Admin!");
