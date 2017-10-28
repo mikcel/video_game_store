@@ -15,18 +15,20 @@ import java.util.HashMap;
 @WebServlet(name = "SearchResultsServlet")
 public class SearchResultsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Enumeration<?> enumeration = request.getParameterNames();
         HashMap<String, Object> params = new HashMap<>();
 
+        // Get all parameters and store with corresponding values in a hash map
         while (enumeration.hasMoreElements()) {
             String param = (String) enumeration.nextElement();
             params.put(param, request.getParameter(param));
         }
 
+        // If game id was set, search game by id
         if (params.containsKey("game_id") && ((String) params.get("game_id")).length() > 0) {
             try {
                 Game[] gameFound = {Game.find(Integer.parseInt((String) params.get("game_id")))};
@@ -40,6 +42,8 @@ public class SearchResultsServlet extends HttpServlet {
         } else {
 
             boolean correctFields = true;
+
+            // Validate the values of the different parameters if presen
             if (params.containsKey("num_players")) {
                 try {
                     params.replace("num_players", Integer.parseInt((String) params.get("num_players")));
@@ -49,6 +53,7 @@ public class SearchResultsServlet extends HttpServlet {
                 }
             }
 
+            // Not considering number of players
             if (params.containsKey("num_players_null") && params.get("num_players_null").equals("true")) {
                 params.replace("num_players", null);
             }
@@ -62,6 +67,7 @@ public class SearchResultsServlet extends HttpServlet {
                 }
             }
 
+            // Not considering price
             if (params.containsKey("price_null") && params.get("price_null").equals("true")) {
                 params.replace("price", null);
             }
@@ -76,6 +82,7 @@ public class SearchResultsServlet extends HttpServlet {
                 }
             }
 
+            // Format date if present
             if (params.containsKey("release_date") && !params.get("release_date").equals("")) {
                 try {
                     SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
@@ -90,6 +97,8 @@ public class SearchResultsServlet extends HttpServlet {
             }
 
             if (correctFields) {
+
+                // If all parameters are valid, search game making a game obj template and pass it to the search method
 
                 boolean forwardRequest = true;
                 Game templateGame = null;
