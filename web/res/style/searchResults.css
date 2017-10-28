@@ -55,3 +55,7 @@
 .div-search-again, .div-no-results{
     text-align: center;
 }
+
+.div-search-again{
+    margin-bottom: 2em;
+}
