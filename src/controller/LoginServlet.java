@@ -68,7 +68,8 @@ public class LoginServlet extends HttpServlet {
                     response.getWriter().write("Necessary data to login was not entered!");
 
                 } else {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Login. Try Again!");
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("Invalid Login. Try Again!");
                 }
             } catch (Exception e) {
                 response.sendError(HttpServletResponse.SC_CONFLICT, "An error occurred while verifying user!");
