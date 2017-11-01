@@ -9,8 +9,12 @@
     </jsp:attribute>
     <jsp:body>
 
+        <c:if test="${game == null}">
+            <h2 class="text-center">No corresponding game found!</h2>
+        </c:if>
+
         <%--@elvariable id="game" type="controller.GameDetailsServlet"--%>
-        <div class="main-container container-fluid">
+        <div class="main-container container-fluid <c:if test="${game == null}">collapse</c:if>">
             <div class="game-header">
                 <c:if test="${game.logo != ''}">
                     <img src="${pageContext.request.contextPath}/res/img/games/${game.frontBoxArt}"

@@ -19,13 +19,13 @@
                 <c:if test="${sessionScope.u_id == null}">
                     <div class="row">
                         <div class="col-sm-6 text-center">
-                            <a href="login/" class="page-link">
+                            <a href="${pageContext.request.contextPath}/login/" class="page-link">
                                <i class="fa fa-unlock-alt fa-5x" aria-hidden="true"></i><br>
                                <span>Login</span>
                             </a>
                         </div>
                         <div class="col-sm-6 text-center">
-                            <a href="register/" class="page-link">
+                            <a href="${pageContext.request.contextPath}/register/" class="page-link">
                                 <i class="fa fa-address-card-o fa-5x" aria-hidden="true"></i><br>
                                 <span>Register</span>
                             </a>
@@ -34,13 +34,13 @@
                 </c:if>
                 <div class="row">
                     <div class="col-sm-6 text-center">
-                        <a href="searchPage/" class="page-link">
+                        <a href="${pageContext.request.contextPath}/searchPage/" class="page-link">
                             <i class="fa fa-search fa-5x" aria-hidden="true"></i><br>
                             <span>Search Games</span>
                         </a>
                     </div>
                     <div class="col-sm-6 text-center">
-                        <a href="specials/" class="page-link">
+                        <a href="${pageContext.request.contextPath}/specials/" class="page-link">
                             <i class="fa fa-tag fa-5x" aria-hidden="true"></i><br>
                             <span>Special Games</span>
                         </a>

@@ -33,6 +33,7 @@ public class SearchResultsServlet extends HttpServlet {
             try {
                 Game[] gameFound = {Game.find(Integer.parseInt((String) params.get("game_id")))};
                 request.setAttribute("gamesFound", gameFound);
+                request.setAttribute("specials", false);
                 request.getRequestDispatcher("/WEB-INF/jsp/SearchResults.jsp").forward(request, response);
             } catch (NumberFormatException e) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID can only be an integer!");
@@ -85,7 +86,7 @@ public class SearchResultsServlet extends HttpServlet {
             // Format date if present
             if (params.containsKey("release_date") && !params.get("release_date").equals("")) {
                 try {
-                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
                     java.util.Date date = sdf1.parse((String) params.get("release_date"));
                     params.replace("release_date", new java.sql.Date(date.getTime()));
                 } catch (Exception e) {

@@ -48,10 +48,10 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="../../">Home</a></li>
                         <c:if test="${sessionScope.u_id == null}">
-                            <li><a href="register/">Register</a></li>
+                            <li><a href="${pageContext.request.contextPath}/register/">Register</a></li>
                         </c:if>
-                        <li><a href="searchPage/">Search Page</a></li>
-                        <li><a href="specials/">Specials Page</a></li>
+                        <li><a href="${pageContext.request.contextPath}/searchPage/">Search Page</a></li>
+                        <li><a href="${pageContext.request.contextPath}/specials/">Specials Page</a></li>
                     </ul>
                 </li>
 

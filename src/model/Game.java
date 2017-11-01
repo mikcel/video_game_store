@@ -282,7 +282,7 @@ public class Game {
             parameters.add(gameFilter.console);
         }
         if (gameFilter.coop != null && gameFilter.coop.length() > 0) {
-            clauses.add("coop = ?");
+            clauses.add("LOWER(coop) = LOWER(?)");
             parameters.add(gameFilter.coop);
         }
         if (gameFilter.genre != null && gameFilter.genre.length() > 0) {
