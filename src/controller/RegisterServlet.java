@@ -58,14 +58,16 @@ public class RegisterServlet extends HttpServlet {
                 new_user.registerUser();
                 response.getWriter().write("User registered!");
             } catch (UserExistsException user_exists) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, user_exists.getMessage());
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write(user_exists.getMessage());
             } catch (Exception e) {
-                response.sendError(HttpServletResponse.SC_CONFLICT, "Error while processing request. Contact Admin!");
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+                response.getWriter().write("Error while processing request. Contact Admin!");
             }
-
         }
         else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No email passed!");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("No email passed!");
         }
 
     }
