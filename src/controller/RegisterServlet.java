@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Date;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -46,12 +47,14 @@ public class RegisterServlet extends HttpServlet {
 
         if(email!=null && !email.equals("")) {
 
-            // Get all required parameters
-            String first_name = request.getParameter("first_name");
-            String last_name = request.getParameter("last_name");
-            String password = request.getParameter("password");
-
-            User new_user = new User(password, first_name, last_name, email);
+            // Get all required parameters and create User
+            User new_user = new User(request.getParameter("password"),
+                    request.getParameter("first_name"),
+                    request.getParameter("last_name"),
+                    email, request.getParameter("address1"), request.getParameter("address2"),
+                    request.getParameter("city"), request.getParameter("state"), request.getParameter("zip_code"),
+                    request.getParameter("country"), request.getParameter("cc_type"), Long.parseLong(request.getParameter("cc_no")),
+                    Integer.parseInt(request.getParameter("cc_cvv")), Date.valueOf(request.getParameter("cc_expiry")));
 
             try {
                 // Register user

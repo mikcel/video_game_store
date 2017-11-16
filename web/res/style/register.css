@@ -4,15 +4,12 @@
 }
 
 .form-wrapper{
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 38%;
+    width: 77%;
     padding: 2em;
     border: 1px solid #e0e0e0;
     border-radius: 5px;
     box-shadow: 0 0 5px #bcbcbc;
+    margin: 0 auto 3%;
 }
 
 .form-wrapper h2{

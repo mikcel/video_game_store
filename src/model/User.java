@@ -34,7 +34,26 @@ public class User {
         this.email = email;
     }
 
-    public User(String password, String first_name, String last_name, String email) {
+    public User(String password, String first_name, String last_name, String email, String address1, String address2,
+                String city, String state, String zip, String country, String credit_card_type, long credit_card_number,
+                int credit_card_cvv, Date credit_card_expiry) {
+        this.password = password;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.country = country;
+        this.credit_card_type = credit_card_type;
+        this.credit_card_number = credit_card_number;
+        this.credit_card_cvv = credit_card_cvv;
+        this.credit_card_expiry = credit_card_expiry;
+    }
+
+    public User(String password, String first_name, String last_name, String email, String address1, String address2) {
         this.password = password;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -147,7 +166,9 @@ public class User {
 
     public void registerUser() throws Exception {
 
-        final String insertStatementQuery = "INSERT INTO user (id, password, first_name, last_name, email) VALUES (?, ?, ?, ?, ?)";
+        final String insertStatementQuery = "INSERT INTO user (id, password, first_name, last_name, email, address1, address2," +
+                "city, state, zip, country, credit_card_type, credit_card_number, credit_card_cvv, credit_card_expiry) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         User exists_user = User.find(email);
 
@@ -166,6 +187,19 @@ public class User {
             insertStatementString.setString(3, this.first_name);
             insertStatementString.setString(4, this.last_name);
             insertStatementString.setString(5, this.email);
+            insertStatementString.setString(6, this.address1);
+            insertStatementString.setString(7, this.address2);
+            insertStatementString.setString(8, this.city);
+            insertStatementString.setString(9, this.state);
+            insertStatementString.setString(10, this.zip);
+            insertStatementString.setString(11, this.country);
+            insertStatementString.setString(12, this.credit_card_type);
+            insertStatementString.setLong(13, this.credit_card_number);
+            insertStatementString.setInt(14, this.credit_card_cvv);
+            insertStatementString.setDate(15, (java.sql.Date) this.credit_card_expiry);
+
+            System.out.println(insertStatementString);
+
             insertStatementString.execute();
 
         } catch (Exception e) {
