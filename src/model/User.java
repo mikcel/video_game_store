@@ -1,7 +1,11 @@
 package model;
 
 import dbconn.DBConnection;
+import exceptions.AccountLockedException;
+import exceptions.IncorrectPasswordException;
 import exceptions.UserExistsException;
+import exceptions.UserNotExistsException;
+import stringrandomizer.StringRandomizer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,6 +32,18 @@ public class User {
     private int credit_card_cvv;
     private Date credit_card_expiry;
     private Date last_login;
+    private String temp_password;
+    private Date tmp_pass_ttl;
+    private boolean admin;
+    private int login_attempts;
+    private boolean locked;
+    private String login_name;
+
+    public User() {
+        this.first_name = "";
+        this.last_name = "";
+        this.email = "";
+    }
 
     public User(String password, String email) {
         this.password = password;
@@ -36,7 +52,7 @@ public class User {
 
     public User(String password, String first_name, String last_name, String email, String address1, String address2,
                 String city, String state, String zip, String country, String credit_card_type, long credit_card_number,
-                int credit_card_cvv, Date credit_card_expiry) {
+                int credit_card_cvv, Date credit_card_expiry, String login_name) {
         this.password = password;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -51,6 +67,7 @@ public class User {
         this.credit_card_number = credit_card_number;
         this.credit_card_cvv = credit_card_cvv;
         this.credit_card_expiry = credit_card_expiry;
+        this.login_name = login_name;
     }
 
     public User(String password, String first_name, String last_name, String email, String address1, String address2) {
@@ -164,16 +181,134 @@ public class User {
         this.last_login = last_login;
     }
 
+    public String getCredit_card_type() {
+        return credit_card_type;
+    }
+
+    public void setCredit_card_type(String credit_card_type) {
+        this.credit_card_type = credit_card_type;
+    }
+
+    public long getCredit_card_number() {
+        return credit_card_number;
+    }
+
+    public void setCredit_card_number(long credit_card_number) {
+        this.credit_card_number = credit_card_number;
+    }
+
+    public int getCredit_card_cvv() {
+        return credit_card_cvv;
+    }
+
+    public void setCredit_card_cvv(int credit_card_cvv) {
+        this.credit_card_cvv = credit_card_cvv;
+    }
+
+    public Date getCredit_card_expiry() {
+        return credit_card_expiry;
+    }
+
+    public void setCredit_card_expiry(Date credit_card_expiry) {
+        this.credit_card_expiry = credit_card_expiry;
+    }
+
+    public Date getLast_login() {
+        return last_login;
+    }
+
+    public void setLast_login(Date last_login) {
+        this.last_login = last_login;
+    }
+
+    public String getTemp_password() {
+        return temp_password;
+    }
+
+    public void setTemp_password(String temp_password) {
+        this.temp_password = temp_password;
+    }
+
+    public Date getTmp_pass_ttl() {
+        return tmp_pass_ttl;
+    }
+
+    public void setTmp_pass_ttl(Date tmp_pass_ttl) {
+        this.tmp_pass_ttl = tmp_pass_ttl;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public int getLogin_attempts() {
+        return login_attempts;
+    }
+
+    public void setLogin_attempts(int login_attempts) {
+        this.login_attempts = login_attempts;
+    }
+
+    public boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public String getLogin_name() {
+        return login_name;
+    }
+
+    public void setLogin_name(String login_name) {
+        this.login_name = login_name;
+    }
+
+    public void createTmpPass(){
+
+        final String createTmpPassQuery = "UPDATE user SET temp_password=? , tmp_pass_ttl=? WHERE id=?";
+
+        try (Connection conn = DBConnection.createConnection()){
+
+            assert conn != null;
+            PreparedStatement tmpPassStatement = conn.prepareStatement(createTmpPassQuery);
+
+            java.sql.Timestamp tmpPassTTL = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
+            String tmpPass = StringRandomizer.generateRandomString();
+
+            tmpPassStatement.setString(1, tmpPass);
+            tmpPassStatement.setTimestamp(2, tmpPassTTL);
+            tmpPassStatement.setInt(3, this.getId());
+
+            tmpPassStatement.executeUpdate();
+
+            this.setTmp_pass_ttl(tmpPassTTL);
+            this.setTemp_password(tmpPass);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void registerUser() throws Exception {
 
         final String insertStatementQuery = "INSERT INTO user (id, password, first_name, last_name, email, address1, address2," +
-                "city, state, zip, country, credit_card_type, credit_card_number, credit_card_cvv, credit_card_expiry) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "city, state, zip, country, credit_card_type, credit_card_number, credit_card_cvv, credit_card_expiry, login_name) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        User exists_user = User.find(email);
+        try {
+            User exists_user = User.find(email, login_name);
+            if (exists_user != null) {
+                throw new UserExistsException();
+            }
+        }catch (UserNotExistsException ignored){
 
-        if (exists_user != null) {
-            throw new UserExistsException();
         }
 
         try (Connection conn = DBConnection.createConnection()) {
@@ -197,8 +332,7 @@ public class User {
             insertStatementString.setLong(13, this.credit_card_number);
             insertStatementString.setInt(14, this.credit_card_cvv);
             insertStatementString.setDate(15, (java.sql.Date) this.credit_card_expiry);
-
-            System.out.println(insertStatementString);
+            insertStatementString.setString(16, this.login_name);
 
             insertStatementString.execute();
 
@@ -209,18 +343,54 @@ public class User {
         }
     }
 
-    public static User find(String email) throws Exception {
+    private void updateLoginAttempt() throws SQLException, AccountLockedException {
 
         try (Connection conn = DBConnection.createConnection()) {
 
-            final String findStatementQuery = "SELECT id, first_name, last_name, email, password "
-                    + "FROM user WHERE email LIKE ?;";
+            final String updateQuery = "UPDATE user SET login_attempts=? WHERE id=?;";
+
+            assert conn != null;
+            PreparedStatement updateStatement = conn.prepareCall(updateQuery);
+
+            int updatedLoginAttempts = this.getLogin_attempts() + 1;
+            updateStatement.setInt(1, updatedLoginAttempts);
+            updateStatement.setInt(2, id);
+            updateStatement.executeUpdate();
+
+            if (updatedLoginAttempts >= 3){
+
+                final String updateLockedQuery = "UPDATE user SET locked=TRUE WHERE id=?;";
+
+                PreparedStatement updateLockedStatement = conn.prepareCall(updateLockedQuery);
+
+                updateLockedStatement.setInt(1, id);
+                updateLockedStatement.executeUpdate();
+
+                throw new AccountLockedException();
+
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
+
+    public static User find(String email, String login_name) throws Exception {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String findStatementQuery = "SELECT * FROM user WHERE email LIKE ? OR login_name LIKE ?;";
 
             assert conn != null;
             PreparedStatement findStatement = conn.prepareCall(findStatementQuery);
             findStatement.setString(1, email);
+            findStatement.setString(2, login_name);
 
-            return check_load_user(findStatement.executeQuery());
+            return checkLoadUser(findStatement.executeQuery());
 
         } catch (Exception e) {
 
@@ -235,14 +405,13 @@ public class User {
 
         try (Connection conn = DBConnection.createConnection()) {
 
-            final String findStatementQuery = "SELECT id, first_name, last_name, email, password "
-                    + "FROM user WHERE id = ?;";
+            final String findStatementQuery = "SELECT * FROM user WHERE id = ?;";
 
             assert conn != null;
             PreparedStatement findStatement = conn.prepareCall(findStatementQuery);
             findStatement.setInt(1, id);
 
-            return check_load_user(findStatement.executeQuery());
+            return checkLoadUser(findStatement.executeQuery());
 
         } catch (Exception e) {
 
@@ -253,25 +422,30 @@ public class User {
 
     }
 
-    public static User check_login(String email, String password) throws Exception {
+    public static User check_login(String login_name, String password) throws Exception {
 
         try (Connection conn = DBConnection.createConnection()) {
 
-            final String findUserQuery = "SELECT id, first_name, last_name, email FROM user WHERE email=? AND password=?";
+            final String findUserQuery = "SELECT * FROM user WHERE login_name=?";
 
             assert conn != null;
             PreparedStatement findQuery = conn.prepareCall(findUserQuery);
-            findQuery.setString(1, email);
-            findQuery.setString(2, password);
+            findQuery.setString(1, login_name);
 
-            User user_logged_in = check_load_user(findQuery.executeQuery());
-            if (user_logged_in != null) {
-                update_last_login_user(user_logged_in);
+            User user_logged_in = checkLoadUser(findQuery.executeQuery());
+
+            if (user_logged_in.password.equals(password)) {
+                updateLastLoginUser(user_logged_in);
+            } else {
+                user_logged_in.updateLoginAttempt();
+                throw new IncorrectPasswordException();
             }
             return user_logged_in;
 
-        } catch (Exception e) {
+        } catch (UserNotExistsException e) {
+            throw e;
 
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
 
@@ -279,11 +453,11 @@ public class User {
 
     }
 
-    private static void update_last_login_user(User user) throws SQLException {
+    private static void updateLastLoginUser(User user) throws SQLException {
 
         try (Connection conn = DBConnection.createConnection()) {
 
-            final String findUserQuery = "UPDATE user SET last_login=? WHERE id=?;";
+            final String findUserQuery = "UPDATE user SET last_login=?, login_attempts=0 WHERE id=?;";
 
             assert conn != null;
             PreparedStatement findQuery = conn.prepareCall(findUserQuery);
@@ -297,29 +471,42 @@ public class User {
 
     }
 
-    private static User load(ResultSet rs) throws SQLException {
+    private static User load(ResultSet rs) {
 
-        int id = 0;
-        String firstName = null, lastName = null, email = null, password = null;
+        User loaded_user = new User();
         try {
-            id = rs.getInt("id");
-            firstName = rs.getString("first_name");
-            lastName = rs.getString("last_name");
-            email = rs.getString("email");
-            password = rs.getString("password");
+            loaded_user.setId(rs.getInt("id"));
+            loaded_user.setFirstName(rs.getString("first_name"));
+            loaded_user.setLastName(rs.getString("last_name"));
+            loaded_user.setEmail(rs.getString("email"));
+            loaded_user.setPassword(rs.getString("password"));
+            loaded_user.setAddress1(rs.getString("address1"));
+            loaded_user.setAddress2(rs.getString("address2"));
+            loaded_user.setCity(rs.getString("city"));
+            loaded_user.setCountry(rs.getString("country"));
+            loaded_user.setCredit_card_type(rs.getString("credit_card_type"));
+            loaded_user.setCredit_card_number(rs.getLong("credit_card_number"));
+            loaded_user.setCredit_card_cvv(rs.getInt("credit_card_cvv"));
+            loaded_user.setCredit_card_expiry(rs.getDate("credit_card_expiry"));
+            loaded_user.setLastLogin(rs.getDate("last_login"));
+            loaded_user.setTemp_password(rs.getString("temp_password"));
+            loaded_user.setTmp_pass_ttl(rs.getDate("tmp_pass_ttl"));
+            loaded_user.setAdmin(rs.getBoolean("admin"));
+            loaded_user.setLogin_attempts(rs.getInt("login_attempts"));
+            loaded_user.setLocked(rs.getBoolean("locked"));
+            loaded_user.setLogin_name(rs.getString("login_name"));
         } catch (SQLException ignored) {
         }
-
-        return new User(id, password, firstName, lastName, email);
+        return loaded_user;
 
     }
 
-    private static User check_load_user(ResultSet resultSet) throws SQLException {
+    private static User checkLoadUser(ResultSet resultSet) throws SQLException, UserNotExistsException {
         boolean recordExists = resultSet.next();
         if (recordExists) {
             return User.load(resultSet);
         } else {
-            return null;
+            throw new UserNotExistsException();
         }
     }
 

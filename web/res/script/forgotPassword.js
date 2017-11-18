@@ -1,31 +1,31 @@
 $(function () {
 
-    $("#form-login").submit(function (event) {
+    $("#form-forgot-pass").submit(function (event) {
 
         event.preventDefault();
-        login_user();
+        send_email();
 
     });
 
 });
 
-function login_user() {
+function send_email() {
 
-    if ($("#user_login").val() === "" || $("#user_password").val() === "") {
+    if ($("#user_email").val() === "" || $("#user_login").val() === "") {
         set_up_msg_modal("Empty Fields", "Please enter both your email and password to login.");
         return;
     }
 
-    var form_login = $("#form-login");
+    var form_login = $("#form-forgot-pass");
     $.ajax({
         method: form_login.attr("method"),
         url: form_login.attr("action"),
         data: form_login.serialize(),
         success: function(){
-            document.location.href = "/";
+            set_up_msg_modal("Email sent successfully", "We have sent you an email with the temporary password");
         },
         error: function (xhr) {
-            set_up_msg_modal("Login Error", xhr.responseText)
+            set_up_msg_modal("Send Email Error", xhr.responseText)
         }
     })
 

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -46,6 +47,39 @@ public class RegisterServlet extends HttpServlet {
         response.setContentType("text/plain");
 
         if(email!=null && !email.equals("")) {
+            Long ccNo = 0L;
+            Integer ccCVV = 0;
+
+            if (!request.getParameter("cc_no").equals("")){
+                try{
+                    ccNo = Long.parseLong(request.getParameter("cc_no"));
+                }catch (NumberFormatException e){
+                    response.setStatus(HttpServletResponse.SC_CONFLICT);
+                    response.getWriter().write("Error. Check Credit card Number");
+                    return;
+                }
+            }
+
+            if (!request.getParameter("cc_cvv").equals("")) {
+                try {
+                    ccCVV = Integer.parseInt(request.getParameter("cc_cvv"));
+                } catch (NumberFormatException e) {
+                    response.setStatus(HttpServletResponse.SC_CONFLICT);
+                    response.getWriter().write("Error. Check Credit card CVV");
+                    return;
+                }
+            }
+
+            Date ccExpiry = null;
+            if (!request.getParameter("cc_expiry").equals("")){
+                try{
+                    ccExpiry = Date.valueOf(request.getParameter("cc_expiry"));
+                }catch (IllegalArgumentException e){
+                    response.setStatus(HttpServletResponse.SC_CONFLICT);
+                    response.getWriter().write("Error. Check Credit card Expiry Date");
+                    return;
+                }
+            }
 
             // Get all required parameters and create User
             User new_user = new User(request.getParameter("password"),
@@ -53,8 +87,9 @@ public class RegisterServlet extends HttpServlet {
                     request.getParameter("last_name"),
                     email, request.getParameter("address1"), request.getParameter("address2"),
                     request.getParameter("city"), request.getParameter("state"), request.getParameter("zip_code"),
-                    request.getParameter("country"), request.getParameter("cc_type"), Long.parseLong(request.getParameter("cc_no")),
-                    Integer.parseInt(request.getParameter("cc_cvv")), Date.valueOf(request.getParameter("cc_expiry")));
+                    request.getParameter("country"), request.getParameter("cc_type"), ccNo, ccCVV,
+                    ccExpiry,
+                    request.getParameter("login_name"));
 
             try {
                 // Register user

@@ -5,6 +5,8 @@ $(function () {
         validate_send_form();
     });
 
+    $("#ipt-cc-expiry").val(new Date().toDateInputValue());
+
 });
 
 function validate_send_form(){
@@ -52,7 +54,7 @@ function validate_send_form(){
 }
 
 function get_ipts(){
-    return $("#div-register-user").find("input");
+    return $("#div-register-user").find("input[required='true']");
 }
 
 function set_up_msg_modal(title, message){

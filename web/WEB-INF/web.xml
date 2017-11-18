@@ -50,6 +50,11 @@
         <servlet-class>controller.SpecialsGameServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <servlet-class>controller.ForgotPasswordServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern></url-pattern>
@@ -88,6 +93,11 @@
     <servlet-mapping>
         <servlet-name>SpecialGamesServlet</servlet-name>
         <url-pattern>/specials/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <url-pattern>/forgot_password/</url-pattern>
     </servlet-mapping>
 
 </web-app>

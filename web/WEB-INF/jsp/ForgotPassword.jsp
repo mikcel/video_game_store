@@ -3,14 +3,15 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:base_template>
     <jsp:attribute name="extra_head">
-        <link href="${pageContext.request.contextPath}/res/style/login.css" rel="stylesheet" type="text/css"/>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/res/script/login.js"></script>
+        <link href="${pageContext.request.contextPath}/res/style/forgotPassword.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/res/script/forgotPassword.js"></script>
     </jsp:attribute>
     <jsp:body>
         <div class="form-wrapper center-block">
             <div class="form-block">
-                <h2>Login Page</h2>
-                <form id="form-login" role="form" method="post" action="">
+                <h2>Forgot Password Page</h2>
+                <form id="form-forgot-pass" role="form" method="post" action="">
+
                     <div class="form-group">
                         <div class="input-group">
                             <label for="user_login" class="input-group-addon">
@@ -22,20 +23,17 @@
 
                     <div class="form-group">
                         <div class="input-group">
-                            <label for="user_password" class="input-group-addon">
-                                <i class="fa fa-lock"></i>
+                            <label for="user_email" class="input-group-addon">
+                                <i class="fa fa-envelope-o"></i>
                             </label>
-                            <input type="password" class="form-control" id="user_password" placeholder="Password" name="user_password">
+                            <input type="text" class="form-control" id="user_email" placeholder="Email" name="user_email">
                         </div>
                     </div>
 
-                    <button type="submit" id="btn-submit" class="btn btn-primary">Login</button>
+                    <button type="submit" id="btn-submit" class="btn btn-primary">Send Email</button>
                     <button type="reset" id="btn-reset" class="btn btn-default">Clear</button>
 
                 </form>
-            </div>
-            <div id="div-forgot-pass">
-                Forgot Password? <a href="${pageContext.request.contextPath}/forgot_password/">Click Here</a>
             </div>
         </div>
 

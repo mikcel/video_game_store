@@ -15,26 +15,30 @@
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label for="ipt-first-name">First Name *</label>
-                        <input type="text" class="form-control" id="ipt-first-name" name="first_name" placeholder="Type Here" />
+                        <input type="text" class="form-control" id="ipt-first-name" name="first_name" placeholder="Type Here" required/>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="ipt-last-name">Last Name *</label>
-                        <input class="form-control" id="ipt-last-name" name="last_name" type="text" placeholder="Type Here" />
+                        <input class="form-control" id="ipt-last-name" name="last_name" type="text" placeholder="Type Here" required/>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="ipt-email">Email *</label>
-                        <input type="email" class="form-control" id="ipt-email" name="email" placeholder="email@games.com" />
+                        <input type="email" class="form-control" id="ipt-email" name="email" placeholder="email@games.com" required/>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <label for="ipt-password">Password *</label>
-                        <input type="password" class="form-control" id="ipt-password" name="password" placeholder="password" />
+                    <div class="form-group col-md-4">
+                        <label for="ipt-login-name">Login Name *</label>
+                        <input type="text" class="form-control" id="ipt-login-name" name="login_name" placeholder="Login Name" required/>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
+                        <label for="ipt-password">Password *</label>
+                        <input type="password" class="form-control" id="ipt-password" name="password" placeholder="password" required/>
+                    </div>
+                    <div class="form-group col-md-4">
                         <label for="ipt-conf-pass">Confirm Password *</label>
-                        <input type="password" class="form-control" id="ipt-conf-pass" placeholder="password" />
+                        <input type="password" class="form-control" id="ipt-conf-pass" placeholder="password" required/>
                     </div>
                 </div>
 

@@ -1,5 +1,8 @@
 package controller;
 
+import exceptions.AccountLockedException;
+import exceptions.IncorrectPasswordException;
+import exceptions.UserNotExistsException;
 import model.User;
 
 import javax.servlet.ServletException;
@@ -43,36 +46,42 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // Get Parameters
-        String u_email = request.getParameter("user_email");
+        String u_login = request.getParameter("user_login");
         String u_pass = request.getParameter("user_password");
 
         response.setContentType("text/plain");
-        if (u_email.length() == 0 || u_pass.length() == 0) {
+        if (u_login.length() == 0 || u_pass.length() == 0) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Necessary data to login was not entered!");
         } else {
 
             try {
 
                 // Check the user login info
-                User user_logged_id = User.check_login(u_email, u_pass);
-                if (user_logged_id != null) {
+                User user_logged_id = User.check_login(u_login, u_pass);
+                // Set session attributes
+                HttpSession session = request.getSession();
+                session.setAttribute("u_first_name", user_logged_id.getFirstName());
+                session.setAttribute("u_last_name", user_logged_id.getLastName());
+                session.setAttribute("u_email", user_logged_id.getEmail());
+                session.setAttribute("u_login", user_logged_id.getLogin_name());
+                session.setAttribute("u_id", user_logged_id.getId());
 
-                    // Set session attributes
-                    HttpSession session = request.getSession();
-                    session.setAttribute("u_first_name", user_logged_id.getFirstName());
-                    session.setAttribute("u_last_name", user_logged_id.getLastName());
-                    session.setAttribute("u_email", user_logged_id.getEmail());
-                    session.setAttribute("u_id", user_logged_id.getId());
+                response.setStatus(HttpServletResponse.SC_ACCEPTED);
+                response.getWriter().write("Login successfully");
 
-                    response.setStatus(HttpServletResponse.SC_ACCEPTED);
-                    response.getWriter().write("Necessary data to login was not entered!");
+            } catch (UserNotExistsException | IncorrectPasswordException e){
 
-                } else {
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    response.getWriter().write("Invalid Login. Try Again!");
-                }
-            } catch (Exception e) {
-                response.sendError(HttpServletResponse.SC_CONFLICT, "An error occurred while verifying user!");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write(e.getMessage());
+
+            } catch (AccountLockedException e){
+
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write(e.getMessage());
+
+            }catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("An error occurred while verifying user!");
             }
 
         }
