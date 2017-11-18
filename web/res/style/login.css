@@ -1,7 +1,7 @@
 .btn{
-    transition: all .4s cubic-bezier(0,0,0,0);
-    margin-right: .8em;
-}
+     transition: all .4s cubic-bezier(0,0,0,0);
+     margin-right: .8em;
+ }
 
 input.form-control{
     width: 295px !important;
@@ -40,6 +40,6 @@ input.form-control{
     margin-bottom: 1em;
 }
 
-#div-forgot-pass{
+.btm-div{
     margin-top: 4%;
 }

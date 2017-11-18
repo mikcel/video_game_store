@@ -34,8 +34,11 @@
 
                 </form>
             </div>
-            <div id="div-forgot-pass">
+            <div id="div-forgot-pass" class="btm-div">
                 Forgot Password? <a href="${pageContext.request.contextPath}/forgot_password/">Click Here</a>
+            </div>
+            <div id="div-reset-pass" class="btm-div">
+                <a href="${pageContext.request.contextPath}/reset_password/">Reset Password</a>
             </div>
         </div>
 

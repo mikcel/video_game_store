@@ -21,13 +21,16 @@ function send_email() {
         method: form_login.attr("method"),
         url: form_login.attr("action"),
         data: form_login.serialize(),
+        beforeSend: function(){$("#loading-icon").fadeIn()},
         success: function(){
+            $("#loading-icon").fadeOut();
             set_up_msg_modal("Email sent successfully", "We have sent you an email with the temporary password");
         },
         error: function (xhr) {
+            $("#loading-icon").fadeOut();
             set_up_msg_modal("Send Email Error", xhr.responseText)
         }
-    })
+    });
 
 }
 

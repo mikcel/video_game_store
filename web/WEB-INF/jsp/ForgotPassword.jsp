@@ -7,6 +7,7 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/res/script/forgotPassword.js"></script>
     </jsp:attribute>
     <jsp:body>
+        <div id="loading-icon"></div>
         <div class="form-wrapper center-block">
             <div class="form-block">
                 <h2>Forgot Password Page</h2>
@@ -35,7 +36,11 @@
 
                 </form>
             </div>
+            <div class="btm-div">
+                <a href="${pageContext.request.contextPath}/reset_password/" >Reset Password</a>
+            </div>
         </div>
+
 
         <div id="msg-modal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog">

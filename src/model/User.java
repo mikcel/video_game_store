@@ -1,10 +1,7 @@
 package model;
 
 import dbconn.DBConnection;
-import exceptions.AccountLockedException;
-import exceptions.IncorrectPasswordException;
-import exceptions.UserExistsException;
-import exceptions.UserNotExistsException;
+import exceptions.*;
 import stringrandomizer.StringRandomizer;
 
 import java.sql.Connection;
@@ -278,7 +275,7 @@ public class User {
             assert conn != null;
             PreparedStatement tmpPassStatement = conn.prepareStatement(createTmpPassQuery);
 
-            java.sql.Timestamp tmpPassTTL = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
+            java.sql.Timestamp tmpPassTTL = new java.sql.Timestamp(new Date().getTime());
             String tmpPass = StringRandomizer.generateRandomString();
 
             tmpPassStatement.setString(1, tmpPass);
@@ -453,6 +450,52 @@ public class User {
 
     }
 
+    public static User reset_password(String loginName, String tmpPassword, String newPassword, String email) throws Exception {
+
+        try (Connection conn  = DBConnection.createConnection()){
+
+            User userExists = User.find(email, loginName);
+
+            if (userExists != null){
+
+                if (userExists.temp_password == null){
+                    throw new IncorrectPasswordException("No temporary password requested.");
+                }
+
+                if (!userExists.temp_password.equals(tmpPassword)){
+                    throw new IncorrectPasswordException();
+                }
+
+                long checkTimeTTL = userExists.tmp_pass_ttl.getTime() - new Date().getTime();
+                if (checkTimeTTL / (60 * 60 * 1000) % 24 > 24){
+                    throw new TempPassExpiredExecption();
+                }
+
+                final String setNewPasswordQuery = "UPDATE user SET password=?, temp_password=NULL, " +
+                        "tmp_pass_ttl=NULL, login_attempts=0, locked=0 WHERE id=?;";
+
+                assert conn != null;
+                PreparedStatement updateQuery = conn.prepareCall(setNewPasswordQuery);
+                updateQuery.setString(1, newPassword);
+                updateQuery.setInt(2, userExists.getId());
+
+                updateQuery.executeUpdate();
+
+                return userExists;
+
+            }else{
+                throw new UserNotExistsException();
+            }
+
+        }catch (TempPassExpiredExecption | UserNotExistsException | IncorrectPasswordException e){
+            throw e;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
     private static void updateLastLoginUser(User user) throws SQLException {
 
         try (Connection conn = DBConnection.createConnection()) {
@@ -461,7 +504,7 @@ public class User {
 
             assert conn != null;
             PreparedStatement findQuery = conn.prepareCall(findUserQuery);
-            java.sql.Timestamp curr_timestamp = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
+            java.sql.Timestamp curr_timestamp = new java.sql.Timestamp(new Date().getTime());
             findQuery.setTimestamp(1, curr_timestamp);
             findQuery.setInt(2, user.getId());
 

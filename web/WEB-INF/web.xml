@@ -55,6 +55,11 @@
         <servlet-class>controller.ForgotPasswordServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>ResetPasswordServlet</servlet-name>
+        <servlet-class>controller.ResetPasswordServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern></url-pattern>
@@ -98,6 +103,11 @@
     <servlet-mapping>
         <servlet-name>ForgotPasswordServlet</servlet-name>
         <url-pattern>/forgot_password/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ResetPasswordServlet</servlet-name>
+        <url-pattern>/reset_password/</url-pattern>
     </servlet-mapping>
 
 </web-app>
