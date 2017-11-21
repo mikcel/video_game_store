@@ -1,5 +1,6 @@
 <%@tag description="Wrapper for template" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@attribute name="extra_head" fragment="true" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -65,6 +66,12 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="${pageContext.request.contextPath}/logout/">Log out</a></li>
                             </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;
+                                <span class="badge badge-pill badge-primary">${fn:length(gamesFound)}</span>
+                            </a>
                         </li>
                     </c:when>
                     <c:when test="${sessionScope.u_id == null}">

@@ -35,6 +35,7 @@ public class User {
     private int login_attempts;
     private boolean locked;
     private String login_name;
+    private ShoppingCart cart;
 
     public User() {
         this.first_name = "";
@@ -264,6 +265,14 @@ public class User {
 
     public void setLogin_name(String login_name) {
         this.login_name = login_name;
+    }
+
+    public ShoppingCart getCart() {
+        return cart;
+    }
+
+    public void setCart(ShoppingCart cart) {
+        this.cart = cart;
     }
 
     public void createTmpPass(){
@@ -538,6 +547,9 @@ public class User {
             loaded_user.setLogin_attempts(rs.getInt("login_attempts"));
             loaded_user.setLocked(rs.getBoolean("locked"));
             loaded_user.setLogin_name(rs.getString("login_name"));
+
+            loaded_user.setCart(ShoppingCart.find(loaded_user.id));
+
         } catch (SQLException ignored) {
         }
         return loaded_user;

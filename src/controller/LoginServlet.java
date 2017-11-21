@@ -65,21 +65,17 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("u_email", user_logged_id.getEmail());
                 session.setAttribute("u_login", user_logged_id.getLogin_name());
                 session.setAttribute("u_id", user_logged_id.getId());
+                session.setAttribute("shopping_cart", user_logged_id.getCart());
 
                 response.setStatus(HttpServletResponse.SC_ACCEPTED);
                 response.getWriter().write("Login successfully");
 
-            } catch (UserNotExistsException | IncorrectPasswordException e){
+            } catch (UserNotExistsException | IncorrectPasswordException | AccountLockedException e){
 
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write(e.getMessage());
 
-            } catch (AccountLockedException e){
-
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write(e.getMessage());
-
-            }catch (Exception e) {
+            } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("An error occurred while verifying user!");
             }
