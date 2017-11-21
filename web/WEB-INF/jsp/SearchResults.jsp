@@ -6,6 +6,7 @@
 
 <t:base_template>
     <jsp:attribute name="extra_head">
+        <script type="text/javascript" src="${pageContext.request.contextPath}/res/script/searchResults.js"></script>
         <link href="${pageContext.request.contextPath}/res/style/searchResults.css" rel="stylesheet"/>
     </jsp:attribute>
     <jsp:body>
@@ -48,6 +49,13 @@
                                            target="_blank">
                                             <h5 class="game-title">${game.name}</h5>
                                         </a>
+
+                                        <c:if test="${sessionScope.u_id != null}">
+                                            <button class="btn btn-primary" onclick="add_game_cart(${game.id})">
+                                                <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                            </button>
+                                        </c:if>
+
                                         <div class="game-price">
                                             $
                                             <span class="game-price <c:if test="${game.discount != 0}">discounted-game</c:if>">
@@ -97,6 +105,23 @@
                 </div>
             </c:if>
 
+        </div>
+
+        <div id="msg-modal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 id="msg-title" class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="msg-body"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </jsp:body>
 </t:base_template>

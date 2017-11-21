@@ -70,7 +70,16 @@
                         <li>
                             <a href="#">
                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;
-                                <span class="badge badge-pill badge-primary">${fn:length(gamesFound)}</span>
+                                <span id="cart-items-amt" class="badge badge-pill badge-primary">
+                                    <c:choose>
+                                        <c:when test="${sessionScope.shopping_cart != null}">
+                                            ${fn:length(sessionScope.shopping_cart.getGames())}
+                                        </c:when>
+                                        <c:when test="${sessionScope.shopping_cart == null}">
+                                            0
+                                        </c:when>
+                                    </c:choose>
+                                </span>
                             </a>
                         </li>
                     </c:when>

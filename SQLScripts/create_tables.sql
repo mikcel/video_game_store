@@ -232,3 +232,74 @@ INSERT INTO `comments` (`comment_id`,`user_id`,`comment_date`,`comment_details`,
 INSERT INTO `comments` (`comment_id`,`user_id`,`comment_date`,`comment_details`,`ratings`,`game_id`) VALUES (171,46,"2017-10-05","The best game!",1,7),(172,21,"2017-10-11","Good concept, bad graphics :(",4,31),(173,26,"2017-10-02","This game is amazing",2,6),(174,50,"2017-10-05","The best game!",3,33),(175,25,"2017-10-31","Great Game :)",2,20),(176,39,"2017-10-23","I really like it",5,4),(177,9,"2017-10-02","Don't like it",1,14),(178,9,"2017-10-18",":)",4,25),(179,21,"2017-10-09","Too old",1,13),(180,37,"2017-10-23",":)",2,31);
 INSERT INTO `comments` (`comment_id`,`user_id`,`comment_date`,`comment_details`,`ratings`,`game_id`) VALUES (181,43,"2017-10-20","Incredible Game",2,33),(182,32,"2017-10-16",":(",2,18),(183,16,"2017-10-28","This game is amazing",4,43),(184,14,"2017-10-16","Too old",5,44),(185,5,"2017-10-28","This game is amazing",5,22),(186,13,"2017-10-17","Great Game :)",4,10),(187,32,"2017-10-31","Boring",1,36),(188,32,"2017-10-05","Play a lot",1,47),(189,13,"2017-10-22","Boring",4,35),(190,10,"2017-10-29","Amazing game :D",2,12);
 INSERT INTO `comments` (`comment_id`,`user_id`,`comment_date`,`comment_details`,`ratings`,`game_id`) VALUES (191,46,"2017-10-08","This game is amazing",5,11),(192,8,"2017-10-27","Play a lot",1,37),(193,22,"2017-10-08","This game is amazing",2,25),(194,37,"2017-10-22","Incredible Game",1,16),(195,5,"2017-10-18","Good concept, bad graphics :(",3,38),(196,2,"2017-10-12","Amazing game :D",2,13),(197,6,"2017-10-31","Great Game :)",1,12),(198,13,"2017-10-27","Don't like it",2,12),(199,42,"2017-10-07","Great Game :)",2,41),(200,11,"2017-10-16","I really like it",4,19);
+
+
+
+Alter TABLE user
+  ADD COLUMN temp_password VARCHAR(150),
+  ADD COLUMN tmp_pass_ttl DATETIME,
+  ADD COLUMN admin BOOLEAN DEFAULT FALSE,
+  ADD COLUMN login_attempts INT DEFAULT 0,
+  ADD INDEX id(id),
+  ADD INDEX email(email);
+
+ALTER TABLE user
+  ADD COLUMN locked BOOLEAN;
+
+
+UPDATE user
+SET login_attempts = 0, locked = FALSE;
+
+ALTER TABLE user
+  ADD COLUMN login_name VARCHAR(150),
+  ADD UNIQUE INDEX login (login_name);
+
+UPDATE user
+SET login_name = CONCAT(Lower(first_name), '_', LOWER(last_name), UUID_SHORT()%100);
+
+CREATE TABLE shopping_cart(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT REFERENCES user(id),
+  last_updated DATETIME,
+  INDEX user_id(user_id)
+);
+
+CREATE TABLE cart_game(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  game_id INT REFERENCES game(id),
+  cart_id INT REFERENCES shopping_cart(id),
+  quantity INT,
+  UNIQUE INDEX cart_game_rel(game_id, cart_id),
+  INDEX id(id)
+);
+
+CREATE TABLE orders(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT REFERENCES user(id),
+  total FLOAT,
+  order_date DATETIME
+);
+
+CREATE TABLE orders_games(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id INT REFERENCES orders(id),
+  game_id INT REFERENCES game(id),
+  quantity INT,
+  UNIQUE INDEX order_game(order_id, game_id)
+);
+
+ALTER TABLE cart_game
+  ADD FOREIGN KEY (cart_id) REFERENCES shopping_cart(id),
+  ADD FOREIGN KEY (game_id) REFERENCES game(game_id);
+
+ALTER TABLE orders_games
+  ADD FOREIGN KEY (order_id) REFERENCES orders(id),
+  ADD FOREIGN KEY (game_id) REFERENCES game(game_id);
+
+
+ALTER TABLE shopping_cart
+  ADD FOREIGN KEY (user_id) REFERENCES user(id);
+
+ALTER TABLE comments
+  ADD FOREIGN KEY (user_id) REFERENCES user(id),
+  ADD FOREIGN KEY (game_id) REFERENCES game(game_id);

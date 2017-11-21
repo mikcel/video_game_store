@@ -45,7 +45,7 @@ function reset_password() {
             set_up_msg_modal("Password Reset!", "Your password has been reset successfully.");
         },
         error: function (xhr) {
-            set_up_msg_modal("Reset Password Error", xhr.responseText)
+            set_up_msg_modal("Reset Password Error", xhr.responseText);
         }
     });
 
