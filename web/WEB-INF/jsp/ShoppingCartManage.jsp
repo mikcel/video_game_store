@@ -24,12 +24,9 @@
                 <c:otherwise>
 
                     <div id="cart-info">
-                        <small class="last-updated-cart">
-                            Last Updated:
-                            <fmt:formatDate value="${shopping_cart.last_updated}" var="date"
-                                            pattern="dd/MM/yyyy HH:mm"/>
-                                ${date}
-                        </small>
+                        <button class="btn btn-save-game" onclick="empty_cart()">
+                            Empty Cart
+                        </button>
                     </div>
 
                     <h3 class="text-center">Games in Cart</h3>

@@ -64,6 +64,30 @@ function remove_game(cart_game_id){
 
 }
 
+function empty_cart(){
+
+    $.ajax({
+        url: '/cart_game/',
+        method: 'POST',
+        data:{
+            action: 'empty_cart'
+        },
+        success: function(returned_data){
+            $("#cart-items-amt").html(returned_data["cart_size"]);
+            set_up_msg_modal("Item Removed", returned_data["message"]);
+
+            $('#msg-modal').on('hidden.bs.modal', function () {
+                location.reload();
+            });
+
+        },
+        error: function(xhr){
+            set_up_msg_modal("Game Removal Error", xhr.responseText);
+        }
+    });
+
+}
+
 function set_up_msg_modal(title, message){
 
     $("#msg-title").text(title);

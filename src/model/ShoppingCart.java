@@ -7,23 +7,19 @@ import java.util.ArrayList;
 
 public class ShoppingCart {
     private int id;
-    private java.sql.Timestamp last_updated;
     private ArrayList<CartGame> games;
 
-    public ShoppingCart(int id, Timestamp last_updated, ArrayList<CartGame> games) {
+    public ShoppingCart(int id, ArrayList<CartGame> games) {
         this.id = id;
-        this.last_updated = last_updated;
         this.games = games;
     }
 
-    public ShoppingCart(Timestamp last_updated, ArrayList<CartGame> games) {
-        this.last_updated = last_updated;
+    public ShoppingCart(ArrayList<CartGame> games) {
         this.games = games;
     }
 
     public ShoppingCart() {
         this.id = -1;
-        this.last_updated = null;
         this.games = null;
     }
 
@@ -33,14 +29,6 @@ public class ShoppingCart {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public java.sql.Timestamp getLast_updated() {
-        return last_updated;
-    }
-
-    public void setLast_updated(java.sql.Timestamp last_updated) {
-        this.last_updated = last_updated;
     }
 
     public ArrayList<CartGame> getGames() {
@@ -77,6 +65,13 @@ public class ShoppingCart {
         games.remove(this.findCartGame(cartGameId));
     }
 
+    public void emptyCart() throws SQLException {
+
+        CartGame.removeAllCartGame(this.id);
+        games.clear();
+
+    }
+
     public static ShoppingCart find(int userId) throws SQLException {
 
         try (Connection conn = DBConnection.createConnection()) {
@@ -102,15 +97,14 @@ public class ShoppingCart {
 
         try (Connection conn = DBConnection.createConnection()) {
 
-            final String createStatementQuery = "INSERT INTO shopping_cart (user_id, last_updated) " +
-                    "VALUES (?, ?);";
+            final String createStatementQuery = "INSERT INTO shopping_cart (user_id) " +
+                    "VALUES (?);";
 
-            ShoppingCart newCart = new ShoppingCart(new Timestamp(new java.util.Date().getTime()), new ArrayList<CartGame>(0));
+            ShoppingCart newCart = new ShoppingCart(new ArrayList<CartGame>(0));
 
             assert conn != null;
             PreparedStatement createStatement = conn.prepareStatement(createStatementQuery, Statement.RETURN_GENERATED_KEYS);
             createStatement.setInt(1, userId);
-            createStatement.setTimestamp(2, newCart.getLast_updated());
 
             int addedRow = createStatement.executeUpdate();
 
@@ -151,8 +145,6 @@ public class ShoppingCart {
         ShoppingCart shoppingCart = new ShoppingCart();
         try {
             shoppingCart.setId(rs.getInt("id"));
-            shoppingCart.setLast_updated(rs.getTimestamp("last_updated"));
-
             shoppingCart.games = loadCartGame(shoppingCart.getId());
 
         } catch (SQLException ignored) {

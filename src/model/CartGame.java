@@ -147,6 +147,25 @@ public class CartGame {
 
     }
 
+    public static void removeAllCartGame(int cartId) throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String deleteStatementQuery = "DELETE FROM cart_game WHERE cart_id=?";
+
+            assert conn != null;
+            PreparedStatement deleteStatement = conn.prepareStatement(deleteStatementQuery, Statement.RETURN_GENERATED_KEYS);
+            deleteStatement.setInt(1, cartId);
+
+            deleteStatement.executeUpdate();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
     public static CartGame load(ResultSet rs) {
 
         CartGame shoppingCart = new CartGame();

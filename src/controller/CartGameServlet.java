@@ -196,11 +196,9 @@ public class CartGameServlet extends HttpServlet {
                     JSONObject sendObj = new JSONObject();
 
                     int cartNoItems = userCart.getNoItems();
-                    sendObj.put("message", "Item updated successully. Cart Size: " + cartNoItems);
+                    sendObj.put("message", "Item removed successully. Cart Size: " + cartNoItems);
                     sendObj.put("cart_size", cartNoItems);
                     response.getWriter().print(sendObj);
-
-                    break;
 
                 } catch (SQLException e) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -208,6 +206,35 @@ public class CartGameServlet extends HttpServlet {
                     return;
                 }
 
+                break;
+
+            }
+            case "empty_cart":{
+
+                try {
+                    userCart.emptyCart();
+
+                    response.setStatus(HttpServletResponse.SC_ACCEPTED);
+
+                    response.setContentType("application/json");
+
+                    JSONObject sendObj = new JSONObject();
+
+                    sendObj.put("message", "Cart emptied successfully");
+                    sendObj.put("cart_size", 0);
+                    response.getWriter().print(sendObj);
+
+                } catch (SQLException e) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("Error while emptying cart");
+                    return;
+                }
+
+                break;
+            }
+            default:{
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Action not defined");
             }
         }
 
