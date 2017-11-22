@@ -29,7 +29,7 @@ public class RegisterServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // If logged in go back to main page
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if(session!= null && session.getAttribute("u_id") != null){
             response.sendRedirect(request.getContextPath() + "/");
         }else{

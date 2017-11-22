@@ -100,6 +100,53 @@ public class CartGame {
 
     }
 
+    public void updateQty(Integer qty) throws GameInCartException, SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String updateStatementQuery = "UPDATE cart_game SET quantity=? WHERE id=?";
+
+            assert conn != null;
+            PreparedStatement updateStatement = conn.prepareStatement(updateStatementQuery, Statement.RETURN_GENERATED_KEYS);
+            updateStatement.setInt(1, qty);
+            updateStatement.setInt(2, this.getId());
+
+            int addedRow = updateStatement.executeUpdate();
+
+            if (addedRow == 0) {
+                throw new SQLException("Error while creating Cart Item. No rows affected.");
+            }else{
+                this.setQuantity(qty);
+            }
+
+        } catch (MySQLIntegrityConstraintViolationException e){
+            throw new GameInCartException();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    public static void removeGame(Integer cartGameId) throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String deleteStatementQuery = "DELETE FROM cart_game WHERE id=?";
+
+            assert conn != null;
+            PreparedStatement deleteStatement = conn.prepareStatement(deleteStatementQuery, Statement.RETURN_GENERATED_KEYS);
+            deleteStatement.setInt(1, cartGameId);
+
+            deleteStatement.executeUpdate();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
     public static CartGame load(ResultSet rs) {
 
         CartGame shoppingCart = new CartGame();
@@ -112,4 +159,5 @@ public class CartGame {
         return shoppingCart;
 
     }
+
 }

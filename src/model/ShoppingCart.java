@@ -1,7 +1,6 @@
 package model;
 
 import dbconn.DBConnection;
-import exceptions.GameNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -52,6 +51,32 @@ public class ShoppingCart {
         this.games = games;
     }
 
+    public int getNoItems() {
+        int total = 0;
+        for (CartGame game : games) {
+            total += game.getQuantity();
+        }
+        return total;
+    }
+
+    public CartGame findCartGame(Integer cartGameId) {
+        for (CartGame game : games) {
+            if (game.getId() == cartGameId) {
+                return game;
+            }
+        }
+        return null;
+    }
+
+    public void updateGame(CartGame cartGame) {
+        games.set(games.indexOf(cartGame), cartGame);
+    }
+
+    public void removeGame(Integer cartGameId) throws SQLException {
+        CartGame.removeGame(cartGameId);
+        games.remove(this.findCartGame(cartGameId));
+    }
+
     public static ShoppingCart find(int userId) throws SQLException {
 
         try (Connection conn = DBConnection.createConnection()) {
@@ -96,8 +121,7 @@ public class ShoppingCart {
             try (ResultSet generatedKeys = createStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     newCart.setId(generatedKeys.getInt(1));
-                }
-                else {
+                } else {
                     throw new SQLException("No ID obtained for new Shopping cart");
                 }
             }

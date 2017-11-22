@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Check if not already logged in
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("u_id") != null) {
             response.sendRedirect(request.getContextPath() + "/");
         } else {

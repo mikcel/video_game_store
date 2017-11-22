@@ -68,12 +68,12 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="${pageContext.request.contextPath}/cart_game/">
                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;
                                 <span id="cart-items-amt" class="badge badge-pill badge-primary">
                                     <c:choose>
                                         <c:when test="${sessionScope.shopping_cart != null}">
-                                            ${fn:length(sessionScope.shopping_cart.getGames())}
+                                            ${sessionScope.shopping_cart.getNoItems()}
                                         </c:when>
                                         <c:when test="${sessionScope.shopping_cart == null}">
                                             0
