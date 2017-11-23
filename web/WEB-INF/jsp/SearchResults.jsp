@@ -22,17 +22,17 @@
                 </c:when>
                 <c:otherwise>
 
-                    <c:forEach items="${gamesFound}" var="cart_game" varStatus="status">
+                    <c:forEach items="${gamesFound}" var="game" varStatus="status">
                         <div class="col-lg-6 game-details-box">
 
                             <div class="game_details row">
 
                                 <div class="game-div-img col-sm-4">
                                     <c:choose>
-                                        <c:when test="${cart_game.frontBoxArt != ''}">
-                                            <a href="${pageContext.request.contextPath}/game?game=${cart_game.id}"
+                                        <c:when test="${game.frontBoxArt != ''}">
+                                            <a href="${pageContext.request.contextPath}/game?game=${game.id}"
                                                target="_blank">
-                                                <img src="${pageContext.request.contextPath}/res/img/games/${cart_game.frontBoxArt}"
+                                                <img src="${pageContext.request.contextPath}/res/img/games/${game.frontBoxArt}"
                                                      class="img-thumbnail game-front-img"/>
                                             </a>
                                         </c:when>
@@ -45,46 +45,48 @@
 
                                 <div class="col-sm-8">
                                     <div class="game-desc">
-                                        <a href="${pageContext.request.contextPath}/game?game=${cart_game.id}"
+                                        <a href="${pageContext.request.contextPath}/game?game=${game.id}"
                                            target="_blank">
-                                            <h5 class="game-title">${cart_game.name}</h5>
+                                            <h5 class="game-title">${game.name}</h5>
                                         </a>
-
                                         <c:if test="${sessionScope.u_id != null}">
-                                            <button class="btn btn-primary" onclick="add_game_cart(${cart_game.id})">
+                                            <button class="btn btn-primary" onclick="add_game_cart(${game.id})">
                                                 <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                             </button>
                                         </c:if>
 
+                                        <span class="font-weight-bold">Qty In Stock:</span>
+                                        <span class="game-qty">${game.qtyInStock}</span>
+
                                         <div class="game-price">
                                             $
-                                            <span class="game-price <c:if test="${cart_game.discount != 0}">discounted-game</c:if>">
+                                            <span class="game-price <c:if test="${game.discount != 0}">discounted-game</c:if>">
                                                 <fmt:formatNumber type="number" minFractionDigits="2"
                                                                   minIntegerDigits="1"
-                                                                  maxFractionDigits="2" value="${cart_game.price}"/>
+                                                                  maxFractionDigits="2" value="${game.price}"/>
                                             </span>
-                                            <c:if test="${cart_game.discount != 0}">
+                                            <c:if test="${game.discount != 0}">
                                                 <span class="spn-discount">
                                                     &nbsp;
                                                     <fmt:formatNumber type="number" minFractionDigits="2"
                                                                       minIntegerDigits="1"
-                                                                      maxFractionDigits="2" value="${cart_game.price - cart_game.discount}"/>
+                                                                      maxFractionDigits="2" value="${game.price - game.discount}"/>
                                                 </span>
                                             </c:if>
                                         </div>
                                         <div class="game-console-wrapper">
                                             <span class="font-weight-bold">Console:</span>
-                                            <span class="game-console">${cart_game.console}</span>
+                                            <span class="game-console">${game.console}</span>
                                         </div>
                                         <div class="game-nplayers-wrapper">
                                             <span class="font-weight-bold"># Players:</span>
-                                            <span class="game-nplayers">${cart_game.numPlayers}</span>
+                                            <span class="game-nplayers">${game.numPlayers}</span>
                                         </div>
                                         <div class="game-coop-wrapper">
                                             <span class="font-weight-bold">Co op:</span>
-                                            <span class="game-coop">${cart_game.coop}</span>
+                                            <span class="game-coop">${game.coop}</span>
                                         </div>
-                                        <div class="game-short-desc">${cart_game.description}</div>
+                                        <div class="game-short-desc">${game.description}</div>
                                     </div>
                                 </div>
 

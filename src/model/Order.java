@@ -1,51 +1,102 @@
 package model;
 
+import dbconn.DBConnection;
+
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Order {
-  private Long id;
-  private Long user_id;
-  private ArrayList<OrderGame> games;
-  private Double total;
-  private java.sql.Timestamp order_date;
+    private int id;
+    private int user_id;
+    private ArrayList<OrderGame> games;
+    private Float total;
+    private java.util.Date order_date;
 
-  public Long getId() {
-    return id;
-  }
+    public Order(int user_id, ArrayList<OrderGame> games, Float total, Date order_date) {
+        this.user_id = user_id;
+        this.games = games;
+        this.total = total;
+        this.order_date = order_date;
+    }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public Long getUser_id() {
-    return user_id;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  public void setUser_id(Long user_id) {
-    this.user_id = user_id;
-  }
+    public int getUser_id() {
+        return user_id;
+    }
 
-  public Double getTotal() {
-    return total;
-  }
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 
-  public void setTotal(Double total) {
-    this.total = total;
-  }
+    public Float getTotal() {
+        return total;
+    }
 
-  public java.sql.Timestamp getOrder_date() {
-    return order_date;
-  }
+    public void setTotal(Float total) {
+        this.total = total;
+    }
 
-  public void setOrder_date(java.sql.Timestamp order_date) {
-    this.order_date = order_date;
-  }
+    public Date getOrder_date() {
+        return order_date;
+    }
 
-  public ArrayList<OrderGame> getGames() {
-    return games;
-  }
+    public void setOrder_date(Date order_date) {
+        this.order_date = order_date;
+    }
 
-  public void setGames(ArrayList<OrderGame> games) {
-    this.games = games;
-  }
+    public ArrayList<OrderGame> getGames() {
+        return games;
+    }
+
+    public void setGames(ArrayList<OrderGame> games) {
+        this.games = games;
+    }
+
+    public static Order processOrder(User buyer, Float orderTotal) throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String createStatementQuery = "INSERT INTO orders (user_id, total, order_date) VALUES (?, ?, ?);";
+
+            Order newOrder = new Order(buyer.getId(), new ArrayList<OrderGame>(), orderTotal, new Date());
+
+            assert conn != null;
+            PreparedStatement createStatement = conn.prepareStatement(createStatementQuery, Statement.RETURN_GENERATED_KEYS);
+            createStatement.setInt(1, newOrder.getUser_id());
+            createStatement.setFloat(2, newOrder.getTotal());
+            createStatement.setTimestamp(3, new java.sql.Timestamp(newOrder.getOrder_date().getTime()));
+
+            int addedRow = createStatement.executeUpdate();
+
+            if (addedRow == 0) {
+                throw new SQLException("Order creation failed");
+            }
+
+            try (ResultSet generatedKeys = createStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    newOrder.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("No ID obtained for new Shopping cart");
+                }
+            }
+
+            return newOrder;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
 }

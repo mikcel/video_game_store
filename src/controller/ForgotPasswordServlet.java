@@ -42,7 +42,7 @@ public class ForgotPasswordServlet extends HttpServlet {
                         "\n\n" +
                         "Games Dungeon Team";
 
-                boolean emailSent = Mailing.getInstance().sendEmail(userExists.getEmail(), emailSubject, emailBodyBuilder);
+                boolean emailSent = Mailing.getInstance().sendEmail(userExists.getEmail(), emailSubject, emailBodyBuilder, "text/plain");
 
                 response.setStatus(HttpServletResponse.SC_ACCEPTED);
                 response.getWriter().write("Email sent successfully");

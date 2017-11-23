@@ -28,6 +28,7 @@ public class Game {
     private String developerLogo;
     private Double price;
     private Double discount;
+    private int qtyInStock;
     private Comment[] comments;
 
     public Game(int id) {
@@ -36,7 +37,7 @@ public class Game {
 
     public Game(int id, String name, String description, String console, Integer numPlayers, String coop, String genre,
                 java.sql.Date releaseDate, String developer, String publisher, String frontBoxArt, String backBoxArt,
-                String logo, String developerLogo, Double price, Double discount, Comment[] comments) {
+                String logo, String developerLogo, Double price, Double discount, Comment[] comments, int qtyInStock) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -54,6 +55,7 @@ public class Game {
         this.price = price;
         this.discount = discount;
         this.comments = comments.clone();
+        this.qtyInStock = qtyInStock;
     }
 
     public Game(String name, String console, Integer numPlayers, String coop, String genre,
@@ -144,6 +146,14 @@ public class Game {
 
     public Comment[] getComments() {
         return comments;
+    }
+
+    public int getQtyInStock() {
+        return qtyInStock;
+    }
+
+    public void setQtyInStock(int qtyInStock) {
+        this.qtyInStock = qtyInStock;
     }
 
     public static Game find(int id) throws Exception {
@@ -374,7 +384,8 @@ public class Game {
                 rs.getString("developer_logo"),
                 rs.getDouble("price"),
                 rs.getDouble("discount"),
-                comments
+                comments,
+                rs.getInt("qty_in_stock")
         );
 
     }

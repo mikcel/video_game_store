@@ -260,7 +260,6 @@ SET login_name = CONCAT(Lower(first_name), '_', LOWER(last_name), UUID_SHORT()%1
 CREATE TABLE shopping_cart(
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT REFERENCES user(id),
-  last_updated DATETIME,
   INDEX user_id(user_id)
 );
 
@@ -276,7 +275,7 @@ CREATE TABLE cart_game(
 CREATE TABLE orders(
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT REFERENCES user(id),
-  total FLOAT,
+  total FLOAT(5,2),
   order_date DATETIME
 );
 
@@ -303,3 +302,4 @@ ALTER TABLE shopping_cart
 ALTER TABLE comments
   ADD FOREIGN KEY (user_id) REFERENCES user(id),
   ADD FOREIGN KEY (game_id) REFERENCES game(game_id);
+

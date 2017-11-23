@@ -61,9 +61,12 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">
-                                <i class="fa fa-user-circle-o"></i> ${sessionScope.u_first_name} <span class="caret">
-                            </span></a>
+                                <i class="fa fa-user-circle-o"></i> ${sessionScope.u_first_name}
+                                <span class="caret">
+                                </span>
+                            </a>
                             <ul class="dropdown-menu" role="menu">
+                                <li><a href="${pageContext.request.contextPath}/checkout/">Checkout</a></li>
                                 <li><a href="${pageContext.request.contextPath}/logout/">Log out</a></li>
                             </ul>
                         </li>

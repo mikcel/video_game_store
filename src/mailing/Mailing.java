@@ -18,7 +18,7 @@ public class Mailing {
         return instance;
     }
 
-    public boolean sendEmail(String recepientEmail, String emailSubject, String messageBody) {
+    public boolean sendEmail(String recepientEmail, String emailSubject, String messageBody, String contentType) {
 
         final String username = "video387soen@gmail.com";
         final String password = "soenvideo";
@@ -43,7 +43,7 @@ public class Mailing {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(recepientEmail));
             message.setSubject(emailSubject);
-            message.setText(messageBody);
+            message.setContent(messageBody, contentType);
 
             Transport.send(message);
 

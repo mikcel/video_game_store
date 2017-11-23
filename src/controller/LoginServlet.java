@@ -60,6 +60,7 @@ public class LoginServlet extends HttpServlet {
                 User user_logged_id = User.check_login(u_login, u_pass);
                 // Set session attributes
                 HttpSession session = request.getSession();
+                session.setAttribute("user", user_logged_id);
                 session.setAttribute("u_first_name", user_logged_id.getFirstName());
                 session.setAttribute("u_last_name", user_logged_id.getLastName());
                 session.setAttribute("u_email", user_logged_id.getEmail());

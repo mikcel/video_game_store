@@ -79,6 +79,10 @@
                                 <span class="spn-label col-sm-6">Genre:</span>
                                 <span class="game-genre col-sm-6">${game.genre}</span>
                             </div>
+                            <div class="game-genre-wrapper row">
+                                <span class="spn-label col-sm-6">Quantity In Stock:</span>
+                                <span class="game-genre col-sm-6">${game.qty_in_stock}</span>
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="game-release-date-wrapper row">

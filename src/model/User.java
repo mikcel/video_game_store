@@ -535,6 +535,8 @@ public class User {
             loaded_user.setAddress1(rs.getString("address1"));
             loaded_user.setAddress2(rs.getString("address2"));
             loaded_user.setCity(rs.getString("city"));
+            loaded_user.setState(rs.getString("state"));
+            loaded_user.setZip(rs.getString("zip"));
             loaded_user.setCountry(rs.getString("country"));
             loaded_user.setCredit_card_type(rs.getString("credit_card_type"));
             loaded_user.setCredit_card_number(rs.getLong("credit_card_number"));
