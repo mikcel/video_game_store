@@ -26,7 +26,7 @@
                         ${orderGame.game.name}
                 </td>
                 <td>
-                        ${orderGame.quantity}
+                       x ${orderGame.quantity}
                 </td>
                 <td>
                     $

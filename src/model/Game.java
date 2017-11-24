@@ -156,6 +156,32 @@ public class Game {
         this.qtyInStock = qtyInStock;
     }
 
+    public void updateQty(int soldQty) throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String updateQuery = "UPDATE game SET qty_in_stock=? WHERE game_id=?";
+
+            if (this.qtyInStock < soldQty){
+                throw new OutOfMemoryError(this.name);
+            }
+
+            assert conn != null;
+            PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
+            updateStatement.setInt(1, this.qtyInStock-soldQty);
+            updateStatement.setInt(2, this.id);
+
+            updateStatement.executeUpdate();
+
+            this.qtyInStock -= soldQty;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
     public static Game find(int id) throws Exception {
 
         try (Connection conn = DBConnection.createConnection()) {

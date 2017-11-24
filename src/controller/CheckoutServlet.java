@@ -2,6 +2,7 @@ package controller;
 
 import creditcardvalidator.CreditCardValidator;
 import exceptions.GameOrderedProcessedException;
+import exceptions.OutOfStockException;
 import invoicewriter.InvoiceWriter;
 import mailing.Mailing;
 import model.*;
@@ -36,7 +37,21 @@ public class CheckoutServlet extends HttpServlet {
         float orderTotal = 0F;
         HashMap<Game, Integer> gamesQty = new HashMap<>();
         for (CartGame cartGame: userCart.getGames()){
+
             Game gameFromCart = cartGame.getGame();
+
+            // Check if requested quantity is not too much
+            if (gameFromCart.getQtyInStock() < cartGame.getQuantity()){
+
+                try {
+                    throw new OutOfStockException(gameFromCart.getName());
+                } catch (OutOfStockException e) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write(e.getMessage());
+                    return;
+                }
+            }
+
             orderTotal += (gameFromCart.getPrice() - gameFromCart.getDiscount()) * cartGame.getQuantity();
             gamesQty.put(gameFromCart, cartGame.getQuantity());
         }
@@ -52,6 +67,7 @@ public class CheckoutServlet extends HttpServlet {
             for (Map.Entry<Game, Integer> mapEntry : gamesQty.entrySet()) {
                 OrderGame insertedGame = OrderGame.insertGame(mapEntry.getKey(), processedOrder, mapEntry.getValue());
                 orderedGames.add(insertedGame);
+                mapEntry.getKey().updateQty(mapEntry.getValue());
             }
 
             // Empty the shopping cart

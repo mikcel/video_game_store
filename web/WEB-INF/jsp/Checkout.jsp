@@ -65,9 +65,7 @@
                                     </span>
                                 </td>
                                 <td class="game-qty col-md-2">
-                                    <input type="number" class="form-control ipt-game-qty" value="${cart_game.quantity}"
-                                           min="0"
-                                           onchange="update_price(${cart_game.id})"/>
+                                    <span class="game-qty">${cart_game.quantity}</span>
                                 </td>
                                 <td class="game-total-price">
                                     $
@@ -79,9 +77,6 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <button class="btn btn-save-game" onclick="save_game(${cart_game.id})">
-                                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                    </button>
                                     <button class="btn btn-save-game" onclick="remove_game(${cart_game.id})">
                                         <i class="fa fa-minus" aria-hidden="true"></i>
                                     </button>

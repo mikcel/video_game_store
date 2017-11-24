@@ -2,6 +2,7 @@ package controller;
 
 import exceptions.GameInCartException;
 import exceptions.GameNotFoundException;
+import exceptions.OutOfStockException;
 import model.CartGame;
 import model.ShoppingCart;
 import org.json.simple.JSONObject;
@@ -96,7 +97,7 @@ public class CartGameServlet extends HttpServlet {
                     sendObj.put("cart_size", userCart.getNoItems());
                     response.getWriter().print(sendObj);
 
-                } catch (GameNotFoundException | SQLException e) {
+                } catch (GameNotFoundException | SQLException | OutOfStockException e) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write(e.getMessage());
                 } catch (GameInCartException e) {
@@ -117,6 +118,8 @@ public class CartGameServlet extends HttpServlet {
 
                     if (cartGameId == null || qty == null){
                         throw new NullPointerException();
+                    }else if (qty < 0){
+                        throw new Exception("Quantity cannot be negative");
                     }
 
                 } catch (NumberFormatException e) {
@@ -126,6 +129,10 @@ public class CartGameServlet extends HttpServlet {
                 } catch (NullPointerException e) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("No parameters found");
+                    return;
+                } catch (Exception e) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write(e.getMessage());
                     return;
                 }
 
@@ -138,6 +145,10 @@ public class CartGameServlet extends HttpServlet {
                         throw new GameInCartException();
                     }
 
+                    if (cartGame.getGame().getQtyInStock() < qty){
+                        throw new OutOfStockException(cartGame.getGame().getName());
+                    }
+
                     cartGame.updateQty(qty);
                     userCart.updateGame(cartGame);
 
@@ -148,6 +159,10 @@ public class CartGameServlet extends HttpServlet {
                 } catch (SQLException e) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("Unable to update game quantity");
+                    return;
+                } catch (OutOfStockException e) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write(e.getMessage());
                     return;
                 }
 

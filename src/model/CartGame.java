@@ -4,6 +4,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 import dbconn.DBConnection;
 import exceptions.GameInCartException;
 import exceptions.GameNotFoundException;
+import exceptions.OutOfStockException;
 
 import java.sql.*;
 
@@ -48,7 +49,7 @@ public class CartGame {
     }
 
     public static CartGame insertGame(int gameId, ShoppingCart cart, int quantity)
-            throws GameNotFoundException, SQLException, GameInCartException {
+            throws GameNotFoundException, SQLException, GameInCartException, OutOfStockException {
 
         Game gameToAdd;
         try {
@@ -59,6 +60,8 @@ public class CartGame {
 
         if (gameToAdd == null) {
             throw new GameNotFoundException();
+        }else if(gameToAdd.getQtyInStock() < quantity){
+            throw new OutOfStockException(gameToAdd.getName());
         }
 
         try (Connection conn = DBConnection.createConnection()) {

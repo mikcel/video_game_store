@@ -81,7 +81,7 @@
                             </div>
                             <div class="game-genre-wrapper row">
                                 <span class="spn-label col-sm-6">Quantity In Stock:</span>
-                                <span class="game-genre col-sm-6">${game.qty_in_stock}</span>
+                                <span class="game-genre col-sm-6">${game.getQtyInStock()}</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
