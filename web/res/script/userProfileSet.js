@@ -1,6 +1,6 @@
 $(function () {
 
-    $("#form-register-user").submit(function(event) {
+    $("#form-update-user").submit(function(event) {
         event.preventDefault();
         validate_send_form();
     });
@@ -31,30 +31,25 @@ function validate_send_form(){
         return;
     }
 
-    if ($("#ipt-password").val() !== $("#ipt-conf-pass").val()){
-        set_up_msg_modal("Passwords don't match", "The passwords entered do not match. Please try again!");
-        return;
-    }
-
-    var form = $("#form-register-user");
+    var form = $("#form-update-user");
     $.ajax({
         method: form.attr("method"),
         url: form.attr("action"),
         data: form.serialize(),
         success: function(){
-            set_up_msg_modal("User Registered Successfully", "You have been successfully registered in the system!");
+            set_up_msg_modal("User Data Updates Successfully", "Your data has been successfully saved!");
             $("#msg-modal").on("hide.bs.modal", function(){
-                document.location.href = "/";
+                location.reload();
             });
         },
-        error: function (xhr, err) {
+        error: function (xhr) {
             set_up_msg_modal("Error while saving data", xhr.responseText);
         }
     });
 }
 
 function get_ipts(){
-    return $("#form-register-user").find("input[required='true']");
+    return $("#form-update-user").find("input[required='true']");
 }
 
 function set_up_msg_modal(title, message){

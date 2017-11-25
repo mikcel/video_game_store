@@ -38,7 +38,7 @@ function init_summary(){
     });
 
     $("span.game-qty").each(function () {
-        total_items += parseInt($(this).val());
+        total_items += parseInt($(this).text());
     });
 
     var tax = net_total * (15/100);

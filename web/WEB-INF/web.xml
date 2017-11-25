@@ -80,6 +80,11 @@
         <servlet-class>controller.UserPurchaseHistoryServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>UserProfileSettingsServlet</servlet-name>
+        <servlet-class>controller.UserProfileSettingsServlet</servlet-class>
+    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -149,6 +154,11 @@
     <servlet-mapping>
         <servlet-name>UserPurchaseHistoryServlet</servlet-name>
         <url-pattern>/u_purchase_history/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UserProfileSettingsServlet</servlet-name>
+        <url-pattern>/u_profile_settings/</url-pattern>
     </servlet-mapping>
 
 </web-app>

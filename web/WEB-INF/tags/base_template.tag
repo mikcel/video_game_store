@@ -61,7 +61,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">
-                                <i class="fa fa-user-circle-o"></i> ${sessionScope.u_first_name}
+                                <i class="fa fa-user-circle-o"></i> ${sessionScope.user.getFirstName()}
                                 <span class="caret">
                                 </span>
                             </a>

@@ -6,7 +6,6 @@
 
 <t:base_template>
         <jsp:attribute name="extra_head">
-        <script type="text/javascript" src="${pageContext.request.contextPath}/res/script/purchaseHistory.js"></script>
         <link href="${pageContext.request.contextPath}/res/style/purchaseHistory.css" rel="stylesheet"/>
     </jsp:attribute>
     <jsp:body>

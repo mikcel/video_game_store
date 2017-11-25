@@ -12,7 +12,7 @@
             <h2>User Settings Page</h2>
 
             <div>
-                <a type="button" class="btn btn-primary btn-lg">
+                <a type="button" class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/u_profile_settings/">
                     Change Info
                 </a>
                 <a type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#reset-password-modal">

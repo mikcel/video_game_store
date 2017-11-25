@@ -43,6 +43,32 @@ public class User {
         this.email = "";
     }
 
+    public User(User other) {
+        this.id = other.id;
+        this.password = other.password;
+        this.first_name = other.first_name;
+        this.last_name = other.last_name;
+        this.email = other.email;
+        this.address1 = other.address1;
+        this.address2 = other.address2;
+        this.city = other.city;
+        this.state = other.state;
+        this.zip = other.zip;
+        this.country = other.country;
+        this.credit_card_type = other.credit_card_type;
+        this.credit_card_number = other.credit_card_number;
+        this.credit_card_cvv = other.credit_card_cvv;
+        this.credit_card_expiry = other.credit_card_expiry;
+        this.last_login = other.last_login;
+        this.temp_password = other.temp_password;
+        this.tmp_pass_ttl = other.tmp_pass_ttl;
+        this.admin = other.admin;
+        this.login_attempts = other.login_attempts;
+        this.locked = other.locked;
+        this.login_name = other.login_name;
+        this.cart = other.cart;
+    }
+
     public User(String password, String email) {
         this.password = password;
         this.email = email;
@@ -407,6 +433,77 @@ public class User {
         }
 
     }
+
+    public void updateUser() throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String updateQuery = "UPDATE user SET " +
+                    "first_name=?, " +
+                    "last_name=?," +
+                    "email=?," +
+                    "address1=?," +
+                    "address2=?," +
+                    "city=?," +
+                    "state=?," +
+                    "zip=?," +
+                    "country=?," +
+                    "credit_card_type=?," +
+                    "credit_card_number=?," +
+                    "credit_card_cvv=?," +
+                    "credit_card_expiry=? WHERE id=?;";
+
+            assert conn != null;
+            PreparedStatement updateStatement = conn.prepareCall(updateQuery);
+            updateStatement.setString(1, this.first_name);
+            updateStatement.setString(2, this.last_name);
+            updateStatement.setString(3, this.email);
+            updateStatement.setString(4, this.address1);
+            updateStatement.setString(5, this.address2);
+            updateStatement.setString(6, this.city);
+            updateStatement.setString(7, this.state);
+            updateStatement.setString(8, this.zip);
+            updateStatement.setString(9, this.country);
+            updateStatement.setString(10, this.credit_card_type);
+            updateStatement.setLong(11, this.credit_card_number);
+            updateStatement.setInt(12, this.credit_card_cvv);
+            updateStatement.setDate(13, (java.sql.Date) this.credit_card_expiry);
+            updateStatement.setInt(14, this.id);
+            updateStatement.executeUpdate();
+
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+
+    }
+
+    public boolean checkDuplicateEmail() throws Exception {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String findStatementQuery = "SELECT * FROM user WHERE email LIKE ? AND id <> ?";
+
+            assert conn != null;
+            PreparedStatement findStatement = conn.prepareCall(findStatementQuery);
+            findStatement.setString(1, this.email);
+            findStatement.setInt(2, this.id);
+
+            return findStatement.executeQuery().next();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
+
 
     public static User find(String email, String login_name) throws Exception {
 
