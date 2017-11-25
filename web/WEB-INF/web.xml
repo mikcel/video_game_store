@@ -70,6 +70,16 @@
         <servlet-class>controller.CheckoutServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>UserSettingsServlet</servlet-name>
+        <servlet-class>controller.UserSettingsServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>UserPurchaseHistoryServlet</servlet-name>
+        <servlet-class>controller.UserPurchaseHistoryServlet</servlet-class>
+    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -129,6 +139,16 @@
     <servlet-mapping>
         <servlet-name>CheckoutServlet</servlet-name>
         <url-pattern>/checkout/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UserSettingsServlet</servlet-name>
+        <url-pattern>/u_settings/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UserPurchaseHistoryServlet</servlet-name>
+        <url-pattern>/u_purchase_history/</url-pattern>
     </servlet-mapping>
 
 </web-app>

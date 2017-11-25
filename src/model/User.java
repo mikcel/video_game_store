@@ -385,6 +385,29 @@ public class User {
 
     }
 
+    public void updatePass(String newPassword) throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String updateQuery = "UPDATE user SET password=? WHERE id=?;";
+
+            assert conn != null;
+            PreparedStatement updateStatement = conn.prepareCall(updateQuery);
+            updateStatement.setString(1, newPassword);
+            updateStatement.setInt(2, id);
+            updateStatement.executeUpdate();
+
+            this.password = newPassword;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
+
     public static User find(String email, String login_name) throws Exception {
 
         try (Connection conn = DBConnection.createConnection()) {

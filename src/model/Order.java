@@ -21,6 +21,13 @@ public class Order {
         this.order_date = order_date;
     }
 
+    public Order() {
+        this.user_id=0;
+        this.games = new ArrayList<>();
+        this.total = 0F;
+        this.order_date = null;
+    }
+
     public int getId() {
         return id;
     }
@@ -99,4 +106,49 @@ public class Order {
         }
 
     }
+
+    public static ArrayList<Order> retrievedOrders(int userId) throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String selectQuery = "SELECT * FROM orders WHERE user_id=?";
+
+            assert conn != null;
+            PreparedStatement selectStatement = conn.prepareStatement(selectQuery, Statement.RETURN_GENERATED_KEYS);
+            selectStatement.setInt(1, userId);
+            ResultSet resultSet = selectStatement.executeQuery();
+            ArrayList<Order> userOrders = new ArrayList<>();
+
+            while (resultSet.next()){
+                userOrders.add(Order.load(resultSet));
+            }
+
+            return userOrders;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
+
+    private static Order load(ResultSet resultSet) {
+
+        Order order = new Order();
+        try {
+            order.setId(resultSet.getInt("id"));
+            order.setOrder_date(resultSet.getTimestamp("order_date"));
+            order.setTotal(resultSet.getFloat("total"));
+            order.setUser_id(resultSet.getInt("user_id"));
+
+            order.setGames(OrderGame.getOrderGames(order.id));
+
+        } catch (SQLException ignored) {
+        }
+        return order;
+
+    }
+
 }

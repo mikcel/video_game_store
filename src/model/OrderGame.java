@@ -5,6 +5,7 @@ import dbconn.DBConnection;
 import exceptions.GameOrderedProcessedException;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class OrderGame {
     private int id;
@@ -14,6 +15,12 @@ public class OrderGame {
     public OrderGame(Game game, int quantity) {
         this.game = game;
         this.quantity = quantity;
+    }
+
+    public OrderGame() {
+        this.id = 0;
+        this.game = null;
+        this.quantity = 0;
     }
 
     public int getId() {
@@ -80,4 +87,45 @@ public class OrderGame {
 
     }
 
+    public static ArrayList<OrderGame> getOrderGames(int orderId) throws SQLException {
+
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String selectQuery = "SELECT * FROM orders_games WHERE order_id=?";
+
+            assert conn != null;
+            PreparedStatement selectStatement = conn.prepareStatement(selectQuery, Statement.RETURN_GENERATED_KEYS);
+            selectStatement.setInt(1, orderId);
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            ArrayList<OrderGame> orderGames = new ArrayList<>();
+
+            while (resultSet.next()){
+                orderGames.add(OrderGame.load(resultSet));
+            }
+
+            return orderGames;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
+
+    private static OrderGame load(ResultSet resultSet) {
+
+        OrderGame orderGame = new OrderGame();
+        try {
+            orderGame.setId(resultSet.getInt("id"));
+            orderGame.setQuantity(resultSet.getInt("quantity"));
+            orderGame.setGame(Game.find(resultSet.getInt("game_id")));
+        } catch (Exception ignored) {
+        }
+
+        return orderGame;
+    }
 }

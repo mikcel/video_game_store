@@ -67,6 +67,7 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="${pageContext.request.contextPath}/checkout/">Checkout</a></li>
+                                <li><a href="${pageContext.request.contextPath}/u_settings/">My Settings</a></li>
                                 <li><a href="${pageContext.request.contextPath}/logout/">Log out</a></li>
                             </ul>
                         </li>
