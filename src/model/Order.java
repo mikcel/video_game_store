@@ -1,5 +1,6 @@
 package model;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import dbconn.DBConnection;
 
 import java.math.BigDecimal;
@@ -124,6 +125,32 @@ public class Order {
             }
 
             return userOrders;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
+
+    public static ArrayList<Order> getAllOrders() throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String selectQuery = "SELECT * FROM orders";
+
+            assert conn != null;
+            PreparedStatement selectStatement = conn.prepareStatement(selectQuery);
+            ResultSet resultSet = selectStatement.executeQuery();
+            ArrayList<Order> allOrders = new ArrayList<>();
+
+            while (resultSet.next()){
+                allOrders.add(Order.load(resultSet));
+            }
+
+            return allOrders;
 
         } catch (Exception e) {
 

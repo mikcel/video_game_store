@@ -54,7 +54,7 @@
                             </a>
                         </div>
                         <div class="col-sm-6 text-center">
-                            <a href="${pageContext.request.contextPath}/register/" class="page-link">
+                            <a href="${pageContext.request.contextPath}/purchase_history/" class="page-link">
                                 <span>Purchase History</span>
                             </a>
                         </div>
