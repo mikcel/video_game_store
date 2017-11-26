@@ -15,7 +15,7 @@
         <c:choose>
             <c:when test="${orders.size() == 0}">
                 <div class="div-no-results container">
-                    <h4>No Results Found</h4>
+                    <h4>No Purchase History Found</h4>
                 </div>
             </c:when>
             <c:otherwise>

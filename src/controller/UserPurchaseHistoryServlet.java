@@ -1,6 +1,7 @@
 package controller;
 
 import model.Order;
+import model.ShoppingCart;
 import model.User;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 @WebServlet(name = "UserPurchaseHistoryServlet")
 public class UserPurchaseHistoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
 
     }
 

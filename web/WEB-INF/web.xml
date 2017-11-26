@@ -85,6 +85,11 @@
         <servlet-class>controller.UserProfileSettingsServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>UserManagementServlet</servlet-name>
+        <servlet-class>controller.UserManagementServlet</servlet-class>
+    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -159,6 +164,11 @@
     <servlet-mapping>
         <servlet-name>UserProfileSettingsServlet</servlet-name>
         <url-pattern>/u_profile_settings/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UserManagementServlet</servlet-name>
+        <url-pattern>/user_management/</url-pattern>
     </servlet-mapping>
 
 </web-app>

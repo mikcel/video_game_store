@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -504,6 +505,97 @@ public class User {
 
     }
 
+    public void unlockAccount() throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String findStatementQuery = "UPDATE user " +
+                    "SET locked=?, login_attempts=0, temp_password='', tmp_pass_ttl=NULL WHERE id=?";
+
+            assert conn != null;
+            PreparedStatement findStatement = conn.prepareCall(findStatementQuery);
+            findStatement.setBoolean(1, false);
+            findStatement.setInt(2, this.id);
+
+            findStatement.executeUpdate();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
+
+    public void lockAccount() throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String findStatementQuery = "UPDATE user SET locked=? WHERE id=?";
+
+            assert conn != null;
+            PreparedStatement findStatement = conn.prepareCall(findStatementQuery);
+            findStatement.setBoolean(1, true);
+            findStatement.setInt(2, this.id);
+
+            findStatement.executeUpdate();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
+
+    public void setAsAdmin() throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String findStatementQuery = "UPDATE user SET admin=? WHERE id=?";
+
+            assert conn != null;
+            PreparedStatement findStatement = conn.prepareCall(findStatementQuery);
+            findStatement.setBoolean(1, true);
+            findStatement.setInt(2, this.id);
+
+            findStatement.executeUpdate();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
+
+    public static ArrayList<User> getAllUsers() throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String allUsersQuery = "SELECT * FROM user;";
+
+            assert conn != null;
+            PreparedStatement allUsersStatement = conn.prepareCall(allUsersQuery);
+            ResultSet resultSet = allUsersStatement.executeQuery();
+
+            ArrayList<User> allUsers = new ArrayList<>();
+            while (resultSet.next()){
+                allUsers.add(load(resultSet));
+            }
+            return allUsers;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            throw e;
+
+        }
+
+    }
 
     public static User find(String email, String login_name) throws Exception {
 
@@ -552,7 +644,7 @@ public class User {
 
         try (Connection conn = DBConnection.createConnection()) {
 
-            final String findUserQuery = "SELECT * FROM user WHERE login_name=?";
+            final String findUserQuery = "SELECT * FROM user WHERE login_name=? AND locked=FALSE;";
 
             assert conn != null;
             PreparedStatement findQuery = conn.prepareCall(findUserQuery);
@@ -662,7 +754,7 @@ public class User {
             loaded_user.setCredit_card_number(rs.getLong("credit_card_number"));
             loaded_user.setCredit_card_cvv(rs.getInt("credit_card_cvv"));
             loaded_user.setCredit_card_expiry(rs.getDate("credit_card_expiry"));
-            loaded_user.setLastLogin(rs.getDate("last_login"));
+            loaded_user.setLastLogin(rs.getTimestamp("last_login"));
             loaded_user.setTemp_password(rs.getString("temp_password"));
             loaded_user.setTmp_pass_ttl(rs.getDate("tmp_pass_ttl"));
             loaded_user.setAdmin(rs.getBoolean("admin"));
