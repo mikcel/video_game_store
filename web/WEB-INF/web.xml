@@ -95,6 +95,11 @@
         <servlet-class>controller.PurchaseHistoryServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>InventoryManagementServlet</servlet-name>
+        <servlet-class>controller.InventoryManagementServlet</servlet-class>
+    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -179,6 +184,11 @@
     <servlet-mapping>
         <servlet-name>PurchaseHistoryServlet</servlet-name>
         <url-pattern>/purchase_history/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>InventoryManagementServlet</servlet-name>
+        <url-pattern>/inventory/</url-pattern>
     </servlet-mapping>
 
 </web-app>

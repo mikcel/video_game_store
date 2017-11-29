@@ -12,7 +12,7 @@ function add_game_cart(game_id){
             set_up_msg_modal("Item Added", returned_data["message"]);
         },
         error: function(xhr){
-            set_up_msg_modal("Reset Password Error", xhr.responseText);
+            set_up_msg_modal("Error while adding to cart", xhr.responseText);
         }
     })
     

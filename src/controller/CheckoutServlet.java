@@ -67,7 +67,7 @@ public class CheckoutServlet extends HttpServlet {
             for (Map.Entry<Game, Integer> mapEntry : gamesQty.entrySet()) {
                 OrderGame insertedGame = OrderGame.insertGame(mapEntry.getKey(), processedOrder, mapEntry.getValue());
                 orderedGames.add(insertedGame);
-                mapEntry.getKey().updateQty(mapEntry.getValue());
+                mapEntry.getKey().updateSoldQty(mapEntry.getValue());
             }
 
             // Empty the shopping cart

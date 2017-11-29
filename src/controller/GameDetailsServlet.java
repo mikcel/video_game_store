@@ -8,12 +8,128 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Enumeration;
+import java.util.HashMap;
 
 @WebServlet(name = "GameDetailsServlet")
 public class GameDetailsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+
+        Enumeration<?> enumeration = request.getParameterNames();
+        HashMap<String, Object> params = new HashMap<>();
+
+        // Get all parameters and store with corresponding values in a hash map
+        while (enumeration.hasMoreElements()) {
+            String param = (String) enumeration.nextElement();
+            params.put(param, request.getParameter(param));
+        }
+
+        if (!params.containsKey("game_id")){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Unable to get game id");
+            return;
+        }
+
+        // Validate the values of the different parameters if presen
+        if (params.containsKey("num_players")) {
+            try {
+                params.replace("num_players", Integer.parseInt((String) params.get("num_players")));
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("No. of players can only be an integer!");
+                return;
+            }
+        }
+
+        if (params.containsKey("price")) {
+            try {
+                params.replace("price", Double.parseDouble((String) params.get("price")));
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Price can only be a double!");
+                return;
+            }
+        }
+
+        if (params.containsKey("discount")) {
+            try {
+                params.replace("discount", Double.parseDouble((String) params.get("discount")));
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Discount can only be a double!");
+                return;
+            }
+        }
+
+        if (params.containsKey("game_coop")) {
+            String coop_val = ((String) params.get("game_coop")).toLowerCase();
+            if (!coop_val.equals("yes") && !coop_val.equals("no") && !coop_val.equals("both")) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Co-op value can only be yes or no");
+                return;
+            }
+        }
+
+        // Format date if present
+        if (params.containsKey("release_date")) {
+            try {
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date date = sdf1.parse((String) params.get("release_date"));
+                params.replace("release_date", new java.sql.Date(date.getTime()));
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Release date is not in a correct format: dd-MM-yyyy");
+                return;
+            }
+        }
+
+        if (params.containsKey("qty")) {
+            try {
+                params.replace("qty", Integer.parseInt((String) params.get("qty")));
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Qty in stock can only be an integer!");
+                return;
+            }
+        }
+
+        try {
+            Game requestedGame = Game.find(Integer.parseInt((String) params.get("game_id")));
+
+            assert requestedGame != null;
+            requestedGame.setName((String) params.get("game_name"));
+            requestedGame.setConsole((String) params.get("console"));
+            requestedGame.setNumPlayers((Integer) params.get("num_players"));
+            requestedGame.setGenre((String) params.get("genre"));
+            requestedGame.setCoop((String) params.get("game_coop"));
+            requestedGame.setReleaseDate((Date) params.get("release_date"));
+            requestedGame.setPrice((Double) params.get("price"));
+            requestedGame.setDiscount((Double) params.get("discount"));
+            requestedGame.setQtyInStock((Integer) params.get("qty"));
+            requestedGame.setDeveloper((String) params.get("developer"));
+            requestedGame.setPublisher((String) params.get("publisher"));
+            requestedGame.setDescription((String) params.get("description"));
+
+            requestedGame.updateGame();
+
+            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+            response.getWriter().write("Game Updated successfully");
+
+        }catch (SQLException e){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Error while updating game!");
+        } catch (ClassCastException e){
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Unable to use passed parameters!");
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Unable to fetch game to update!");
+        }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,6 +159,7 @@ public class GameDetailsServlet extends HttpServlet {
                 } catch (Exception e) {
                     request.setAttribute("error", "No corresponding game found!");
                 }
+
                 request.getRequestDispatcher("/WEB-INF/jsp/GameDetails.jsp").forward(request, response);
             }
 

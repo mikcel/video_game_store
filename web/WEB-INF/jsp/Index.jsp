@@ -59,22 +59,20 @@
                             </a>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-sm-6 text-center">
-                            <a href="${pageContext.request.contextPath}/searchPage/" class="page-link">
-                                <span>Inventory Page</span>
+                            <a href="${pageContext.request.contextPath}" class="page-link">
+                                <span>Manage Specials Game</span>
                             </a>
                         </div>
                         <div class="col-sm-6 text-center">
-                            <a href="${pageContext.request.contextPath}/specials/" class="page-link">
-                                <span>Game Management</span>
+                            <a href="${pageContext.request.contextPath}/inventory/" class="page-link">
+                                <span>Inventory Management</span>
                             </a>
                         </div>
                     </div>
                 </c:if>
             </div>
-
 
         </div>
 

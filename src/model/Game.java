@@ -80,6 +80,46 @@ public class Game {
         this.name = name;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setConsole(String console) {
+        this.console = console;
+    }
+
+    public void setNumPlayers(Integer numPlayers) {
+        this.numPlayers = numPlayers;
+    }
+
+    public void setCoop(String coop) {
+        this.coop = coop;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setReleaseDate(java.sql.Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setDeveloper(String developer) {
+        this.developer = developer;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
     public int getId() {
         return id;
     }
@@ -156,7 +196,7 @@ public class Game {
         this.qtyInStock = qtyInStock;
     }
 
-    public void updateQty(int soldQty) throws SQLException {
+    public void updateSoldQty(int soldQty) throws SQLException {
 
         try (Connection conn = DBConnection.createConnection()) {
 
@@ -174,6 +214,61 @@ public class Game {
             updateStatement.executeUpdate();
 
             this.qtyInStock -= soldQty;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    public void updateQty(int newQty) throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String updateQuery = "UPDATE game SET qty_in_stock=? WHERE game_id=?";
+
+            assert conn != null;
+            PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
+            updateStatement.setInt(1, newQty);
+            updateStatement.setInt(2, this.id);
+
+            updateStatement.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    public void updateGame() throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String updateQuery = "UPDATE game SET " +
+                    "game_name=?, game_description=?, console=?, num_players=?," +
+                    "coop=?, genre=?, release_date=?, developer=?, publisher=?," +
+                    "price=?, discount=?, qty_in_stock=? " +
+                    "WHERE game_id=?;";
+
+            assert conn != null;
+            PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
+            updateStatement.setString(1, this.name);
+            updateStatement.setString(2, this.description);
+            updateStatement.setString(3, this.console);
+            updateStatement.setInt(4, this.numPlayers);
+            updateStatement.setString(5, this.coop);
+            updateStatement.setString(6, this.genre);
+            updateStatement.setDate(7, this.releaseDate);
+            updateStatement.setString(8, this.developer);
+            updateStatement.setString(9, this.publisher);
+            updateStatement.setDouble(10, this.price);
+            updateStatement.setDouble(11, this.discount);
+            updateStatement.setInt(12, this.qtyInStock);
+            updateStatement.setInt(13, this.id);
+
+            updateStatement.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,10 +307,10 @@ public class Game {
 
         try (Connection conn = DBConnection.createConnection()) {
 
-            final String findByIdQuery = "SELECT * FROM game";
+            final String findAllQuery = "SELECT * FROM game";
 
             assert conn != null;
-            return constructGameList(conn.prepareStatement(findByIdQuery).executeQuery());
+            return constructGameList(conn.prepareStatement(findAllQuery).executeQuery());
 
         } catch (Exception e) {
             e.printStackTrace();

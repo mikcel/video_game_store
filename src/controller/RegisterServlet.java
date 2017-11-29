@@ -1,5 +1,6 @@
 package controller;
 
+import creditcardvalidator.CreditCardValidator;
 import exceptions.UserExistsException;
 import model.User;
 
@@ -79,6 +80,14 @@ public class RegisterServlet extends HttpServlet {
                     response.getWriter().write("Error. Check Credit card Expiry Date");
                     return;
                 }
+            }
+
+            try {
+                CreditCardValidator.validateCreditCard(ccNo, ccCVV, ccExpiry);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write(e.getMessage());
+                return;
             }
 
             // Get all required parameters and create User

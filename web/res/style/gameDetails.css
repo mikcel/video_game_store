@@ -79,3 +79,7 @@ span.spn-label{
 .game-back-img{
     margin-top: 2em;
 }
+
+.modal-dialog {
+    width: 75%;
+}
