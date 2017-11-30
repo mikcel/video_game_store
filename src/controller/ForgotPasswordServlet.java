@@ -29,6 +29,12 @@ public class ForgotPasswordServlet extends HttpServlet {
 
                 User userExists = User.find(u_email, u_login);
 
+                if (userExists.getLocked()){
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("You account is locked. Contact Admin!");
+                    return;
+                }
+
                 userExists.createTmpPass();
 
                 String emailSubject = "Games Dungeon: 24-hr Temporary Password";

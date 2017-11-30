@@ -644,13 +644,17 @@ public class User {
 
         try (Connection conn = DBConnection.createConnection()) {
 
-            final String findUserQuery = "SELECT * FROM user WHERE login_name=? AND locked=FALSE;";
+            final String findUserQuery = "SELECT * FROM user WHERE login_name=?;";
 
             assert conn != null;
             PreparedStatement findQuery = conn.prepareCall(findUserQuery);
             findQuery.setString(1, login_name);
 
             User user_logged_in = checkLoadUser(findQuery.executeQuery());
+
+            if (user_logged_in.locked){
+                throw new AccountLockedException();
+            }
 
             if (user_logged_in.password.equals(password)) {
                 updateLastLoginUser(user_logged_in);
@@ -679,6 +683,10 @@ public class User {
 
             if (userExists != null){
 
+                if (userExists.locked){
+                    throw new AccountLockedException();
+                }
+
                 if (userExists.temp_password == null){
                     throw new IncorrectPasswordException("No temporary password requested.");
                 }
@@ -687,8 +695,14 @@ public class User {
                     throw new IncorrectPasswordException();
                 }
 
-                long checkTimeTTL = userExists.tmp_pass_ttl.getTime() - new Date().getTime();
-                if (checkTimeTTL / (60 * 60 * 1000) % 24 > 24){
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(userExists.tmp_pass_ttl);
+
+                Calendar currentCal = Calendar.getInstance();
+
+                long checkTimeTTL = currentCal.getTimeInMillis() - cal.getTimeInMillis();
+
+                if ((int)(checkTimeTTL / 3600000) > 24){
                     throw new TempPassExpiredExecption();
                 }
 

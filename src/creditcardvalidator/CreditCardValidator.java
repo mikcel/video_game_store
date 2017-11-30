@@ -29,7 +29,7 @@ public class CreditCardValidator {
 
         Calendar currentCal = Calendar.getInstance();
 
-        if (cal.get(Calendar.MONTH) < currentCal.get(Calendar.MONTH) && cal.get(Calendar.YEAR) < currentCal.get(Calendar.YEAR)){
+        if (cal.get(Calendar.MONTH) <= currentCal.get(Calendar.MONTH) && cal.get(Calendar.YEAR) <= currentCal.get(Calendar.YEAR)){
             throw new Exception("Credit Card Expiry Date is invalid!");
         }
 

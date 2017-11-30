@@ -22,7 +22,7 @@ function update_password(){
         success: function() {
             $("#reset-password-modal").modal("hide");
             $("#msg-modal").on('hidden.bs.modal', function(){
-                return;
+                document.location.href = "/u_settings/";
             });
             set_up_msg_modal("Password changed successfully", "Your password has been successfully changed!");
         },

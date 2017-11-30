@@ -42,6 +42,9 @@ function reset_password() {
         url: form_login.attr("action"),
         data: form_login.serialize(),
         success: function(){
+            $("#msg-modal").on("hide.bs.modal", function(){
+                document.location.href = "/";
+            });
             set_up_msg_modal("Password Reset!", "Your password has been reset successfully.");
         },
         error: function (xhr) {

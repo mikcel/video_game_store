@@ -1,6 +1,5 @@
 package controller;
 
-import exceptions.AccountLockedException;
 import exceptions.IncorrectPasswordException;
 import exceptions.TempPassExpiredExecption;
 import exceptions.UserNotExistsException;
@@ -37,12 +36,12 @@ public class ResetPasswordServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_ACCEPTED);
                 response.getWriter().write("Password Reset successfully");
 
-            } catch (UserNotExistsException | IncorrectPasswordException | TempPassExpiredExecption e){
+            } catch (UserNotExistsException | IncorrectPasswordException | TempPassExpiredExecption e) {
 
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write(e.getMessage());
 
-            }catch (Exception e) {
+            } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("An error occurred while verifying user!");
             }
