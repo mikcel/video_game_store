@@ -11,13 +11,16 @@ function send_request(action){
             action: action,
             games: games_selected
         },
+        beforeSend: function(){$("#loading-icon").fadeIn();},
         success: function(msg){
+            $("#loading-icon").fadeOut();
             $("#msg-modal").on('hidden.bs.modal', function(){
                 location.reload();
             });
             set_up_msg_modal("Specials Game Updated", msg);
         },
         error: function(xhr){
+            $("#loading-icon").fadeOut();
             set_up_msg_modal("Error while updating", xhr.responseText);
         }
     })

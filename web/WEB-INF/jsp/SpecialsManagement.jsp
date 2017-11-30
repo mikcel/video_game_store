@@ -11,6 +11,8 @@
         <link href="${pageContext.request.contextPath}/res/style/specialsManage.css" rel="stylesheet"/>
     </jsp:attribute>
     <jsp:body>
+        <div id="loading-icon"></div>
+
         <%--@elvariable id="games" type="controller.SpecialsManagementServlet"--%>
         <h2 class="main-header">Specials Game Management</h2>
 

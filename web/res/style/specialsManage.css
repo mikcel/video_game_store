@@ -7,6 +7,10 @@
     margin-left: 1%;
 }
 
+.btn-action:hover{
+    background-color: white;
+}
+
 #div-btns{
     text-align: center;
     position: fixed;
