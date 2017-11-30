@@ -14,16 +14,16 @@
     </jsp:attribute>
     <jsp:body>
         <%--@elvariable id="orders" type="controller.PurchaseHistoryServlet"--%>
-        <h2>Purchase History</h2>
+        <h2 class="main-header">Purchase History</h2>
 
         <c:choose>
             <c:when test="${orders.size() == 0}">
                 <div class="div-no-results container">
-                    <h4>No Purchase History Found</h4>
+                    <h4 class="main-header">No Purchase History Found</h4>
                 </div>
             </c:when>
             <c:otherwise>
-                <table id="tbl_purchase_history" class="table">
+                <table id="tbl_purchase_history" class="table table-hover">
                     <thead>
                     <tr>
                         <th>Date/Time</th>
@@ -40,7 +40,10 @@
                             </td>
                             <td>${order.getUser_id()}</td>
                             <td>${order.getGames().size()}</td>
-                            <td>${order.getTotal()}</td>
+                            <td>
+                                <fmt:formatNumber type = "number"
+                                                  minFractionDigits = "2" value = "${order.getTotal()}" />
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>

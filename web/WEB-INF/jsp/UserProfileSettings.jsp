@@ -9,7 +9,7 @@
 	</jsp:attribute>
     <jsp:body><%--@elvariable id="user" type="controller.UserProfileSettingsServlet"--%>
         <div class="form-wrapper">
-            <h2>User Profile Settings</h2>
+            <h2 class="main-header">User Profile Settings</h2>
             <form id="form-update-user" method="post" action="${pageContext.request.contextPath}/u_profile_settings/">
 
                 <div class="row">
@@ -89,7 +89,7 @@
 
                 <small>* Required Fields</small>
                 <div class="div-btns">
-                    <button id="register_user" class="btn btn-primary" type="submit">Save Changes</button>
+                    <button id="register_user" class="btn btn-action" type="submit">Save Changes</button>
                     <button id="reset_form" class="btn btn-default" type="reset">Clear</button>
                 </div>
 

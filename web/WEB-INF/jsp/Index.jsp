@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+         pageEncoding="ISO-8859-1" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:base_template>
@@ -33,31 +33,50 @@
                     </div>
                 </c:if>
                 <div class="row">
-                    <div class="col-sm-6 text-center">
+                    <div class="<c:if test="${sessionScope.user != null}">col-sm-4</c:if>
+                            <c:if test="${sessionScope.user == null}">col-sm-6</c:if>
+                            text-center">
                         <a href="${pageContext.request.contextPath}/searchPage/" class="page-link">
                             <i class="fa fa-search fa-5x" aria-hidden="true"></i><br>
                             <span>Search Games</span>
                         </a>
                     </div>
-                    <div class="col-sm-6 text-center">
+                    <div class="<c:if test="${sessionScope.user != null}">col-sm-4</c:if>
+                            <c:if test="${sessionScope.user == null}">col-sm-6</c:if>
+                            text-center">
+
                         <a href="${pageContext.request.contextPath}/specials/" class="page-link">
                             <i class="fa fa-tag fa-5x" aria-hidden="true"></i><br>
                             <span>Special Games</span>
                         </a>
                     </div>
+                    <c:if test="${sessionScope.user != null}">
+                        <div class="col-sm-4 text-center">
+                            <a href="${pageContext.request.contextPath}/u_settings/" class="page-link">
+                                <i class="fa fa-cog fa-5x" aria-hidden="true"></i><br>
+                                <span>My Settings</span>
+                            </a>
+                        </div>
+                    </c:if>
                 </div>
                 <c:if test="${sessionScope.user != null}">
                     <div class="row">
-                        <div class="col-sm-6 text-center">
+                        <div class="col-sm-4 text-center">
                             <a href="${pageContext.request.contextPath}/favorites/" class="page-link">
                                 <i class="fa fa-thumbs-up fa-5x" aria-hidden="true"></i><br>
                                 <span>Favorites</span>
                             </a>
                         </div>
-                        <div class="col-sm-6 text-center">
+                        <div class="col-sm-4 text-center">
                             <a href="${pageContext.request.contextPath}/u_purchase_history/" class="page-link">
                                 <i class="fa fa-list fa-5x" aria-hidden="true"></i><br>
                                 <span>My Purchase History</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <a href="${pageContext.request.contextPath}/checkout/" class="page-link">
+                                <i class="fa fa-credit-card fa-5x" aria-hidden="true"></i><br>
+                                <span>Checkout</span>
                             </a>
                         </div>
                     </div>

@@ -9,16 +9,22 @@
 	</jsp:attribute>
     <jsp:body>
         <div class="form-wrapper">
-            <h2>User Settings Page</h2>
+            <h2 class="main-header">User Settings Page</h2>
 
-            <div>
-                <a type="button" class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/u_profile_settings/">
+            <div id="div-btns">
+                <a type="button" class="btn btn-subaction btn-lg" href="${pageContext.request.contextPath}/u_profile_settings/">
+                    <i class="fa fa-pencil-square-o fa-4x" aria-hidden="true"></i>
+                    <br>
                     Change Info
                 </a>
-                <a type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#reset-password-modal">
+                <a type="button" class="btn btn-subaction btn-lg" data-toggle="modal" data-target="#reset-password-modal">
+                    <i class="fa fa-key fa-4x" aria-hidden="true"></i>
+                    <br>
                     Reset Password
                 </a>
-                <a type="button" class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/u_purchase_history/">
+                <a type="button" class="btn btn-subaction btn-lg" href="${pageContext.request.contextPath}/u_purchase_history/">
+                    <i class="fa fa-history fa-4x" aria-hidden="true"></i>
+                    <br>
                     My Purchase History
                 </a>
             </div>
@@ -67,7 +73,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" onclick="update_password()">Change Password</button>
+                        <button type="button" class="btn btn-action" onclick="update_password()">Change Password</button>
                     </div>
                 </div>
             </div>

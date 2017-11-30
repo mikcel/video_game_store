@@ -15,20 +15,20 @@
     <jsp:body>
 
         <%--@elvariable id="users" type="controller.UserManagementServlet"--%>
-        <h2>User Management</h2>
+        <h2 class="main-header">User Management</h2>
 
         <c:choose>
             <c:when test="${users.size() == 0}">
                 <div class="div-no-results container">
-                    <h4>No Users Found</h4>
+                    <h4 class="main-header">No Users Found</h4>
                 </div>
             </c:when>
             <c:otherwise>
-                <h4>
+                <h4 class="main-header">
                     # of users to date: ${users.size()}
                 </h4>
 
-                <table id="tbl_users" class="table">
+                <table id="tbl_users" class="table table-hover">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -39,8 +39,8 @@
                         <th>Last Login</th>
                         <th>Is Admin</th>
                         <th>Login Attempts</th>
-                        <th>Locked Account</th>
-                        <th></th>
+                        <th>Locked</th>
+                        <th data-orderable="false"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -74,10 +74,10 @@
                                     ${user.getLocked()}
                             </td>
                             <td>
-                                <button  class="btn btn-primary" onclick="unlock_lock_account(${user.getId()})">
+                                <button  class="btn btn-subaction" onclick="unlock_lock_account(${user.getId()})">
                                     Unlock/Lock
                                 </button>
-                                <button  class="btn btn-primary" onclick="set_admin(${user.getId()})">
+                                <button  class="btn btn-subaction" onclick="set_admin(${user.getId()})">
                                     Set Admin
                                 </button>
                             </td>

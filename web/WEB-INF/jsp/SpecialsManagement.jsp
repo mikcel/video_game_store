@@ -12,17 +12,17 @@
     </jsp:attribute>
     <jsp:body>
         <%--@elvariable id="games" type="controller.SpecialsManagementServlet"--%>
-        <h2>Specials Game Management</h2>
+        <h2 class="main-header">Specials Game Management</h2>
 
         <c:choose>
             <c:when test="${fn:length(games) == 0}">
                 <div class="div-no-results container">
-                    <h4>No Games Found</h4>
+                    <h4 class="main-header">No Games Found</h4>
                 </div>
             </c:when>
             <c:otherwise>
-                <h3>Total # of specials game: ${fn:length(games)}</h3>
-                <table id="tbl_specials" class="table">
+                <h3 class="main-header">Total # of specials game: ${fn:length(games)}</h3>
+                <table id="tbl_specials" class="table table-hover">
                     <thead>
                     <tr>
                         <th></th>
@@ -65,17 +65,17 @@
                     </tbody>
                 </table>
 
-                <div>
-                    <button id="btn-send-email" class="btn btn-primary" onclick="send_request('send_email')">
+                <div id="div-btns">
+                    <button id="btn-send-email" class="btn btn-action" onclick="send_request('send_email')">
                         Send Emails to Registered User
                     </button>
-                    <button id="btn-show-only-register" class="btn btn-primary" onclick="send_request('show_only_register')">
+                    <button id="btn-show-only-register" class="btn btn-action" onclick="send_request('show_only_register')">
                         Show only to Registered Users
                     </button>
-                    <button id="btn-show-to-nonregister" class="btn btn-primary" onclick="send_request('show_non_register')">
+                    <button id="btn-show-to-nonregister" class="btn btn-action" onclick="send_request('show_non_register')">
                         Show to non Registered Users
                     </button>
-                    <button id="btn-remove-special" class="btn btn-primary" onclick="send_request('remove_specials')">
+                    <button id="btn-remove-special" class="btn btn-action" onclick="send_request('remove_specials')">
                         Remove from specials (Clear Discount)
                     </button>
                 </div>

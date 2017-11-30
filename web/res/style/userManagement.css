@@ -1,0 +1,32 @@
+input, select{
+    display: inline-block;
+    width: 70%;
+    height: 40px;
+    padding: 8px 12px;
+    font-size: 16px;
+    line-height: 1.42857143;
+    color: #333333;
+    background: #ffffff none;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+select{
+    width:40%;
+}
+
+.btn-subaction{
+    width: 100%;
+    margin-top: 5%;
+}
+
+#tbl_users_wrapper{
+    margin-bottom: 5%;
+    padding-left: 3%;
+    padding-right: 3%;
+}

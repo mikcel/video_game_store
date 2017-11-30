@@ -1,0 +1,16 @@
+#tbl_specials{
+    width: 90%;
+    margin: 0 auto 5%;
+}
+
+.btn-action{
+    margin-left: 1%;
+}
+
+#div-btns{
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 1%;
+}

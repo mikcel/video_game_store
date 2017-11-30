@@ -14,17 +14,17 @@
     </jsp:attribute>
     <jsp:body>
         <%--@elvariable id="games" type="controller.InventoryManagementServlet"--%>
-        <h2>Inventory Management</h2>
+        <h2 class="main-header">Inventory Management</h2>
 
         <c:choose>
             <c:when test="${fn:length(games) == 0}">
                 <div class="div-no-results container">
-                    <h4>No Games Found</h4>
+                    <h4 class="main-header">No Games Found</h4>
                 </div>
             </c:when>
             <c:otherwise>
-                <h2>Total # of games in stock: ${total_game}</h2>
-                <table id="tbl_inventory" class="table">
+                <h4 class="main-header">Total # of games in stock: ${total_game}</h4>
+                <table id="tbl_inventory" class="table table-hover">
                     <thead>
                     <tr>
                         <th>Game ID</th>
@@ -32,7 +32,7 @@
                         <th>Price</th>
                         <th>Discounted Price</th>
                         <th># items in stock</th>
-                        <th></th>
+                        <th data-sortable="false"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,7 +50,7 @@
                                 <input type="number" class="ipt-game-qty form-control" value="${game.qtyInStock}" min="0" />
                             </td>
                             <td>
-                                <button class="btn btn-primary" onclick="update_stock(${game.getId()})">
+                                <button class="btn btn-subaction" onclick="update_stock(${game.getId()})">
                                     Update Stock
                                 </button>
                             </td>
