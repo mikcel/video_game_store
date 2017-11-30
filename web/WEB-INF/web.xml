@@ -100,6 +100,11 @@
         <servlet-class>controller.InventoryManagementServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>SpecialsManagementServlet</servlet-name>
+        <servlet-class>controller.SpecialsManagementServlet</servlet-class>
+    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -189,6 +194,11 @@
     <servlet-mapping>
         <servlet-name>InventoryManagementServlet</servlet-name>
         <url-pattern>/inventory/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SpecialsManagementServlet</servlet-name>
+        <url-pattern>/specials_manage/</url-pattern>
     </servlet-mapping>
 
 </web-app>

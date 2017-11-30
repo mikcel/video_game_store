@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import model.Game;
 
 import javax.servlet.ServletException;
@@ -33,44 +34,61 @@ public class GameDetailsServlet extends HttpServlet {
             return;
         }
 
-        // Validate the values of the different parameters if presen
-        if (params.containsKey("num_players")) {
-            try {
-                params.replace("num_players", Integer.parseInt((String) params.get("num_players")));
-            } catch (NumberFormatException e) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("No. of players can only be an integer!");
-                return;
-            }
+        // Validate the values of the different parameters if present
+        try {
+            params.replace("num_players", Integer.parseInt((String) params.get("num_players")));
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("No. of players can only be an integer!");
+            return;
         }
 
-        if (params.containsKey("price")) {
-            try {
-                params.replace("price", Double.parseDouble((String) params.get("price")));
-            } catch (NumberFormatException e) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("Price can only be a double!");
-                return;
-            }
+        try {
+            params.replace("price", Double.parseDouble((String) params.get("price")));
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Price can only be a double!");
+            return;
         }
 
-        if (params.containsKey("discount")) {
-            try {
-                params.replace("discount", Double.parseDouble((String) params.get("discount")));
-            } catch (NumberFormatException e) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("Discount can only be a double!");
-                return;
-            }
+        try {
+            params.replace("discount", Double.parseDouble((String) params.get("discount")));
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Discount can only be a double!");
+            return;
         }
 
-        if (params.containsKey("game_coop")) {
+        try{
             String coop_val = ((String) params.get("game_coop")).toLowerCase();
-            if (!coop_val.equals("yes") && !coop_val.equals("no") && !coop_val.equals("both")) {
+            if (!coop_val.equals("yes") && !coop_val.equals("no")) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Co-op value can only be yes or no");
                 return;
             }
+        }catch (Exception e){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Wrong value for co-op!");
+            return;
+        }
+
+
+        try {
+            String show_only_register = (String) params.get("show_only_register");
+            switch (show_only_register) {
+                case "on":
+                    params.replace("show_only_register", true);
+                    break;
+                case "off":
+                    params.replace("show_only_register", false);
+                    break;
+                default:
+                    throw new Exception();
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Invalid Show only to register");
+            return;
         }
 
         // Format date if present
@@ -104,7 +122,7 @@ public class GameDetailsServlet extends HttpServlet {
             requestedGame.setConsole((String) params.get("console"));
             requestedGame.setNumPlayers((Integer) params.get("num_players"));
             requestedGame.setGenre((String) params.get("genre"));
-            requestedGame.setCoop((String) params.get("game_coop"));
+            requestedGame.setCoop(StringUtils.capitalize((String) params.get("game_coop")));
             requestedGame.setReleaseDate((Date) params.get("release_date"));
             requestedGame.setPrice((Double) params.get("price"));
             requestedGame.setDiscount((Double) params.get("discount"));
@@ -112,6 +130,7 @@ public class GameDetailsServlet extends HttpServlet {
             requestedGame.setDeveloper((String) params.get("developer"));
             requestedGame.setPublisher((String) params.get("publisher"));
             requestedGame.setDescription((String) params.get("description"));
+            requestedGame.setShowOnlyRegister((Boolean) params.get("show_only_register"));
 
             requestedGame.updateGame();
 
@@ -126,6 +145,7 @@ public class GameDetailsServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("Unable to use passed parameters!");
         } catch (Exception e) {
+            e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("Unable to fetch game to update!");
         }

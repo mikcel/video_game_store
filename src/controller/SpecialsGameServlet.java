@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "SpecialsGameServlet")
 public class SpecialsGameServlet extends HttpServlet {
@@ -19,6 +20,17 @@ public class SpecialsGameServlet extends HttpServlet {
 
         try {
             Game[] specialGames = Game.findAllGameWithDisc();
+
+            if (request.getSession(false).getAttribute("user") == null){
+                ArrayList<Game> gamesToShow = new ArrayList<>();
+                for (Game game: specialGames){
+                    if (!game.isShowOnlyRegister()){
+                        gamesToShow.add(game);
+                    }
+                }
+                specialGames = gamesToShow.toArray(new Game[gamesToShow.size()]);
+            }
+
             request.setAttribute("gamesFound", specialGames);
             request.setAttribute("specials", true);
             request.getRequestDispatcher("/WEB-INF/jsp/SearchResults.jsp").forward(request, response);

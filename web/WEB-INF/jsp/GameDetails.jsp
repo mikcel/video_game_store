@@ -124,6 +124,11 @@
                                     </c:choose>
                                 </div>
                             </div>
+                            <c:if test="${game.showOnlyRegister && sessionScope.u_id != null}">
+                                <div class="game-show-only-register">
+                                    <span class="spn-label">Only shown to registered user in specials</span>
+                                </div>
+                            </c:if>
                         </div>
                         <div class="game-desc-wrapper col-sm-12">
                             <span class="spn-label">Description:</span>
@@ -272,19 +277,27 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <label for="ipt-developer" class="control-label col-lg-4">Developer:</label>
                                     <div class="col-lg-8">
                                         <input type="text" name="developer" id="ipt-developer" value="${game.developer}"
                                                class="form-control"/>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <label for="ipt-publisher" class="control-label col-lg-4">Publisher:</label>
                                     <div class="col-lg-8">
                                         <input type="text" name="publisher" id="ipt-publisher" value="${game.publisher}"
                                                class="form-control"/>
                                     </div>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <div class="col-lg-1">
+                                        <input type="checkbox" name="show_only_register" id="ipt-show-register"
+                                                <c:if test="${game.showOnlyRegister}">checked</c:if>
+                                               class="form-control"/>
+                                    </div>
+                                    <label for="ipt-show-register" class="control-label col-lg-10">Show only to registered</label>
                                 </div>
                             </div>
 

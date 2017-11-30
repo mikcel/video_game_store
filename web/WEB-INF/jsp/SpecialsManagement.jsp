@@ -6,15 +6,13 @@
 
 <t:base_template>
     <jsp:attribute name="extra_head">
-        <script type="text/javascript" src="${pageContext.request.contextPath}/res/common_static/datatables/datatables.min.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/res/script/inventoryPage.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/res/script/specialsManage.js"></script>
 
-        <link href="${pageContext.request.contextPath}/res/common_static/datatables/datatables.min.css" rel="stylesheet"/>
-        <link href="${pageContext.request.contextPath}/res/style/inventoryPage.css" rel="stylesheet"/>
+        <link href="${pageContext.request.contextPath}/res/style/specialsManage.css" rel="stylesheet"/>
     </jsp:attribute>
     <jsp:body>
-        <%--@elvariable id="games" type="controller.InventoryManagementServlet"--%>
-        <h2>Inventory Management</h2>
+        <%--@elvariable id="games" type="controller.SpecialsManagementServlet"--%>
+        <h2>Specials Game Management</h2>
 
         <c:choose>
             <c:when test="${fn:length(games) == 0}">
@@ -23,23 +21,33 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <h2>Total # of games in stock: ${total_game}</h2>
-                <table id="tbl_inventory" class="table">
+                <h3>Total # of specials game: ${fn:length(games)}</h3>
+                <table id="tbl_specials" class="table">
                     <thead>
                     <tr>
+                        <th></th>
                         <th>Game ID</th>
                         <th>Game Name</th>
                         <th>Price</th>
                         <th>Discounted Price</th>
-                        <th># items in stock</th>
+                        <th>Shown to non-registered</th>
+                        <th>Shown only to registered</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${games}" var="game" varStatus="status">
-                        <tr id="tr_game_${game.getId()}">
+                        <tr id="tr_game_${game.getId()}" class="tr-specials">
+                            <td>
+                                <input type="checkbox" class="form-control ipt-game-checked"/>
+                            </td>
                             <td>${game.getId()}</td>
-                            <td>${game.getName()}</td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/game?game=${game.id}"
+                                   target="_blank">
+                                        ${game.getName()}
+                                </a>
+                            </td>
                             <td>$ <fmt:formatNumber type="number" minFractionDigits="2"
                                                     minIntegerDigits="1"
                                                     maxFractionDigits="2" value="${game.price}"/></td>
@@ -47,17 +55,31 @@
                                                     minIntegerDigits="1"
                                                     maxFractionDigits="2" value="${game.price - game.discount}"/></td>
                             <td>
-                                <input type="number" class="ipt-game-qty form-control" value="${game.qtyInStock}" min="0" />
+                                ${!game.showOnlyRegister}
                             </td>
                             <td>
-                                <button class="btn btn-primary" onclick="update_stock(${game.getId()})">
-                                    Update Stock
-                                </button>
+                                ${game.showOnlyRegister}
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
+
+                <div>
+                    <button id="btn-send-email" class="btn btn-primary" onclick="send_request('send_email')">
+                        Send Emails to Registered User
+                    </button>
+                    <button id="btn-show-only-register" class="btn btn-primary" onclick="send_request('show_only_register')">
+                        Show only to Registered Users
+                    </button>
+                    <button id="btn-show-to-nonregister" class="btn btn-primary" onclick="send_request('show_non_register')">
+                        Show to non Registered Users
+                    </button>
+                    <button id="btn-remove-special" class="btn btn-primary" onclick="send_request('remove_specials')">
+                        Remove from specials (Clear Discount)
+                    </button>
+                </div>
+
             </c:otherwise>
         </c:choose>
 

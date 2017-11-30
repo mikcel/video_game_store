@@ -29,6 +29,7 @@ public class Game {
     private Double price;
     private Double discount;
     private int qtyInStock;
+    private boolean showOnlyRegister;
     private Comment[] comments;
 
     public Game(int id) {
@@ -37,7 +38,7 @@ public class Game {
 
     public Game(int id, String name, String description, String console, Integer numPlayers, String coop, String genre,
                 java.sql.Date releaseDate, String developer, String publisher, String frontBoxArt, String backBoxArt,
-                String logo, String developerLogo, Double price, Double discount, Comment[] comments, int qtyInStock) {
+                String logo, String developerLogo, Double price, Double discount, Comment[] comments, int qtyInStock, boolean showOnlyRegister) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -56,6 +57,7 @@ public class Game {
         this.discount = discount;
         this.comments = comments.clone();
         this.qtyInStock = qtyInStock;
+        this.showOnlyRegister = showOnlyRegister;
     }
 
     public Game(String name, String console, Integer numPlayers, String coop, String genre,
@@ -196,6 +198,14 @@ public class Game {
         this.qtyInStock = qtyInStock;
     }
 
+    public boolean isShowOnlyRegister() {
+        return showOnlyRegister;
+    }
+
+    public void setShowOnlyRegister(boolean showOnlyRegister) {
+        this.showOnlyRegister = showOnlyRegister;
+    }
+
     public void updateSoldQty(int soldQty) throws SQLException {
 
         try (Connection conn = DBConnection.createConnection()) {
@@ -249,7 +259,7 @@ public class Game {
             final String updateQuery = "UPDATE game SET " +
                     "game_name=?, game_description=?, console=?, num_players=?," +
                     "coop=?, genre=?, release_date=?, developer=?, publisher=?," +
-                    "price=?, discount=?, qty_in_stock=? " +
+                    "price=?, discount=?, qty_in_stock=?, show_only_to_register=? " +
                     "WHERE game_id=?;";
 
             assert conn != null;
@@ -266,7 +276,28 @@ public class Game {
             updateStatement.setDouble(10, this.price);
             updateStatement.setDouble(11, this.discount);
             updateStatement.setInt(12, this.qtyInStock);
-            updateStatement.setInt(13, this.id);
+            updateStatement.setBoolean(13, this.showOnlyRegister);
+            updateStatement.setInt(14, this.id);
+
+            updateStatement.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    public void updateShowOnlyRegister(boolean show) throws SQLException {
+
+        try (Connection conn = DBConnection.createConnection()) {
+
+            final String updateQuery = "UPDATE game SET show_only_to_register=? WHERE game_id=?";
+
+            assert conn != null;
+            PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
+            updateStatement.setBoolean(1, show);
+            updateStatement.setInt(2, this.id);
 
             updateStatement.executeUpdate();
 
@@ -465,6 +496,7 @@ public class Game {
 
     }
 
+
     private static ArrayList<Object> getFieldDistinctValues(String query) throws SQLException {
 
         try (Connection conn = DBConnection.createConnection()) {
@@ -506,7 +538,8 @@ public class Game {
                 rs.getDouble("price"),
                 rs.getDouble("discount"),
                 comments,
-                rs.getInt("qty_in_stock")
+                rs.getInt("qty_in_stock"),
+                rs.getBoolean("show_only_to_register")
         );
 
     }

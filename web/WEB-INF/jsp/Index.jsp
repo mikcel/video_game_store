@@ -61,8 +61,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6 text-center">
-                            <a href="${pageContext.request.contextPath}" class="page-link">
-                                <span>Manage Specials Game</span>
+                            <a href="${pageContext.request.contextPath}/specials_manage/" class="page-link">
+                                <span>Manage Specials</span>
                             </a>
                         </div>
                         <div class="col-sm-6 text-center">

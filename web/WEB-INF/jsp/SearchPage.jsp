@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="ipt-game-id" class="control-label col-lg-3">Game ID:</label>
                         <div class="col-lg-9">
-                            <input type="text" name="game" id="ipt-game-id" placeholder="ID" class="form-control"/>
+                            <input type="text" name="game_id" id="ipt-game-id" placeholder="ID" class="form-control"/>
                         </div>
                     </div>
                 </fieldset>
