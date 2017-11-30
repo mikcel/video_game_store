@@ -24,6 +24,19 @@
 
                 <h2 class="game-title">
                     #${game.id}&emsp;${game.name}
+                    &emsp;
+                    <c:if test="${sessionScope.user != null}">
+                        <c:if test="${favorite}">
+                            <button class="btn btn-fav" onclick="remove_favorite(${game.id})" title="Remove from favorites">
+                                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                            </button>
+                        </c:if>
+                        <c:if test="${favorite == false}">
+                            <button class="btn btn-fav" onclick="add_favorite(${game.id})" title="Add to Favorites">
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                            </button>
+                        </c:if>
+                    </c:if>
                     <c:if test="${sessionScope.u_id != null}">
                         <button class="btn btn-primary" onclick="add_game_cart(${game.id})">
                             <i class="fa fa-cart-plus" aria-hidden="true"></i>

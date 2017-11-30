@@ -105,6 +105,12 @@
         <servlet-class>controller.SpecialsManagementServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>FavoritesServlet</servlet-name>
+        <servlet-class>controller.FavoritesServlet</servlet-class>
+    </servlet>
+
+
 
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -199,6 +205,11 @@
     <servlet-mapping>
         <servlet-name>SpecialsManagementServlet</servlet-name>
         <url-pattern>/specials_manage/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>FavoritesServlet</servlet-name>
+        <url-pattern>/favorites/</url-pattern>
     </servlet-mapping>
 
 </web-app>

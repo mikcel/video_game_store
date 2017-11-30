@@ -15,7 +15,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 /**
- * Servlet implementation class RegisterServlet
+ * FavoritesServlet implementation class RegisterServlet
  */
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {

@@ -46,6 +46,22 @@
                         </a>
                     </div>
                 </div>
+                <c:if test="${sessionScope.user != null}">
+                    <div class="row">
+                        <div class="col-sm-6 text-center">
+                            <a href="${pageContext.request.contextPath}/favorites/" class="page-link">
+                                <i class="fa fa-thumbs-up fa-5x" aria-hidden="true"></i><br>
+                                <span>Favorites</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-6 text-center">
+                            <a href="${pageContext.request.contextPath}/cart_game/" class="page-link">
+                                <i class="fa fa-shopping-cart fa-5x" aria-hidden="true"></i><br>
+                                <span>Cart Management</span>
+                            </a>
+                        </div>
+                    </div>
+                </c:if>
                 <c:if test="${sessionScope.user.isAdmin() == true}">
                     <div class="row">
                         <div class="col-sm-6 text-center">
