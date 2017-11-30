@@ -1,0 +1,22 @@
+caption{
+    color: gray;
+}
+
+.tbl-container{
+    height: 300px;
+    margin-bottom: 1%;
+}
+
+.tbl-order{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.td-total{
+    font-weight: bold;
+}
+
+.sum-total-price{
+    font-weight: bold;
+    text-decoration: underline double black;
+}

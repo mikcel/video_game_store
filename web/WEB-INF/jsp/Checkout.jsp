@@ -10,22 +10,24 @@
         <link href="${pageContext.request.contextPath}/res/style/checkout.css" rel="stylesheet"/>
     </jsp:attribute>
     <jsp:body>
+        <div id="loading-icon"></div>
+
         <%--@elvariable id="gamesFound" type="controller.SearchResultsServlet"--%>
         <div class="main-container container-fluid">
 
-            <h2>Checkout</h2>
+            <h2 class="main-header">Checkout</h2>
 
             <c:choose>
                 <c:when test="${sessionScope.shopping_cart == null || sessionScope.shopping_cart.getNoItems() == 0}">
                     <div class="div-empty-cart container">
-                        <h4>Empty Shopping Cart</h4>
+                        <h4 class="main-header">Empty Shopping Cart</h4>
                     </div>
                 </c:when>
                 <c:otherwise>
 
-                    <h3 class="text-center">Shopping Cart</h3>
+                    <h3 class="main-header">Shopping Cart</h3>
 
-                    <table id="tbl-cart-game" class="table game-details-box">
+                    <table id="tbl-cart-game" class="table game-details-box table-hover">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -77,7 +79,8 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <button class="btn btn-save-game" onclick="remove_game(${cart_game.id})">
+                                    <button class="btn btn-save-game btn-subaction"
+                                            onclick="remove_game(${cart_game.id})">
                                         <i class="fa fa-minus" aria-hidden="true"></i>
                                     </button>
                                 </td>
@@ -87,99 +90,106 @@
 
                     </table>
 
-                    <table id="tbl-order-summary" class="table">
-                        <caption>Order Summary</caption>
-                        <tbody>
-                        <tr>
-                            <th>
-                                Sub Total
-                                ( <span id="sub-total-items">
+                    <div id="btm-div">
+
+                        <div id="div-info">
+                            <table id="user_perso_info" class="table table-hover">
+                                <caption>Personal/Billing/Shipping Information</caption>
+                                <tr>
+                                    <th>Email Address:</th>
+                                    <td>${user.email}</td>
+                                </tr>
+                                <tr>
+                                    <th>First Name:</th>
+                                    <td>${user.firstName}</td>
+                                </tr>
+                                <tr>
+                                    <th>Last Name:</th>
+                                    <td>${user.lastName}</td>
+                                </tr>
+                                <tr class="billing-info">
+                                    <th>Billing/Shipping Info:</th>
+                                    <th>
+                                            ${user.address1} ${user.address2}<br>
+                                            ${user.city} ${user.state}<br>
+                                            ${user.zip} ${user.country}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Credit Card No:</th>
+                                    <td>
+                                        ************${user.credit_card_number % 10000}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Credit Card CVV:</th>
+                                    <td>
+                                            ${user.credit_card_cvv}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Credit Card Expiry Date:</th>
+                                    <td>
+                                        <fmt:formatDate type="date" pattern="MM/yy" value="${user.credit_card_expiry}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Credit Card Type:</th>
+                                    <td>
+                                            ${user.credit_card_type}
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                        <div id="div-summary">
+                            <table id="tbl-order-summary" class="table">
+                                <caption>Order Summary</caption>
+                                <tbody>
+                                <tr>
+                                    <th>
+                                        Sub Total
+                                        ( <span id="sub-total-items">
                                     -
                                 </span> items)
-                            </th>
-                            <td>
-                                $
-                                <span id="sub-total">
+                                    </th>
+                                    <td class="td-order-sum">
+                                        $
+                                        <span id="sub-total">
                                     -
                                 </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Tax</th>
-                            <td>
-                                $
-                                <span id="spn-tax">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Tax (15%)</th>
+                                    <td class="td-order-sum">
+                                        $
+                                        <span id="spn-tax">
                                     -
                                 </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th id="td-order-total">
-                                Order Total
-                            </th>
-                            <td>
-                                $
-                                <span id="order-total">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th id="td-order-total">
+                                        Order Total
+                                    </th>
+                                    <td class="td-order-sum">
+                                        $
+                                        <span id="order-total">
                                     -
                                 </span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
 
-                    <div id="div-info">
-                        <table id="user_perso_info" class="table">
-                            <caption>Personal/Billing/Shipping Information</caption>
-                            <tr>
-                                <th>Email Address: </th>
-                                <td>${user.email}</td>
-                            </tr>
-                            <tr>
-                                <th>First Name: </th>
-                                <td>${user.firstName}</td>
-                            </tr>
-                            <tr>
-                                <th>Last Name: </th>
-                                <td>${user.lastName}</td>
-                            </tr>
-                            <tr class="billing-info">
-                                <th>Billing/Shipping Info:</th>
-                                <th>
-                                    ${user.address1} ${user.address2}<br>
-                                    ${user.city} ${user.state}<br>
-                                    ${user.zip} ${user.country}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>Credit Card No: </th>
-                                <td>
-                                    <c:set var="ccNo">${user.credit_card_number}</c:set>
-                                    ************${fn:substring(ccNo, -1, 4)}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Credit Card CVV: </th>
-                                <td>
-                                    ${user.credit_card_cvv}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Credit Card Expiry Date: </th>
-                                <td>
-                                    <fmt:formatDate type="date"  pattern="MM/yy" value = "${user.credit_card_expiry}"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Credit Card Type: </th>
-                                <td>
-                                        ${user.credit_card_type}
-                                </td>
-                            </tr>
-                        </table>
+                            <button id="btn-proceed" class="btn btn-subaction" onclick="process_order()">
+                                Process Order
+                            </button>
 
-                        <button id="btn-proceed" class="btn btn-primary" onclick="process_order()">
-                            Process Order
-                        </button>
+                        </div>
+
 
                     </div>
 
@@ -204,5 +214,6 @@
                 </div>
             </div>
         </div>
+
     </jsp:body>
 </t:base_template>

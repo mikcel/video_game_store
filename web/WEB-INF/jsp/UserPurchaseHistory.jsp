@@ -10,90 +10,92 @@
     </jsp:attribute>
     <jsp:body>
         <%--@elvariable id="orders" type="controller.UserPurchaseHistoryServlet"--%>
-        <h2>Your Purchase History</h2>
+        <h2 class="main-header">Your Purchase History</h2>
 
         <c:choose>
             <c:when test="${orders.size() == 0}">
                 <div class="div-no-results container">
-                    <h4>No Purchase History Found</h4>
+                    <h4 class="main-header">No Purchase History Found</h4>
                 </div>
             </c:when>
             <c:otherwise>
-                <h4>
+                <h4 class="main-header">
                     # of orders to date: ${orders.size()}
                 </h4>
 
                 <c:forEach items="${orders}" var="order">
-                    <table id="tbl_order_${order.getId()}" class="table">
-                        <caption>
-                            Order Date:
-                            <fmt:formatDate type="date"  pattern="dd-MM-yyyy HH:mm:ss" value = "${order.order_date}"/>
-                        </caption>
-                        <c:forEach items="${order.getGames()}" var="orderGame" varStatus="status">
-                            <tr>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/game?game=${orderGame.game.id}"
-                                       target="_blank">
-                                        ${orderGame.game.name}
-                                    </a>
-                                </td>
-                                <td>
-                                    x ${orderGame.quantity}
-                                </td>
-                                <td>
-                                    $
-                                    <span class="total-price">
+                    <div class="tbl-container col-lg-6">
+                        <table id="tbl_order_${order.getId()}" class="table tbl-order">
+                            <caption>
+                                Order Date:
+                                <fmt:formatDate type="date"  pattern="dd-MM-yyyy HH:mm:ss" value = "${order.order_date}"/>
+                            </caption>
+                            <c:forEach items="${order.getGames()}" var="orderGame" varStatus="status">
+                                <tr>
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/game?game=${orderGame.game.id}"
+                                           target="_blank">
+                                                ${orderGame.game.name}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        x ${orderGame.quantity}
+                                    </td>
+                                    <td>
+                                        $
+                                        <span class="total-price">
                                  <fmt:formatNumber type="number" minFractionDigits="2"
                                                    minIntegerDigits="1"
                                                    maxFractionDigits="2"
                                                    value="${(orderGame.game.price - orderGame.game.discount) * orderGame.quantity}"/>
                             </span>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            <tr class="td-total">
+                                <td colspan="2">
+                                    Subtotal
                                 </td>
-                            </tr>
-                        </c:forEach>
-                        <tr>
-                            <td colspan="2">
-                                Subtotal
-                            </td>
-                            <td>
-                                $
-                                <span class="subtotal-price">
+                                <td>
+                                    $
+                                    <span class="subtotal-price">
                              <fmt:formatNumber type="number" minFractionDigits="2"
                                                minIntegerDigits="1"
                                                maxFractionDigits="2"
                                                value="${(order.total / 1.15)}"/>
                         </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                Tax
-                            </td>
-                            <td>
-                                $
-                                <span class="subtotal-price">
+                                </td>
+                            </tr>
+                            <tr class="td-total">
+                                <td colspan="2">
+                                    Tax
+                                </td>
+                                <td>
+                                    $
+                                    <span class="tax-price">
                              <fmt:formatNumber type="number" minFractionDigits="2"
                                                minIntegerDigits="1"
                                                maxFractionDigits="2"
                                                value="${order.total - (order.total / 1.15)}"/>
                         </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                Total
-                            </td>
-                            <td>
-                                $
-                                <span class="subtotal-price">
+                                </td>
+                            </tr>
+                            <tr class="td-total">
+                                <td colspan="2">
+                                    Total
+                                </td>
+                                <td>
+                                    $
+                                    <span class="sum-total-price">
                              <fmt:formatNumber type="number" minFractionDigits="2"
                                                minIntegerDigits="1"
                                                maxFractionDigits="2"
                                                value="${order.total}"/>
                         </span>
-                            </td>
-                        </tr>
-                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </c:forEach>
             </c:otherwise>
         </c:choose>

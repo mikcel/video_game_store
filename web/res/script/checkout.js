@@ -56,10 +56,16 @@ function process_order(){
     $.ajax({
         url: '',
         method: 'POST',
+        beforeSend: function(){$("#loading-icon").fadeIn()},
         success: function(returned_data){
-            set_up_msg_modal("Order Processed", returned_data);
+            $("#loading-icon").fadeOut();
+            set_up_msg_modal("Order Processed - Invoice", "Invoice Sent");
+            $('#msg-modal').on('hidden.bs.modal', function () {
+                location.reload();
+            });
         },
         error: function(xhr){
+            $("#loading-icon").fadeOut();
             set_up_msg_modal("Order Process Error", xhr.responseText);
         }
     });

@@ -5,7 +5,26 @@
 <html>
 <head>
     <style>
-
+        table{
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 45%;
+        }
+        .table > thead > tr > th, .table > tbody > tr > th,
+        .table > tfoot > tr > th, .table > thead > tr > td,
+        .table > tbody > tr > td, .table > tfoot > tr > td {
+            line-height: 1.42857143;
+            vertical-align: top;
+            border-top: 1px solid #dddddd;
+            padding-top: 2%;
+        }
+        .discounted-game{
+            text-decoration: line-through;
+            color: #ff5656;
+        }
+        .td-discount{
+            font-weight:bold;
+        }
     </style>
 </head>
 <body>
@@ -42,7 +61,7 @@
                                           maxFractionDigits="2" value="${game.price}"/>
                     </span>
                 </td>
-                <td>
+                <td class="td-discount">
                     $
                     <span class="spn-discount">
                         &nbsp;

@@ -81,5 +81,17 @@ span.spn-label{
 }
 
 .modal-dialog {
-    width: 75%;
+    width: 85%;
+}
+
+.control-label{
+    padding: 8px;
+}
+
+#ipt-show-register{
+    margin-top: 0;
+}
+
+#div-form-btns{
+    text-align: right;
 }

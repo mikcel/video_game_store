@@ -1,0 +1,40 @@
+.game-total-price{
+    font-weight: bold;
+}
+
+.td-discounted-price {
+    padding-left: 4.75rem !important;
+    color: darkred;
+}
+
+.td-game-price{
+    text-decoration: line-through;
+}
+
+#btm-div{
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#div-info{
+    flex: 1 1 35%;
+}
+
+#user_perso_info{
+    width: 80%;
+}
+
+#div-summary{
+    width: 39%;
+    flex: 0 0 39%;
+}
+
+.td-order-sum{
+    width: 50%;
+}
+
+#order-total{
+    font-weight: bold;
+    text-decoration: underline double black;
+}

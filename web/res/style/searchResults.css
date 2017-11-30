@@ -11,18 +11,33 @@
 .game-details-box{
     margin-top: 1em;
     margin-bottom: 2em;
+    height: 253px;
+}
+
+.game-details{
+    padding: 0;
+}
+
+.btn-cart{
+    width: 70px;
+    height: 70px;
+    font-size: 3rem;
 }
 
 .game-short-desc {
     overflow: hidden;
     position: relative;
-    line-height: 1.2em;
-    max-height: 5em;
+    line-height: 19px;
+    max-height: 75px;
     text-align: justify;
     margin-right: -1em;
     padding-right: 1em;
-    margin-top: 1em;
+    padding-top: 1em;
     width: 25em;
+}
+
+.game-desc > a{
+    display: inline-block;
 }
 
 .game-short-desc:before {

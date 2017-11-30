@@ -5,7 +5,32 @@
 <html>
 <head>
     <style>
+        table{
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 45%;
+        }
+        .table > thead > tr > th, .table > tbody > tr > th,
+        .table > tfoot > tr > th, .table > thead > tr > td,
+        .table > tbody > tr > td, .table > tfoot > tr > td {
+            line-height: 1.42857143;
+            vertical-align: top;
+            border-top: 1px solid #dddddd;
+            padding-top: 2%;
+        }
+        .td-total{
+            font-weight: bold;
+        }
 
+        .sum-total-price{
+            font-weight: bold;
+            text-decoration: underline double black;
+        }
+        .td-sum-label{
+            font-weight: bold;
+            text-align: right;
+            padding-right: 5%;
+        }
     </style>
 </head>
 <body>
@@ -40,10 +65,10 @@
             </tr>
         </c:forEach>
         <tr>
-            <td>
+            <td colspan="2" class="td-sum-label">
                 Subtotal
             </td>
-            <td>
+            <td class="td-total">
                 $
                 <span class="subtotal-price">
                      <fmt:formatNumber type="number" minFractionDigits="2"
@@ -54,10 +79,10 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="2" class="td-sum-label">
                 Tax
             </td>
-            <td>
+            <td class="td-total">
                 $
                 <span class="subtotal-price">
                      <fmt:formatNumber type="number" minFractionDigits="2"
@@ -68,12 +93,12 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="2" class="td-sum-label">
                 Total
             </td>
-            <td>
+            <td class="td-total">
                 $
-                <span class="subtotal-price">
+                <span class="sum-total-price">
                      <fmt:formatNumber type="number" minFractionDigits="2"
                                        minIntegerDigits="1"
                                        maxFractionDigits="2"

@@ -55,9 +55,9 @@
                             </a>
                         </div>
                         <div class="col-sm-6 text-center">
-                            <a href="${pageContext.request.contextPath}/cart_game/" class="page-link">
-                                <i class="fa fa-shopping-cart fa-5x" aria-hidden="true"></i><br>
-                                <span>Cart Management</span>
+                            <a href="${pageContext.request.contextPath}/u_purchase_history/" class="page-link">
+                                <i class="fa fa-list fa-5x" aria-hidden="true"></i><br>
+                                <span>My Purchase History</span>
                             </a>
                         </div>
                     </div>
@@ -66,23 +66,27 @@
                     <div class="row">
                         <div class="col-sm-6 text-center">
                             <a href="${pageContext.request.contextPath}/user_management/" class="page-link">
+                                <i class="fa fa-users fa-5x" aria-hidden="true"></i><br>
                                 <span>User Management</span>
                             </a>
                         </div>
                         <div class="col-sm-6 text-center">
                             <a href="${pageContext.request.contextPath}/purchase_history/" class="page-link">
-                                <span>Purchase History</span>
+                                <i class="fa fa-history fa-5x" aria-hidden="true"></i><br>
+                                <span>Users Purchase History</span>
                             </a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 text-center">
                             <a href="${pageContext.request.contextPath}/specials_manage/" class="page-link">
+                                <i class="fa fa-tags fa-5x" aria-hidden="true"></i><br>
                                 <span>Manage Specials</span>
                             </a>
                         </div>
                         <div class="col-sm-6 text-center">
                             <a href="${pageContext.request.contextPath}/inventory/" class="page-link">
+                                <i class="fa fa-th fa-5x" aria-hidden="true"></i><br>
                                 <span>Inventory Management</span>
                             </a>
                         </div>

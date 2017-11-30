@@ -13,25 +13,19 @@
         <%--@elvariable id="gamesFound" type="controller.SearchResultsServlet"--%>
         <div class="main-container container-fluid">
 
-            <h2>Shopping Cart Management</h2>
+            <h2 class="main-header">Shopping Cart Management</h2>
 
             <c:choose>
                 <c:when test="${sessionScope.shopping_cart == null}">
                     <div class="div-empty-cart container">
-                        <h4>Empty Shopping Cart</h4>
+                        <h4 class="main-header">Empty Shopping Cart</h4>
                     </div>
                 </c:when>
                 <c:otherwise>
 
-                    <div id="cart-info">
-                        <button class="btn btn-save-game" onclick="empty_cart()">
-                            Empty Cart
-                        </button>
-                    </div>
+                    <h3 class="main-header">Games in Cart</h3>
 
-                    <h3 class="text-center">Games in Cart</h3>
-
-                    <table id="tbl-cart-game" class="table game-details-box">
+                    <table id="tbl-cart-game" class="table game-details-box table-hover">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -85,10 +79,10 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <button class="btn btn-save-game" onclick="save_game(${cart_game.id})">
+                                    <button class="btn btn-save-game btn-subaction" onclick="save_game(${cart_game.id})">
                                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                                     </button>
-                                    <button class="btn btn-save-game" onclick="remove_game(${cart_game.id})">
+                                    <button class="btn btn-save-game btn-subaction" onclick="remove_game(${cart_game.id})">
                                         <i class="fa fa-minus" aria-hidden="true"></i>
                                     </button>
                                 </td>
@@ -97,6 +91,15 @@
                         </tbody>
 
                     </table>
+
+                    <div id="cart-info" class="text-center">
+                        <button class="btn btn-save-game btn-action" onclick="empty_cart()">
+                            Empty Cart
+                        </button>
+                        <a id="checkout-link" class="btn btn-action" href="${pageContext.request.contextPath}/checkout/">
+                            Checkout
+                        </a>
+                    </div>
                 </c:otherwise>
             </c:choose>
 

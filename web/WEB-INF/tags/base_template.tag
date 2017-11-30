@@ -67,7 +67,11 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="${pageContext.request.contextPath}/checkout/">Checkout</a></li>
+                                <li><a href="${pageContext.request.contextPath}/u_purchase_history/">My Purchase History</a></li>
+                                <li class="divider"></li>
+                                <li><a href="${pageContext.request.contextPath}/favorites/">Favorites</a></li>
                                 <li><a href="${pageContext.request.contextPath}/u_settings/">My Settings</a></li>
+                                <li class="divider"></li>
                                 <li><a href="${pageContext.request.contextPath}/logout/">Log out</a></li>
                             </ul>
                         </li>

@@ -27,23 +27,23 @@
                     &emsp;
                     <c:if test="${sessionScope.user != null}">
                         <c:if test="${favorite}">
-                            <button class="btn btn-fav" onclick="remove_favorite(${game.id})" title="Remove from favorites">
+                            <button class="btn btn-subaction" onclick="remove_favorite(${game.id})" title="Remove from favorites">
                                 <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                             </button>
                         </c:if>
                         <c:if test="${favorite == false}">
-                            <button class="btn btn-fav" onclick="add_favorite(${game.id})" title="Add to Favorites">
+                            <button class="btn btn-subaction" onclick="add_favorite(${game.id})" title="Add to Favorites">
                                 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                             </button>
                         </c:if>
                     </c:if>
                     <c:if test="${sessionScope.u_id != null}">
-                        <button class="btn btn-primary" onclick="add_game_cart(${game.id})">
+                        <button class="btn btn-action" onclick="add_game_cart(${game.id})">
                             <i class="fa fa-cart-plus" aria-hidden="true"></i>
                         </button>
                     </c:if>
                     <c:if test="${sessionScope.user.isAdmin()}">
-                        <button class="btn btn-primary" onclick="edit_game()">
+                        <button class="btn btn-action" onclick="edit_game()">
                             <i class="fa fa-edit" aria-hidden="true"></i>
                         </button>
                     </c:if>
@@ -291,15 +291,15 @@
 
                             <div class="row">
                                 <div class="form-group col-lg-4">
-                                    <label for="ipt-developer" class="control-label col-lg-4">Developer:</label>
-                                    <div class="col-lg-8">
+                                    <label for="ipt-developer" class="control-label col-lg-5">Developer:</label>
+                                    <div class="col-lg-7">
                                         <input type="text" name="developer" id="ipt-developer" value="${game.developer}"
                                                class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-4">
-                                    <label for="ipt-publisher" class="control-label col-lg-4">Publisher:</label>
-                                    <div class="col-lg-8">
+                                    <label for="ipt-publisher" class="control-label col-lg-5">Publisher:</label>
+                                    <div class="col-lg-7">
                                         <input type="text" name="publisher" id="ipt-publisher" value="${game.publisher}"
                                                class="form-control"/>
                                     </div>
@@ -316,15 +316,17 @@
 
                             <div class="row">
                                 <div class="form-group col-lg-12">
-                                    <label for="ipt-game-desc" class="control-label col-lg-2">Description:</label>
-                                    <div class="col-lg-10">
+                                    <label for="ipt-game-desc" class="control-label col-lg-12">Description:</label>
+                                    <div>
                                         <textarea name="description" id="ipt-game-desc"  class="form-control" rows="4">${game.description}</textarea>
                                     </div>
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <div id="div-form-btns" class="rows">
+                                <button id="btn-edit-game" type="submit" class="btn btn-action">Save</button>
+                                <button id="btn-cancel-edit" type="button" class="btn btn-subaction" data-dismiss="modal">Close</button>
+                            </div>
 
                         </form>
 

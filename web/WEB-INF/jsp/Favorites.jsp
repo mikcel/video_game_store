@@ -12,16 +12,16 @@
     </jsp:attribute>
     <jsp:body>
         <%--@elvariable id="favorites" type="controller.FavoritesServlet"--%>
-        <h2>Favorites</h2>
+        <h2 class="main-header">Favorites</h2>
 
         <c:choose>
             <c:when test="${favorites.size() == 0}">
                 <div class="div-no-results container">
-                    <h4>No Favorites Found</h4>
+                    <h4 class="main-header">No Favorites Found</h4>
                 </div>
             </c:when>
             <c:otherwise>
-                <table id="tbl_favorites" class="table">
+                <table id="tbl_favorites" class="table table-hover">
                     <thead>
                     <tr>
                         <th>Game Name</th>
@@ -58,8 +58,8 @@
                                                             value="${game.price - game.discount}"/>
                                     </span>
                             </td>
-                            <td>
-                                <button  class="btn btn-primary" onclick="remove_favorite(${game.getId()})">
+                            <td class="td-btn">
+                                <button  class="btn btn-subaction" onclick="remove_favorite(${game.getId()})">
                                     Remove Favorite
                                 </button>
                             </td>
