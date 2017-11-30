@@ -16,7 +16,7 @@
             <h2 class="main-header">Shopping Cart Management</h2>
 
             <c:choose>
-                <c:when test="${sessionScope.shopping_cart == null}">
+                <c:when test="${sessionScope.shopping_cart == null || fn:length(sessionScope.shopping_cart.getGames()) == 0}">
                     <div class="div-empty-cart container">
                         <h4 class="main-header">Empty Shopping Cart</h4>
                     </div>

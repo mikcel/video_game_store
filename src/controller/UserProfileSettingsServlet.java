@@ -1,5 +1,6 @@
 package controller;
 
+import creditcardvalidator.CreditCardValidator;
 import exceptions.UserExistsException;
 import model.User;
 
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
+
+import static creditcardvalidator.CreditCardValidator.validateCreditCard;
 
 @WebServlet(name = "UserProfileSettingsServlet")
 public class UserProfileSettingsServlet extends HttpServlet {
@@ -39,8 +42,8 @@ public class UserProfileSettingsServlet extends HttpServlet {
                 try{
                     ccNo = Long.parseLong(request.getParameter("cc_no"));
                 }catch (NumberFormatException e){
-                    response.setStatus(HttpServletResponse.SC_CONFLICT);
-                    response.getWriter().write("Error. Check Credit card Number");
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("Invalid Check Credit card Number");
                     return;
                 }
             }
@@ -49,8 +52,8 @@ public class UserProfileSettingsServlet extends HttpServlet {
                 try {
                     ccCVV = Integer.parseInt(request.getParameter("cc_cvv"));
                 } catch (NumberFormatException e) {
-                    response.setStatus(HttpServletResponse.SC_CONFLICT);
-                    response.getWriter().write("Error. Check Credit card CVV");
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("Invalid Check Credit card CVV");
                     return;
                 }
             }
@@ -60,8 +63,8 @@ public class UserProfileSettingsServlet extends HttpServlet {
                 try{
                     ccExpiry = Date.valueOf(request.getParameter("cc_expiry"));
                 }catch (IllegalArgumentException e){
-                    response.setStatus(HttpServletResponse.SC_CONFLICT);
-                    response.getWriter().write("Error. Check Credit card Expiry Date");
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("Invalid Credit card Expiry Date");
                     return;
                 }
             }
@@ -73,13 +76,21 @@ public class UserProfileSettingsServlet extends HttpServlet {
             try{
                 userLoggedIn = (User) session.getAttribute("user");
             }catch (Exception e){
-                response.setStatus(HttpServletResponse.SC_CONFLICT);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Error while fetching session user!");
             }
 
             if (userLoggedIn == null){
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
                 response.getWriter().write("No Session Found!");
+                return;
+            }
+
+            try {
+                validateCreditCard(ccNo,ccCVV,ccExpiry);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write(e.getMessage());
                 return;
             }
 
@@ -118,7 +129,7 @@ public class UserProfileSettingsServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write(user_exists.getMessage());
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_CONFLICT);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Error while processing request. Contact Admin!");
             }
         }
